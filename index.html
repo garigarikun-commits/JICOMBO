@@ -1,0 +1,2562 @@
+﻿<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#68152c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="JICOMBO">
+  <title>JICOMBO</title>
+  <link rel="manifest" href="manifest.webmanifest?v=2">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=2">
+  <link rel="icon" href="Jicombo-icon.png?v=2">
+  <style>
+    :root {
+      --wine: #68152c;
+      --plum: #6d1f4f;
+      --berry: #ab1a33;
+      --pink: #f24661;
+      --hot: #d2397f;
+      --sun: #feb805;
+      --cream: #fefcce;
+      --text: rgba(254, 252, 206, .92);
+      --muted: rgba(254, 252, 206, .66);
+      --panel: rgba(31, 7, 26, .58);
+      --stroke: rgba(254, 184, 5, .24);
+      --green: #64f5a7;
+      --red: #ff4f6d;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html {
+      min-height: 100%;
+      background: #140512;
+      scroll-behavior: smooth;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      color: var(--text);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 48% 18%, rgba(254, 184, 5, .20), transparent 22rem),
+        radial-gradient(circle at 83% 9%, rgba(242, 70, 97, .22), transparent 20rem),
+        linear-gradient(155deg, #68152c 0%, #2c0925 48%, #08030b 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+      overscroll-behavior-y: none;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(254,252,206,.05), transparent 18%),
+        radial-gradient(circle at 20% 72%, rgba(210,57,127,.14), transparent 16rem);
+      z-index: -1;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .screen {
+      width: min(100%, 440px);
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding: calc(28px + env(safe-area-inset-top)) 24px calc(28px + env(safe-area-inset-bottom));
+      gap: 8px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .screen.active { display: flex; }
+    .game-screen {
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .home-example {
+      margin: 0 0 20px;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-weight: 800;
+      font-size: clamp(28px, 8vw, 36px);
+      letter-spacing: .04em;
+      color: var(--cream);
+      text-shadow: 0 0 24px rgba(254,184,5,.25);
+    }
+    .logo {
+      display: block;
+      height: auto;
+      user-select: none;
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,.45));
+      transition: transform .16s ease, filter .16s ease;
+    }
+    .logo:hover {
+      transform: translateY(-2px) scale(1.028);
+      filter: drop-shadow(0 14px 34px rgba(0,0,0,.48)) brightness(1.03);
+    }
+    .home-logo {
+      width: min(382px, 80vw);
+      margin: 0 0 4px;
+    }
+    .game-logo {
+      width: min(280px, 70vw);
+      margin-bottom: 2px;
+      cursor: pointer;
+    }
+    .credits {
+      margin: 10px 0 0;
+      display: grid;
+      gap: 4px;
+      color: rgba(254,252,206,.72);
+      font-size: .95rem;
+      line-height: 1.3;
+      font-weight: 300;
+    }
+    .credits strong { color: rgba(254,252,206,.9); font-weight: 700; text-decoration: none; }
+    .credits .credit-link { text-decoration: underline; }
+    .actions {
+      width: min(260px, 82vw);
+      margin-top: 10px;
+      display: grid;
+      gap: 12px;
+    }
+    .btn {
+      width: 260px;
+      max-width: 100%;
+      height: 66px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: none;
+      border-radius: 999px;
+      color: #240d1a;
+      background: linear-gradient(135deg, #fefcce 0%, #ffe78b 48%, #feb805 100%);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: .98rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      box-shadow: 0 12px 26px rgba(242,70,97,.12), 0 0 16px rgba(254,184,5,.10);
+      transition: transform .14s ease, box-shadow .14s ease, filter .14s ease, opacity .14s ease;
+    }
+    .btn:hover, .btn:focus-visible {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 14px 30px rgba(242,70,97,.16), 0 0 20px rgba(254,184,5,.14);
+      filter: brightness(1.02);
+    }
+    .btn.secondary {
+      width: 260px;
+      max-width: 100%;
+      height: 66px;
+      color: #feb805;
+      background: rgba(104,21,44,.14);
+      border: 2px solid rgba(254,184,5,.24);
+      box-shadow: inset 0 0 0 1px rgba(254,184,5,.05), 0 10px 18px rgba(0,0,0,.12);
+    }
+    .cheat-card {
+      width: min(100%, 360px);
+      padding: 28px 24px;
+      border-radius: 28px;
+      border: 1px solid rgba(254,184,5,.18);
+      background: linear-gradient(180deg, rgba(80,20,44,.78), rgba(30,7,26,.74));
+      box-shadow: 0 24px 56px rgba(0,0,0,.28);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .cheat-title {
+      font-size: 1rem;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+    .cheat-input {
+      width: 100%;
+      padding: 16px;
+      border-radius: 16px;
+      border: 2px solid rgba(254,184,5,.26);
+      background: rgba(19,4,15,.72);
+      color: #feb805;
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: .28em;
+      text-align: center;
+      text-transform: uppercase;
+      outline: none;
+    }
+    .cheat-input:focus {
+      border-color: rgba(254,184,5,.62);
+      box-shadow: 0 0 24px rgba(254,184,5,.14);
+    }
+    .cheat-hint,.cheat-status {
+      min-height: 1.4em;
+      color: var(--muted);
+      font-size: .9rem;
+      margin: 0;
+    }
+    .cheat-status.ok { color: #8ff0a4; }
+    .cheat-status.bad { color: #ff8794; }
+    .cheat-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: -4px;
+    }
+    .cheat-keypad {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      width: 100%;
+      gap: 6px;
+    }
+    .cheat-key {
+      width: auto;
+      height: 38px;
+      border-radius: 9px;
+      border: 1px solid rgba(254,184,5,.18);
+      background: rgba(104,21,44,.18);
+      color: var(--cream);
+      font-weight: 800;
+      font-size: .76rem;
+      letter-spacing: .08em;
+      line-height: 1;
+    }
+    .cheat-key.delete { font-size: 1.05rem; }
+    .cheat-card.unlock { animation: unlockPulse .62s ease both; }
+    .cheat-input.ok {
+      border-color: #52d273;
+      box-shadow: 0 0 26px rgba(82,210,115,.28);
+      color: #9cffb3;
+    }
+    .cheat-input.bad {
+      border-color: #ff4d5e;
+      box-shadow: 0 0 24px rgba(255,77,94,.24);
+      color: #ff9aa5;
+      animation: codeShake .34s ease;
+    }
+    @keyframes codeShake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+    @keyframes unlockPulse {
+      0% { box-shadow: 0 24px 56px rgba(0,0,0,.28); }
+      50% { box-shadow: 0 0 34px rgba(254,184,5,.28), 0 24px 56px rgba(0,0,0,.28); transform: translateY(-2px); }
+      100% { box-shadow: 0 24px 56px rgba(0,0,0,.28); transform: translateY(0); }
+    }
+
+    .level-pill {
+      padding: 8px 14px;
+      border: 1px solid rgba(254,184,5,.24);
+      border-radius: 999px;
+      color: rgba(254,252,206,.82);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      background: rgba(104,21,44,.14);
+    }
+    .prompt-title {
+      margin: 0 0 -8px;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: .03em;
+      color: rgba(254,252,206,.82);
+    }
+    .clues {
+      min-height: 164px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      gap: 16px;
+      padding: 8px 0 2px;
+      width: 100%;
+    }
+    .clue {
+      display: inline-grid;
+      place-items: center;
+      width: 122px;
+      height: 122px;
+      border-radius: 30px;
+      background: rgba(21, 7, 28, .10);
+      border: 1px solid rgba(254,184,5,.06);
+      box-shadow: inset 0 0 10px rgba(242,70,97,.02), 0 8px 14px rgba(0,0,0,.06);
+      font-size: 84px;
+      animation: floaty 2.6s ease-in-out infinite;
+      flex: 0 0 auto;
+    }
+    .clue:nth-child(2) { animation-delay: .18s; }
+    .clue:nth-child(3) { animation-delay: .34s; }
+    .clue:nth-child(4) { animation-delay: .5s; }
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-10px) rotate(1deg); }
+    }
+    .hint {
+      min-height: 24px;
+      margin: -2px 0 0;
+      color: var(--muted);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: 14px;
+      letter-spacing: .04em;
+    }
+    .answer-form {
+      width: min(340px, 100%);
+      display: grid;
+      justify-items: center;
+      gap: 14px;
+      margin-top: 2px;
+    }
+    .answer-input {
+      width: 100%;
+      height: 58px;
+      border-radius: 18px;
+      border: 2px solid rgba(254,184,5,.34);
+      outline: none;
+      background: rgba(4, 1, 8, .46);
+      color: var(--cream);
+      text-align: center;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      box-shadow: 0 0 0 rgba(254,184,5,0), inset 0 0 18px rgba(0,0,0,.22);
+      transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+    }
+    .answer-input:focus {
+      border-color: var(--sun);
+      box-shadow: 0 0 24px rgba(254,184,5,.18), inset 0 0 18px rgba(0,0,0,.22);
+    }
+    .answer-input.correct { border-color: var(--green); box-shadow: 0 0 28px rgba(100,245,167,.26); }
+    .answer-input.wrong { border-color: var(--red); box-shadow: 0 0 28px rgba(255,79,109,.28); }
+    .validate-btn {
+      width: 136px;
+      height: 42px;
+      padding: 0;
+      border: none;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: .98rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #031c34;
+      background: linear-gradient(135deg, #f6f0c3 0%, #dbd3a6 100%);
+      box-shadow: 0 10px 22px rgba(0,0,0,.14);
+      transition: transform .14s ease, box-shadow .14s ease, opacity .14s ease;
+    }
+    .validate-btn:hover:not(:disabled), .validate-btn:focus-visible:not(:disabled) {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 24px rgba(0,0,0,.18);
+    }
+    .validate-btn:disabled {
+      opacity: .34;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+    .shake { animation: shake .36s ease; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+    .hearts {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      min-height: 26px;
+      font-size: 22px;
+      filter: drop-shadow(0 5px 9px rgba(0,0,0,.26));
+    }
+    .message {
+      min-height: 24px;
+      color: rgba(254,252,206,.78);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .message.good { color: var(--green); }
+    .message.bad { color: var(--red); }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 20px;
+      background: rgba(4,1,8,.72);
+      backdrop-filter: blur(5px);
+      z-index: 10;
+    }
+    .overlay.active { display: grid; }
+    .modal {
+      width: min(300px, 88vw);
+      padding: 28px 24px 26px;
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(78,16,50,.96), rgba(20,5,22,.98));
+      border: 1px solid rgba(254,184,5,.26);
+      box-shadow: 0 28px 80px rgba(0,0,0,.42), inset 0 0 34px rgba(242,70,97,.08);
+      text-align: center;
+    }
+    .modal-emoji { font-size: 42px; margin-bottom: 12px; }
+    .modal h2 {
+      margin: 0 0 12px;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: 20px;
+      color: var(--cream);
+    }
+    .modal p {
+      margin: 8px 0;
+      color: rgba(254,252,206,.76);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: 15px;
+      line-height: 1.35;
+    }
+    .modal .answer { color: var(--sun); font-weight: 900; }
+    .modal .btn { margin-top: 14px; min-height: 48px; font-size: 13px; }
+    .confetti-piece {
+      position: fixed;
+      top: -20px;
+      pointer-events: none;
+      z-index: 200;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      animation: confettiFall linear forwards;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    @media (max-width: 390px) {
+      .screen { padding-left: 18px; padding-right: 18px; }
+      .clues { gap: 10px; }
+      .clue { width: 98px; height: 98px; font-size: 66px; border-radius: 24px; }
+      .home-example { font-size: 28px; }
+      .credits { font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <main id="home" class="screen active" aria-label="Accueil JICOMBO">
+    <div class="home-example" aria-hidden="true">&#x1F41F; + &#x1F35F; + &#x1F482;&#x200D;&#x2640;&#xFE0F; = ?</div>
+    <img id="homeLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="JICOMBO" role="button" tabindex="0">
+    <div class="credits">
+      <div>Un jeu d'association par <strong class="credit-link">Patrick Baud</strong></div>
+      <div>Spin-off non officiel par <strong>Emmanuel Galey</strong></div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="playBtn" type="button"><span aria-hidden="true">&#x25B6;</span> Jouer</button>
+      <button class="btn secondary" id="speedBtn" type="button"><span aria-hidden="true">&#x23F1;&#xFE0F;</span> Speedrun</button>
+      <button class="btn secondary" id="cheatBtn" type="button"><span aria-hidden="true">&#x1F510;</span> Cheat Code</button>
+    </div>
+  </main>
+
+  <main id="cheat" class="screen" aria-label="Cheat code JICOMBO">
+    <img id="cheatLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="Retour accueil JICOMBO" role="button" tabindex="0">
+    <div class="cheat-card">
+      <div class="cheat-title">Cheat Code</div>
+      <input class="cheat-input" id="cheatInput" type="text" maxlength="6" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="------">
+      <div class="cheat-keypad" aria-label="Clavier cheat code">
+        <button class="cheat-key" type="button" data-key="1">1</button><button class="cheat-key" type="button" data-key="2">2</button><button class="cheat-key" type="button" data-key="3">3</button><button class="cheat-key" type="button" data-key="4">4</button><button class="cheat-key" type="button" data-key="5">5</button><button class="cheat-key" type="button" data-key="6">6</button><button class="cheat-key" type="button" data-key="7">7</button><button class="cheat-key" type="button" data-key="8">8</button><button class="cheat-key" type="button" data-key="9">9</button><button class="cheat-key" type="button" data-key="0">0</button>
+        <button class="cheat-key" type="button" data-key="A">A</button><button class="cheat-key" type="button" data-key="Z">Z</button><button class="cheat-key" type="button" data-key="E">E</button><button class="cheat-key" type="button" data-key="R">R</button><button class="cheat-key" type="button" data-key="T">T</button><button class="cheat-key" type="button" data-key="Y">Y</button><button class="cheat-key" type="button" data-key="U">U</button><button class="cheat-key" type="button" data-key="I">I</button><button class="cheat-key" type="button" data-key="O">O</button><button class="cheat-key" type="button" data-key="P">P</button>
+        <button class="cheat-key" type="button" data-key="Q">Q</button><button class="cheat-key" type="button" data-key="S">S</button><button class="cheat-key" type="button" data-key="D">D</button><button class="cheat-key" type="button" data-key="F">F</button><button class="cheat-key" type="button" data-key="G">G</button><button class="cheat-key" type="button" data-key="H">H</button><button class="cheat-key" type="button" data-key="J">J</button><button class="cheat-key" type="button" data-key="K">K</button><button class="cheat-key" type="button" data-key="L">L</button><button class="cheat-key" type="button" data-key="-">-</button>
+        <button class="cheat-key" type="button" data-key="W">W</button><button class="cheat-key" type="button" data-key="X">X</button><button class="cheat-key" type="button" data-key="C">C</button><button class="cheat-key" type="button" data-key="V">V</button><button class="cheat-key" type="button" data-key="B">B</button><button class="cheat-key" type="button" data-key="N">N</button><button class="cheat-key" type="button" data-key="M">M</button><button class="cheat-key" type="button" data-key=".">.</button><button class="cheat-key" type="button" data-key="_">_</button><button class="cheat-key delete" type="button" data-key="DEL">?</button>
+      </div>
+      <p class="cheat-hint">Entre un code secret...</p>
+      <p class="cheat-status" id="cheatStatus"></p>
+      <div class="cheat-actions"><button class="btn" id="cheatSubmit" type="button">Valider</button></div>
+    </div>
+  </main>
+
+  <main id="game" class="screen game-screen" aria-label="Partie JICOMBO">
+    <img id="gameLogo" class="logo game-logo" src="Assets/Jicombo-logo.png" alt="Retour accueil JICOMBO" role="button" tabindex="0">
+    <div id="levelPill" class="level-pill">Niveau 1</div>
+    <p class="prompt-title">Devine le mot !</p>
+    <div id="hint" class="hint"></div>
+    <div id="clues" class="clues" aria-label="Emojis indices"></div>
+    <form id="answerForm" class="answer-form" autocomplete="off">
+      <input id="answerInput" class="answer-input" type="text" inputmode="text" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="Ta r&eacute;ponse...">
+      <button id="validateBtn" class="validate-btn" type="submit" disabled>Valider</button>
+    </form>
+    <div id="hearts" class="hearts" aria-label="Vies"></div>
+    <div id="message" class="message" aria-live="polite"></div>
+  </main>
+
+  <div id="modalOverlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div id="modalEmoji" class="modal-emoji">&#x1F3C6;</div>
+      <h2 id="modalTitle">Combo r&eacute;ussi !</h2>
+      <p id="modalAnswerLine">R&eacute;ponse : <span id="modalAnswer" class="answer"></span></p>
+      <p id="modalScore">Score : 0 point</p>
+      <button id="continueBtn" class="btn" type="button">Continuer &#x25BA;</button>
+    </div>
+  </div>
+
+  <script>
+    const RAW_PUZZLES = [
+  {
+    "id": "twister",
+    "title": "Twister",
+    "target": "🐄",
+    "hint": "Film catastrophe",
+    "clues": [
+      "🐄",
+      "🌪️",
+      "🏚️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "save_willy",
+    "title": "Sauvez Willy",
+    "target": "👅",
+    "hint": "Orque",
+    "clues": [
+      "👅",
+      "🧒🏻",
+      "🌊"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kill_bill",
+    "title": "Kill Bill",
+    "target": "🐍",
+    "hint": "Black Mamba",
+    "clues": [
+      "🐍",
+      "👰",
+      "🔪"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "silence_of_the_lambs",
+    "title": "Le silence des agneaux",
+    "target": "🫁",
+    "hint": "Hannibal",
+    "clues": [
+      "🫁",
+      "🤫",
+      "🐑"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "matrix",
+    "title": "Matrix",
+    "target": "🕶️",
+    "hint": "Neo",
+    "clues": [
+      "🕶️",
+      "💊",
+      "🟩"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "mars_attacks",
+    "title": "Mars Attacks!",
+    "target": "👽",
+    "hint": "Fak Fak Fak !",
+    "clues": [
+      "👽",
+      "🔊",
+      "🤯"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "god_of_war",
+    "title": "God of War",
+    "target": "⛓️",
+    "hint": "Sparte",
+    "clues": [
+      "⛓️",
+      "🏛️",
+      "🩸"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "sonic",
+    "title": "Sonic",
+    "target": "🌀",
+    "hint": "C'est plus fort que toi !",
+    "clues": [
+      "🌀",
+      "🦔",
+      "💨"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "tekken_ball",
+    "title": "Tekken Ball",
+    "target": "🏖️",
+    "hint": "Mini-jeu de la licence Tekken",
+    "clues": [
+      "🏖️",
+      "🦖",
+      "🏐"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "yoshi",
+    "title": "Yoshi",
+    "target": "🍉",
+    "hint": "La monture de Mario",
+    "clues": [
+      "🍉",
+      "🦖",
+      "🥚"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "tombi",
+    "title": "Tombi!",
+    "target": "🕹️",
+    "hint": "La malédiction du vilain cochon",
+    "clues": [
+      "🕹️",
+      "👦🏻",
+      "🐖"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "mario_galaxy",
+    "title": "Mario Galaxy",
+    "target": "🌌",
+    "hint": "Quand Isaac Newton rencontre Mario",
+    "clues": [
+      "🌌",
+      "👨🏻",
+      "🪐"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "ffx",
+    "title": "Blitzball",
+    "target": "🥅",
+    "hint": "Sport majeur sur Spira",
+    "clues": [
+      "🥅",
+      "⚽",
+      "🌊"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "metal_gear_solid",
+    "title": "Metal Gear Solid",
+    "target": "🐍",
+    "hint": "Solid Snake",
+    "clues": [
+      "🐍",
+      "📦",
+      "❗️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "spyro",
+    "title": "Spyro the Dragon",
+    "target": "🕹️",
+    "hint": "Petit dragon violet",
+    "clues": [
+      "🕹️",
+      "🐲",
+      "💎"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "ape_escape",
+    "title": "Ape Escape",
+    "target": "🕹️",
+    "hint": "Chasse aux singes",
+    "clues": [
+      "🕹️",
+      "🐒",
+      "🥅"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "the_sims",
+    "title": "Les Sims",
+    "target": "🌳",
+    "hint": "Simulation de vie",
+    "clues": [
+      "🌳",
+      "🧍🏻‍♂️",
+      "🏠"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "project_zero",
+    "title": "Project Zero",
+    "target": "🪦",
+    "hint": "Tes munitions sont des pellicules",
+    "clues": [
+      "🪦",
+      "👻",
+      "📷"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kingdom_hearts",
+    "title": "Kingdom Hearts",
+    "target": "🐭",
+    "hint": "Disney rencontre Square Enix",
+    "clues": [
+      "🐭",
+      "🔑",
+      "❤️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "bubble_bobble",
+    "title": "Bubble Bobble",
+    "target": "🕹️",
+    "hint": "Des bulles comme seule arme",
+    "clues": [
+      "🕹️",
+      "🐲",
+      "🫧"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "aerith",
+    "title": "Aerith - Final Fantasy VII",
+    "target": "⛪",
+    "hint": "Mort tragique du jeu vidéo",
+    "clues": [
+      "⛪",
+      "💐",
+      "👧🏻"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "rocket_league",
+    "title": "Rocket League",
+    "target": "🥅",
+    "hint": "Flip Reset",
+    "clues": [
+      "🥅",
+      "🚗",
+      "⚽"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "street_fighter",
+    "title": "Street Fighter",
+    "target": "🥋",
+    "hint": "Hadouken",
+    "clues": [
+      "🥋",
+      "🫸",
+      "🔵"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "prince_of_persia",
+    "title": "Prince of Persia",
+    "target": "🗡️",
+    "hint": "Prince qui refuse le présent",
+    "clues": [
+      "🗡️",
+      "⏳",
+      "↩️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kakashi_book",
+    "title": "Kakashi - Naruto",
+    "target": "📖",
+    "hint": "1000 Ans de Souffrances",
+    "clues": [
+      "📖",
+      "🍑",
+      "🙏🏼"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "karin_tower",
+    "title": "Tour Karin - Dragon Ball Z",
+    "target": "🐱",
+    "hint": "Dragon Ball Z",
+    "clues": [
+      "🐱",
+      "🫘",
+      "🗼"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "ozaru",
+    "title": "Ôzaru - Dragon Ball Z",
+    "target": "🦍",
+    "hint": "Une nuit pas comme les autres",
+    "clues": [
+      "🦍",
+      "🌕",
+      "🐒"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "mr_hankey",
+    "title": "Monsieur Hankey - South Park",
+    "target": "❄️",
+    "hint": "Un 25 décembre à South Park",
+    "clues": [
+      "❄️",
+      "💩",
+      "🎄"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "madara",
+    "title": "Madara",
+    "target": "🩸",
+    "hint": "Tsukuyomi",
+    "clues": [
+      "🩸",
+      "🌕",
+      "👁️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "naruto",
+    "title": "Naruto",
+    "target": "🍥",
+    "hint": "Konoha",
+    "clues": [
+      "🍥",
+      "👦🏼",
+      "🌀"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kyubi",
+    "title": "Kyubi - Naruto",
+    "target": "🌀",
+    "hint": "Ce que Naruto renferme",
+    "clues": [
+      "🌀",
+      "🦊",
+      "9️⃣"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kangoo_juniors",
+    "title": "Kangoo Juniors",
+    "target": "📺",
+    "hint": "Le matin sur TF1",
+    "clues": [
+      "📺",
+      "🦘",
+      "🏀"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "chicken_run",
+    "title": "Chicken Run",
+    "target": "🥚",
+    "hint": "Aardman Animations",
+    "clues": [
+      "🥚",
+      "🐔",
+      "🏃‍♂️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "red_ribbon",
+    "title": "Ruban Rouge - Dragon Ball",
+    "target": "🪖",
+    "hint": "L'armée du...",
+    "clues": [
+      "🪖",
+      "🎀",
+      "®️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "cowboy_bebop",
+    "title": "Cowboy Bebop",
+    "target": "🎷",
+    "hint": "Spike Spiegel",
+    "clues": [
+      "🎷",
+      "🚬",
+      "🤠"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "gto",
+    "title": "GTO",
+    "target": "🚬",
+    "hint": "22 ans, célibataire",
+    "clues": [
+      "🚬",
+      "👨🏼‍🏫",
+      "🏍️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "pain_noir",
+    "title": "Le Pain Noir",
+    "target": "🐀",
+    "hint": "Famine (Siège de Paris)",
+    "clues": [
+      "🐀",
+      "🍞",
+      "⚫"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "siege_de_paris",
+    "title": "Siège de Paris",
+    "target": "🍞",
+    "hint": "Famine (Siège de Paris)",
+    "clues": [
+      "🍞",
+      "🐀",
+      "🍽️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "la_vie",
+    "title": "La vie",
+    "target": "🌱",
+    "hint": "La vie",
+    "clues": [
+      "🌱",
+      "🌧️",
+      "☀️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "reveil",
+    "title": "Réveil",
+    "target": "⏰",
+    "hint": "Matin",
+    "clues": [
+      "⏰",
+      "🐓",
+      "🌅"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "fish_and_chips",
+    "title": "Fish & Chips",
+    "target": "💂‍♀️",
+    "hint": "Plat anglais",
+    "clues": [
+      "💂‍♀️",
+      "🐟",
+      "🍟"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "aimant",
+    "title": "Aimant",
+    "target": "🧲",
+    "hint": "Attraction",
+    "clues": [
+      "🧲",
+      "⚙️",
+      "🔩"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "crash_team_racing",
+    "title": "Crash Team Racing",
+    "target": "🏆",
+    "hint": "Pyramide Papu",
+    "clues": [
+      "🏆",
+      "🏎️",
+      "🏁"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "phoenix_wright",
+    "title": "Phoenix Wright",
+    "target": "🫵🏻",
+    "hint": "Objection !",
+    "clues": [
+      "🫵🏻",
+      "⚖️",
+      "👨🏻‍⚖️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kirby",
+    "title": "Kirby",
+    "target": "⭐",
+    "hint": "Il devient ce qu’il mange",
+    "clues": [
+      "⭐",
+      "😮",
+      "💨"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "celeste",
+    "title": "Celeste",
+    "target": "⛰️",
+    "hint": "Aide Madeleine ? survivre ? ses d?mons int?rieurs",
+    "clues": [
+      "⛰️",
+      "👩‍🦰",
+      "🍓"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "up",
+    "title": "Là-haut",
+    "target": "🎈",
+    "hint": "Tenir une promesse à sa défunte épouse",
+    "clues": [
+      "🎈",
+      "👴🏻",
+      "🏠"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kung_fu_panda",
+    "title": "Kung Fu Panda",
+    "target": "🎋",
+    "hint": "Un guerrier improbable venu de Chine",
+    "clues": [
+      "🎋",
+      "🐼",
+      "🥋"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "caries",
+    "title": "Caries",
+    "target": "🍬",
+    "hint": "Trop de sucre...",
+    "clues": [
+      "🍬",
+      "🦷",
+      "😖"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "ratatouille",
+    "title": "Ratatouille",
+    "target": "🐀",
+    "hint": "Le seul chef qui tient dans une toque",
+    "clues": [
+      "🐀",
+      "👨🏼‍🍳",
+      "🍝"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "taco_bell",
+    "title": "Taco Bell",
+    "target": "🌶️",
+    "hint": "Fast-food spécialisé dans le Tex-Mex",
+    "clues": [
+      "🌶️",
+      "🌮",
+      "🔔"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "shrek",
+    "title": "Shrek",
+    "target": "📖",
+    "hint": "Il était une fois dans un royaume fort fort lointain...",
+    "clues": [
+      "📖",
+      "🧌",
+      "🐴"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "cast_away",
+    "title": "Seul au monde",
+    "target": "🏝️",
+    "hint": "Un homme survit seul sur une île après un crash",
+    "clues": [
+      "🏝️",
+      "🧔🏻‍♂️",
+      "🏐"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "little_mermaid",
+    "title": "La petite sirène",
+    "target": "🐚",
+    "hint": "Rêve de devenir humaine par amour",
+    "clues": [
+      "🐚",
+      "🤏",
+      "🧜🏻‍♀️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "malcolm",
+    "title": "Dewey",
+    "target": "👦🏼",
+    "hint": "Toi tu vies, toi tu vies, toi tu crèves...",
+    "clues": [
+      "👦🏼",
+      "💀",
+      "🪖"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "ken_le_survivant",
+    "title": "Ken le Survivant",
+    "target": "🔪",
+    "hint": "L'école du Hokuto de cuisine",
+    "clues": [
+      "🔪",
+      "👊",
+      "💥"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "yannick",
+    "title": "Yannick",
+    "target": "🎭",
+    "hint": "Un spectateur interrompt la pièce",
+    "clues": [
+      "🎭",
+      "🔫",
+      "👨🏻"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kill_bill",
+    "title": "Kill Bill",
+    "target": "👰",
+    "hint": "Vernita Green",
+    "clues": [
+      "👰",
+      "👧🏾",
+      "🥣",
+      "🔪"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "famille_belier",
+    "title": "La Famille Bélier",
+    "target": "🔇",
+    "hint": "Signe de Feu",
+    "clues": [
+      "🔇",
+      "👂",
+      "👨‍👩‍👧",
+      "♈"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "alice",
+    "title": "Alice au pays des Merveilles",
+    "target": "🐇",
+    "hint": "En retard",
+    "clues": [
+      "🐇",
+      "🐛",
+      "🚬",
+      "🔠"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "hook",
+    "title": "Hook",
+    "target": "🧚",
+    "hint": "Peter Pan",
+    "clues": [
+      "🧚",
+      "🪝",
+      "🐊",
+      "⏰"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "the_ring",
+    "title": "The Ring",
+    "target": "📺",
+    "hint": "Sadako",
+    "clues": [
+      "📺",
+      "📼",
+      "👧🏻",
+      "🕳️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "harry_potter",
+    "title": "Harry Potter",
+    "target": "🧙‍♂️",
+    "hint": "Harry",
+    "clues": [
+      "🧙‍♂️",
+      "⚡",
+      "👦🏻",
+      "🦉"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "crash_bandicoot",
+    "title": "Crash Bandicoot",
+    "target": "🎭",
+    "hint": "Uka Uka",
+    "clues": [
+      "🎭",
+      "🦊",
+      "🍎",
+      "💎"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "god_of_war",
+    "title": "God of War",
+    "target": "🩸",
+    "hint": "Fantôme de Sparte",
+    "clues": [
+      "🩸",
+      "🌊",
+      "🔱",
+      "⛓️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "mario_galaxy",
+    "title": "Mario Galaxy",
+    "target": "☄️",
+    "hint": "Quand Isaac Newton rencontre Mario",
+    "clues": [
+      "☄️",
+      "👨🏻",
+      "🪐",
+      "🌌"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "street_fighter",
+    "title": "Street Fighter",
+    "target": "💥",
+    "hint": "Hadouken",
+    "clues": [
+      "💥",
+      "🥋",
+      "🫸",
+      "🔵"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "gta",
+    "title": "GTA",
+    "target": "🚔",
+    "hint": "Rockstar",
+    "clues": [
+      "🚔",
+      "🔫",
+      "🔞",
+      "💉"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "rayman",
+    "title": "Rayman",
+    "target": "🟣",
+    "hint": "Un héros dont les membres flottent",
+    "clues": [
+      "🟣",
+      "🦟",
+      "👟",
+      "🤜"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "resident_evil",
+    "title": "Resident Evil",
+    "target": "☂️",
+    "hint": "Umbrella Corporation",
+    "clues": [
+      "☂️",
+      "🧟‍♂️",
+      "🧪",
+      "🩸"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "tomb_raider",
+    "title": "Tomb Raider",
+    "target": "🧭",
+    "hint": "Lara Croft",
+    "clues": [
+      "🧭",
+      "👩🏻",
+      "🏛️",
+      "💎"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "oddworld_abe",
+    "title": "Oddworld : L'Odyssée d'Abe",
+    "target": "🗣️",
+    "hint": "Suis-moi !",
+    "clues": [
+      "🗣️",
+      "👽",
+      "🧵",
+      "👄"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "heart_of_darkness",
+    "title": "Heart of Darkness",
+    "target": "🐶",
+    "hint": "Éric Chahi (1998)",
+    "clues": [
+      "🐶",
+      "👦🏻",
+      "🔫",
+      "⚡"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "worms",
+    "title": "Worms",
+    "target": "🪖",
+    "hint": "Vers de guerre",
+    "clues": [
+      "🪖",
+      "🪱",
+      "💣",
+      "💥"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "dino_crisis",
+    "title": "Dino Crisis",
+    "target": "🦖",
+    "hint": "Quand Jurassic Park rencontre Capcom",
+    "clues": [
+      "🦖",
+      "🔬",
+      "🔫",
+      "😱"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "shadow_of_the_colossus",
+    "title": "Shadow of the Colossus",
+    "target": "🐎",
+    "hint": "Suivre la lumière (Jeu vidéo)",
+    "clues": [
+      "🐎",
+      "🗿",
+      "🧗‍♂️",
+      "⚔️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "hitman",
+    "title": "Hitman",
+    "target": "🕴️",
+    "hint": "Agent 47",
+    "clues": [
+      "🕴️",
+      "🎯",
+      "🔫",
+      "🩸"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "fusion_dbz",
+    "title": "Fusion - Dragon Ball Z",
+    "target": "👂",
+    "hint": "Potara",
+    "clues": [
+      "👂",
+      "🧑‍🤝‍🧑",
+      "👉",
+      "👈"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "cell",
+    "title": "Cell - Dragon Ball Z",
+    "target": "🥼",
+    "hint": "Tuer est autorisé dans ce tournoi",
+    "clues": [
+      "🥼",
+      "🦗",
+      "🧬",
+      "🏟️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "one_piece",
+    "title": "One Piece",
+    "target": "☀️",
+    "hint": "Nika",
+    "clues": [
+      "☀️",
+      "🏴‍☠️",
+      "👒",
+      "🍖"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "kakashi_mask",
+    "title": "Kakashi - Naruto",
+    "target": "🐶",
+    "hint": "Kakashi",
+    "clues": [
+      "🐶",
+      "👁️",
+      "📖",
+      "😷"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "dumbo",
+    "title": "Dumbo",
+    "target": "🎪",
+    "hint": "Disney",
+    "clues": [
+      "🎪",
+      "🐘",
+      "🪽",
+      "👂"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "lion_king",
+    "title": "Le Roi Lion",
+    "target": "👑",
+    "hint": "Longue vie au roi !",
+    "clues": [
+      "👑",
+      "🦁",
+      "🌅",
+      "🐗"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "death_note",
+    "title": "Death Note",
+    "target": "📓",
+    "hint": "Kira",
+    "clues": [
+      "📓",
+      "☠️",
+      "🍎",
+      "✍️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "attaque_des_titans",
+    "title": "L'Attaque des Titans",
+    "target": "🪽",
+    "hint": "Titans",
+    "clues": [
+      "🪽",
+      "🔰",
+      "⚔️",
+      "🧱"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "hunter_x_hunter",
+    "title": "Hunter x Hunter",
+    "target": "🕸️",
+    "hint": "Brigade Fantôme",
+    "clues": [
+      "🕸️",
+      "🕷️",
+      "🩸",
+      "🃏"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "samurai_champloo",
+    "title": "Samurai Champloo",
+    "target": "🌻",
+    "hint": "Nujabes",
+    "clues": [
+      "🌻",
+      "🗡️",
+      "⛩️",
+      "🎶"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "akira",
+    "title": "Akira",
+    "target": "🏍️",
+    "hint": "Tetsuo's Nightmare",
+    "clues": [
+      "🏍️",
+      "🚗",
+      "🐇",
+      "🧸"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "naruto",
+    "title": "Naruto",
+    "target": "🍥",
+    "hint": "Konoha",
+    "clues": [
+      "🍥",
+      "👦🏼",
+      "🌀",
+      "🍃"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "abidal",
+    "title": "Abidal",
+    "target": "😬",
+    "hint": "Le mec il a paaaaaas",
+    "clues": [
+      "😬",
+      "🙂‍↔️",
+      "⛔",
+      "✖️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "paper_mario",
+    "title": "Paper Mario",
+    "target": "🔨",
+    "hint": "Un plombier... mais en papier",
+    "clues": [
+      "🔨",
+      "📜",
+      "⭐",
+      "🪙"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "alex_kidd",
+    "title": "Alex Kidd",
+    "target": "🏍️",
+    "hint": "Alex Kidd",
+    "clues": [
+      "🏍️",
+      "✊",
+      "✋",
+      "✌️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "sexy_jutsu",
+    "title": "Sexy Jutsu",
+    "target": "💋",
+    "hint": "Sexy Jutsu",
+    "clues": [
+      "💋",
+      "🪵",
+      "☁️",
+      "🔞"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "koh_lanta",
+    "title": "Koh-Lanta",
+    "target": "🥥",
+    "hint": "Koh-Lanta",
+    "clues": [
+      "🥥",
+      "🗿",
+      "⛺",
+      "🔥"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "pulp_fiction",
+    "title": "Pulp Fiction",
+    "target": "🥤",
+    "hint": "Vincent Vega",
+    "clues": [
+      "🥤",
+      "🤵🏻",
+      "🤵🏾",
+      "🔫"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "inglourious_basterds",
+    "title": "Inglourious Basterds",
+    "target": "🥛",
+    "hint": "Monsieur LaPadite",
+    "clues": [
+      "🥛",
+      "🪖",
+      "🔯",
+      "🦅"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "eyes_wide_shut",
+    "title": "Eyes Wide Shut",
+    "target": "🎭",
+    "hint": "Cérémonie secrète",
+    "clues": [
+      "🎭",
+      "🤫",
+      "👥",
+      "🔞"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "gotham_villains",
+    "title": "Ils sèment le chaos à Gotham",
+    "target": "🦇",
+    "hint": "Ils sèment le chaos à Gotham",
+    "clues": [
+      "🦇",
+      "🐧",
+      "🪙",
+      "🃏"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "wall_e",
+    "title": "Wall-E",
+    "target": "🪐",
+    "hint": "Le petit robot de Pixar",
+    "clues": [
+      "🪐",
+      "🤖",
+      "🌱",
+      "👞"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "happy_tree_friends",
+    "title": "Happy Tree Friends",
+    "target": "🩷",
+    "hint": "Happy Tree Friends",
+    "clues": [
+      "🩷",
+      "🦌",
+      "🥄",
+      "🦵"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "osaka",
+    "title": "Osaka",
+    "target": "🏯",
+    "hint": "La rivale de Tokyo",
+    "clues": [
+      "🏯",
+      "🏃‍♂️",
+      "🐙",
+      "👣"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "fight_club",
+    "title": "Fight Club",
+    "target": "🧼",
+    "hint": "On n’en parle pas...",
+    "clues": [
+      "🧼",
+      "👨🏻‍🤝‍👨🏼",
+      "👊",
+      "💥"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "jour_de_paie",
+    "title": "Jour de paie",
+    "target": "🔔",
+    "hint": "Notification que l'on attend chaque mois",
+    "clues": [
+      "🔔",
+      "💶",
+      "1️⃣",
+      "📅"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "finding_nemo",
+    "title": "Le monde de Nemo",
+    "target": "🤡",
+    "hint": "Un père traverse l’océan pour retrouver son fils",
+    "clues": [
+      "🤡",
+      "🪸",
+      "🦈",
+      "🐠"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "orange_is_the_new_black",
+    "title": "Orange Is the New Black",
+    "target": "⛓️",
+    "hint": "La vie carcérale au féminin",
+    "clues": [
+      "⛓️",
+      "⚫",
+      "🍊",
+      "👮"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "squid_game",
+    "title": "Squid Game",
+    "target": "🦑",
+    "hint": "Tout commence par une invitation",
+    "clues": [
+      "🦑",
+      "🎲",
+      "💰",
+      "⚰️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "monsters_inc",
+    "title": "Monstres et Cie",
+    "target": "👹",
+    "hint": "Leur métier c’est de faire peur aux enfants",
+    "clues": [
+      "👹",
+      "🚪",
+      "😱",
+      "🔋"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "back_to_the_future",
+    "title": "Retour vers le futur",
+    "target": "🍌",
+    "hint": "Banane !",
+    "clues": [
+      "🍌",
+      "🥼",
+      "🧑🏻",
+      "🚗"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "pere_noel_est_une_ordure",
+    "title": "Le Père Noël est une ordure",
+    "target": "🗑️",
+    "hint": "Un classique de la comédie française",
+    "clues": [
+      "🗑️",
+      "📞",
+      "🎅",
+      "🎁"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "million_dollar_baby",
+    "title": "Million Dollar Baby",
+    "target": "🥊",
+    "hint": "Boxeuse prête à tout pour réussir",
+    "clues": [
+      "🥊",
+      "💵",
+      "👧🏻",
+      "🏥"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "inside_out",
+    "title": "Vice-versa",
+    "target": "😄",
+    "hint": "Des émotions prennent le contrôle d’une petite fille",
+    "clues": [
+      "😄",
+      "😡",
+      "🤢",
+      "😢"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "catch_me_if_you_can",
+    "title": "Attrape-moi si tu peux",
+    "target": "💼",
+    "hint": "Un escroc change d’identité et fuit les autorités",
+    "clues": [
+      "💼",
+      "🏃‍♂️",
+      "✈️",
+      "👨🏻‍✈️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "ice_age",
+    "title": "L'âge de glace",
+    "target": "🌰",
+    "hint": "Des animaux préhistoriques dans le froid",
+    "clues": [
+      "🌰",
+      "🧊",
+      "🦣",
+      "🐿️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "home_alone",
+    "title": "Maman j’ai raté l’avion",
+    "target": "🎁",
+    "hint": "Oublié chez lui à Noël",
+    "clues": [
+      "🎁",
+      "👦🏼",
+      "🏠",
+      "🎄"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "cuphead",
+    "title": "Cuphead",
+    "target": "☕",
+    "hint": "Un contrat... avec le diable",
+    "clues": [
+      "☕",
+      "😈",
+      "🎲",
+      "👉"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "rubber",
+    "title": "Rubber",
+    "target": "🏜️",
+    "hint": "Pneu tueur et télépathe",
+    "clues": [
+      "🏜️",
+      "🛞",
+      "〰️",
+      "🤯"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "the_simpsons",
+    "title": "The Simpsons",
+    "target": "🍩",
+    "hint": "Springfield",
+    "clues": [
+      "🍩",
+      "🏡",
+      "🛋️",
+      "📺"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "rick_and_morty",
+    "title": "Rick and Morty",
+    "target": "🧪",
+    "hint": "Ils voyagent entre les dimensions",
+    "clues": [
+      "🧪",
+      "🥼",
+      "🌀",
+      "🔫"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "severance",
+    "title": "Severance",
+    "target": "🌐",
+    "hint": "Lumon",
+    "clues": [
+      "🌐",
+      "👔",
+      "🛗",
+      "🖥️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "buffy",
+    "title": "Buffy",
+    "target": "👱🏻‍♀️",
+    "hint": "Elle chasse les vampires",
+    "clues": [
+      "👱🏻‍♀️",
+      "🧛‍♂️",
+      "🗡️",
+      "⚰️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "cites_dor",
+    "title": "Les Mystérieuses Cités d'Or",
+    "target": "🌄",
+    "hint": "À la recherche des cités perdues",
+    "clues": [
+      "🌄",
+      "🪙",
+      "🏺",
+      "🦅"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "olive_et_tom",
+    "title": "Olive et Tom",
+    "target": "⚽",
+    "hint": "New Team",
+    "clues": [
+      "⚽",
+      "🎌",
+      "🥅",
+      "🇳"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "prison_break",
+    "title": "Prison Break",
+    "target": "⛓️",
+    "hint": "Scofield",
+    "clues": [
+      "⛓️",
+      "🏃🏻",
+      "🔓",
+      "🪡"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "mutafukaz",
+    "title": "Mutafukaz",
+    "target": "🪳",
+    "hint": "Angelino et Vinz",
+    "clues": [
+      "🪳",
+      "⚫",
+      "💀",
+      "🔥"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "homme_sphinx",
+    "title": "L'Homme",
+    "target": "❓",
+    "hint": "L'Énigme du Sphinx",
+    "clues": [
+      "❓",
+      "👶",
+      "🧍‍♂️",
+      "🦯"
+    ],
+    "difficulty": "medium"
+  }
+];
+    const MAX_LIVES = 3;
+    const CACHE_VERSION = "2";
+
+    const state = {
+      deck: [],
+      index: 0,
+      lives: MAX_LIVES,
+      score: 0,
+      speedrun: false,
+      startTime: 0,
+      current: null,
+      checkpointUsed: false,
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const home = $("home");
+    const game = $("game");
+    const cheat = $("cheat");
+    const homeLogo = $("homeLogo");
+    const clues = $("clues");
+    const hint = $("hint");
+    const answerForm = $("answerForm");
+    const answerInput = $("answerInput");
+    const hearts = $("hearts");
+    const message = $("message");
+    const levelPill = $("levelPill");
+    const overlay = $("modalOverlay");
+    const modalEmoji = $("modalEmoji");
+    const modalTitle = $("modalTitle");
+    const modalAnswer = $("modalAnswer");
+    const modalAnswerLine = $("modalAnswerLine");
+    const modalScore = $("modalScore");
+    const continueBtn = $("continueBtn");
+    const validateBtn = $("validateBtn");
+    const cheatInput = $("cheatInput");
+    const cheatStatus = $("cheatStatus");
+
+    const STOP_WORDS = new Set([
+      "a", "au", "aux", "de", "des", "du", "en", "et", "la", "le", "les", "l", "un", "une", "the", "of", "and"
+    ]);
+
+    const ANSWER_ALIASES = {
+      "attrapemoisitupeux": ["catchmeifyoucan"],
+      "bubblebobble": ["bubble bobble"],
+      "crashteamracing": ["ctr"],
+      "finalfantasyx": ["ffx", "ff10", "final fantasy 10"],
+      "grandtheftauto": ["gta"],
+      "inglouriousbasterds": ["inglorious bastards"],
+      "lattaquedestitans": ["snk", "attack on titan", "shingeki no kyojin"],
+      "metalgearsolid": ["mgs"],
+      "orangeisthenewblack": ["oitnb", "orange is new black"],
+      "retourverslefutur": ["back to the future"],
+      "streetfighter": ["street fighter 2", "sf2"],
+      "tekkenball": ["tekken 3 ball", "tekken 3"],
+      "thering": ["ring", "ringu"],
+      "walle": ["wall e", "wall-e"],
+    };
+
+    function looseText(value) {
+      return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/&/g, " et ")
+        .replace(/\u0153/g, "oe")
+        .replace(/\u00e6/g, "ae")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+    }
+
+    function normalize(value) {
+      return looseText(value).replace(/\s+/g, "");
+    }
+
+    function importantWords(value) {
+      return looseText(value)
+        .split(/\s+/)
+        .filter((word) => word && !STOP_WORDS.has(word));
+    }
+
+    function editDistance(a, b) {
+      if (a === b) return 0;
+      if (!a || !b) return Math.max(a.length, b.length);
+      const previous = Array.from({ length: b.length + 1 }, (_, index) => index);
+      const current = new Array(b.length + 1);
+      for (let i = 1; i <= a.length; i++) {
+        current[0] = i;
+        for (let j = 1; j <= b.length; j++) {
+          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+          current[j] = Math.min(current[j - 1] + 1, previous[j] + 1, previous[j - 1] + cost);
+        }
+        previous.splice(0, previous.length, ...current);
+      }
+      return previous[b.length];
+    }
+
+    function typoLimit(length) {
+      if (length <= 5) return 0;
+      if (length <= 9) return 1;
+      if (length <= 16) return 2;
+      return 3;
+    }
+
+    function closeEnough(input, expected) {
+      const distance = editDistance(input, expected);
+      return distance <= typoLimit(Math.max(input.length, expected.length));
+    }
+
+    function candidateAnswers(title) {
+      const key = normalize(title);
+      const words = importantWords(title);
+      const candidates = new Set([key, normalize(words.join(" "))]);
+      const aliases = ANSWER_ALIASES[key] || [];
+      for (const alias of aliases) candidates.add(normalize(alias));
+
+      const primaryFragment = String(title || "")
+        .split(/\(|\)|\-|:|–|—/)
+        .map((part) => part.trim())
+        .filter(Boolean)[0];
+      if (primaryFragment) {
+        candidates.add(normalize(primaryFragment));
+        const fragmentWords = importantWords(primaryFragment);
+        if (fragmentWords.length) candidates.add(normalize(fragmentWords.join(" ")));
+      }
+
+      if (words.length > 1) candidates.add(normalize(words.slice(0, 2).join(" ")));
+      if (words.length > 2) candidates.add(normalize(words.slice(-2).join(" ")));
+      return [...candidates].filter(Boolean);
+    }
+
+    function hasEnoughKeywords(inputWords, expectedWords) {
+      if (expectedWords.length < 2) return false;
+      const matched = expectedWords.filter((word) => inputWords.some((input) => input === word || closeEnough(input, word)));
+      const required = expectedWords.length <= 2 ? expectedWords.length : Math.ceil(expectedWords.length * 0.66);
+      return matched.length >= required;
+    }
+
+    function isAcceptedAnswer(input, puzzle) {
+      const typed = normalize(input);
+      if (!typed) return false;
+      const candidates = candidateAnswers(puzzle.title);
+      if (candidates.some((candidate) => typed === candidate || closeEnough(typed, candidate))) return true;
+      return hasEnoughKeywords(importantWords(input), importantWords(puzzle.title));
+    }
+
+    function shuffle(items) {
+      const copy = [...items];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function uniqueDeck() {
+      const seen = new Set();
+      const bySize = { 3: [], 4: [] };
+      for (const puzzle of shuffle(RAW_PUZZLES)) {
+        const key = normalize(puzzle.title);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        const size = puzzle.clues.length === 4 ? 4 : 3;
+        bySize[size].push(puzzle);
+      }
+      return [...bySize[3], ...bySize[4]];
+    }
+
+    function currentLevelLabel(index, puzzle) {
+      const firstHardIndex = state.deck.findIndex((item) => item.clues.length === 4);
+      const safeHardIndex = firstHardIndex === -1 ? state.deck.length : firstHardIndex;
+      const blockIndex = puzzle.clues.length === 4 ? index - safeHardIndex : index;
+      const baseLevel = puzzle.clues.length === 4 ? Math.ceil(safeHardIndex / 20) + 1 : 1;
+      return baseLevel + Math.floor(Math.max(0, blockIndex) / 20);
+    }
+
+    function tone(type) {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type === "good" ? "triangle" : "sawtooth";
+        osc.frequency.value = type === "good" ? 620 : 120;
+        gain.gain.setValueAtTime(0.001, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.08, ctx.currentTime + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (type === "good" ? 0.18 : 0.24));
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + (type === "good" ? 0.19 : 0.25));
+      } catch (_) {}
+    }
+
+    function vibrate(pattern) {
+      if (navigator.vibrate) navigator.vibrate(pattern);
+    }
+    function playToneSequence(notes, type = "sine", duration = 0.28, step = 110, volume = 0.18) {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        notes.forEach((freq, index) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + index * (step / 1000));
+          gain.gain.setValueAtTime(0.001, ctx.currentTime + index * (step / 1000));
+          gain.gain.exponentialRampToValueAtTime(volume, ctx.currentTime + index * (step / 1000) + 0.01);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + index * (step / 1000) + duration);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + index * (step / 1000));
+          osc.stop(ctx.currentTime + index * (step / 1000) + duration);
+        });
+      } catch (_) {}
+    }
+
+    function soundWin() {
+      playToneSequence([523, 659, 784, 1047], "sine", 0.28, 110, 0.22);
+    }
+
+    function spawnConfetti() {
+      const colors = ["#fefcce", "#feec67", "#feb805", "#f24661", "#d2397f", "#ffffff"];
+      for (let i = 0; i < 80; i++) {
+        const el = document.createElement("div");
+        el.className = "confetti-piece";
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.animationDuration = 1.5 + Math.random() * 2 + "s";
+        el.style.animationDelay = Math.random() * 0.45 + "s";
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 4000);
+      }
+    }
+
+    const soundUnlock = () => [392, 523, 659, 988].forEach((f, i) => setTimeout(() => tone("good") || 0, 0));
+    function unlockSound() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        [392,523,659,988].forEach((f,i)=>{
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "triangle";
+          osc.frequency.value = f;
+          gain.gain.setValueAtTime(0.001, ctx.currentTime + i * 0.095);
+          gain.gain.exponentialRampToValueAtTime(0.06, ctx.currentTime + i * 0.095 + 0.01);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.095 + 0.22);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + i * 0.095);
+          osc.stop(ctx.currentTime + i * 0.095 + 0.22);
+        });
+      } catch (_) {}
+    }
+    function deniedSound() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        [160,120].forEach((f,i)=>{
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sawtooth";
+          osc.frequency.value = f;
+          gain.gain.setValueAtTime(0.001, ctx.currentTime + i * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.08, ctx.currentTime + i * 0.08 + 0.01);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.08 + 0.18);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + i * 0.08);
+          osc.stop(ctx.currentTime + i * 0.08 + 0.18);
+        });
+      } catch (_) {}
+    }
+
+    function setScreen(target) {
+      home.classList.toggle("active", target === "home");
+      game.classList.toggle("active", target === "game");
+      cheat.classList.toggle("active", target === "cheat");
+      overlay.classList.remove("active");
+      if (target === "home" || target === "cheat") window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderHearts() {
+      hearts.innerHTML = "";
+      for (let i = 0; i < MAX_LIVES; i++) {
+        const span = document.createElement("span");
+        span.textContent = i < state.lives ? "\u2764\uFE0F" : "\u{1F5A4}";
+        hearts.appendChild(span);
+      }
+    }
+
+    function renderPuzzle() {
+      state.current = state.deck[state.index];
+      if (!state.current) return endGame(true);
+      const level = currentLevelLabel(state.index, state.current);
+      levelPill.textContent = `NIVEAU ${level}`;
+      clues.innerHTML = "";
+      for (const emoji of state.current.clues) {
+        const span = document.createElement("span");
+        span.className = "clue";
+        span.textContent = emoji;
+        clues.appendChild(span);
+      }
+      hint.textContent = `Indice : ${state.current.hint}`;
+      answerInput.value = "";
+      answerInput.classList.remove("correct", "wrong", "shake");
+      message.textContent = "";
+      message.className = "message";
+      validateBtn.disabled = true;
+      renderHearts();
+      setTimeout(() => answerInput.focus({ preventScroll: true }), 80);
+    }
+
+    function startGame(speedrun = false, startIndex = 0, deck = null) {
+      state.deck = deck || uniqueDeck();
+      state.index = startIndex;
+      state.lives = MAX_LIVES;
+      state.score = startIndex;
+      state.speedrun = speedrun;
+      state.startTime = Date.now();
+      setScreen("game");
+      renderPuzzle();
+    }
+
+    function showModal({ emoji, title, answer, scoreText, buttonText = "Continuer \u25ba" }) {
+      modalEmoji.textContent = emoji;
+      modalTitle.textContent = title;
+      modalAnswerLine.style.display = answer ? "block" : "none";
+      modalAnswer.textContent = answer || "";
+      modalScore.textContent = scoreText;
+      continueBtn.textContent = buttonText;
+      overlay.classList.add("active");
+      continueBtn.focus({ preventScroll: true });
+    }
+
+    function validateAnswer(event) {
+      event.preventDefault();
+      if (!state.current) return;
+      const typed = answerInput.value.trim();
+      if (!typed) return;
+      const isGood = isAcceptedAnswer(typed, state.current);
+      answerInput.classList.remove("correct", "wrong", "shake");
+      void answerInput.offsetWidth;
+      if (isGood) {
+        state.score += 1;
+        state.lives = Math.min(MAX_LIVES, state.lives + 1);
+        answerInput.classList.add("correct");
+        message.textContent = "Bien jou\u00e9 !";
+        message.className = "message good";
+        soundWin();
+        spawnConfetti();
+        vibrate([24, 18, 24]);
+        renderHearts();
+        showModal({
+          emoji: state.current.clues[0],
+          title: "R\u00e9ponse trouv\u00e9e !",
+          answer: state.current.title,
+          scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
+        });
+      } else {
+        state.lives -= 1;
+        answerInput.classList.add("wrong", "shake");
+        message.textContent = state.lives > 0 ? `Rat\u00e9 ! Il te reste ${state.lives} ${state.lives > 1 ? "essais" : "essai"}.` : "Plus de c\u0153ur...";
+        message.className = "message bad";
+        tone("bad");
+        vibrate([70]);
+        renderHearts();
+        if (state.lives <= 0) {
+          showModal({
+            emoji: "\u{1F494}",
+            title: "Partie termin\u00e9e",
+            answer: state.current.title,
+            scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
+            buttonText: "Rejouer \u25ba",
+          });
+        }
+      }
+    }
+
+    function nextPuzzle() {
+      overlay.classList.remove("active");
+      if (state.lives <= 0) return startGame(state.speedrun);
+      state.index += 1;
+      renderPuzzle();
+    }
+
+    function endGame() {
+      const elapsed = Math.round((Date.now() - state.startTime) / 1000);
+      const timeText = state.speedrun ? ` \u00b7 Temps : ${elapsed}s` : "";
+      showModal({
+        emoji: "\u{1F3C6}",
+        title: "JICOMBO termin\u00e9 !",
+        answer: "",
+        scoreText: `Score : ${state.score}/${state.deck.length}${timeText}`,
+        buttonText: "Rejouer \u25ba",
+      });
+      state.lives = 0;
+    }
+
+    function showCheat() {
+      setScreen("cheat");
+      cheatStatus.textContent = "";
+      cheatStatus.className = "cheat-status";
+      cheatInput.value = "";
+      cheatInput.className = "cheat-input";
+      document.querySelector(".cheat-card").classList.remove("unlock");
+      setTimeout(() => cheatInput.focus({ preventScroll: true }), 80);
+    }
+
+    function goHome() {
+      setScreen("home");
+      message.textContent = "";
+    }
+
+    function refreshHome() {
+      window.location.href = window.location.pathname + window.location.search;
+    }
+
+    function submitCheat() {
+      const code = cheatInput.value.trim().toUpperCase();
+      cheatInput.value = code;
+      cheatStatus.className = "cheat-status";
+      cheatInput.className = "cheat-input";
+      const card = document.querySelector(".cheat-card");
+      void cheatInput.offsetWidth;
+      if (code === "FAKFAK") {
+        cheatStatus.textContent = "Checkpoint d\u00e9bloqu\u00e9 ! \u{1F513}";
+        cheatStatus.classList.add("ok");
+        cheatInput.classList.add("ok");
+        card.classList.remove("unlock");
+        void card.offsetWidth;
+        card.classList.add("unlock");
+        vibrate([30,35,45]);
+        unlockSound();
+        const run = uniqueDeck();
+        const start = run.findIndex((p) => p.clues.length === 4);
+        setTimeout(() => startGame(false, Math.max(0, start), run), 900);
+        return;
+      }
+      cheatStatus.textContent = code.length ? "Code inconnu" : "Entre un code secret...";
+      cheatStatus.classList.add("bad");
+      cheatInput.classList.add("bad");
+      vibrate(70);
+      deniedSound();
+    }
+
+    homeLogo.addEventListener("click", refreshHome);
+    homeLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") refreshHome(); });
+    $("playBtn").addEventListener("click", () => startGame(false));
+    $("speedBtn").addEventListener("click", () => startGame(true));
+    $("cheatBtn").addEventListener("click", showCheat);
+    $("gameLogo").addEventListener("click", goHome);
+    $("gameLogo").addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") goHome(); });
+    $("cheatLogo").addEventListener("click", goHome);
+    $("cheatLogo").addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") goHome(); });
+    $("cheatSubmit").addEventListener("click", submitCheat);
+    cheatInput.addEventListener("input", (event) => { event.target.value = event.target.value.toUpperCase().replace(/[^A-Z0-9._-]/g, "").slice(0, 6); });
+    cheatInput.addEventListener("keydown", (event) => { if (event.key === "Enter") submitCheat(); });
+    document.querySelectorAll(".cheat-key").forEach((btn) => btn.addEventListener("click", () => { const key = btn.dataset.key; if (key === "DEL") { cheatInput.value = cheatInput.value.slice(0, -1); return; } if (cheatInput.value.length < 6) cheatInput.value += key; }));
+    answerInput.addEventListener("input", () => { validateBtn.disabled = !answerInput.value.trim(); });
+    answerForm.addEventListener("submit", validateAnswer);
+    continueBtn.addEventListener("click", nextPuzzle);
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register(`sw.js?v=${CACHE_VERSION}`).catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
+

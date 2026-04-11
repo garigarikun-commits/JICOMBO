@@ -1,0 +1,715 @@
+Création d'un jeu vidéo
+
+NOM : JICOMBO
+(Chemin en local : pour le moment le dossier est quasiment vide puisque le jeu n'est pas fait : C:\Users\emman\Desktop\Studio Hana-Bi\Projets\COMBOJI\JICOMBO
+
+Suite non officielle du jeu "Comboji" 
+En gros c'est un spin off, avec un nouveau concept. 
+Basé sur le Comboji 1 de Patrick Baud 
+Disponible à cette adresse : https://axopatrick.github.io/comboji/
+GitHub : https://github.com/Axopatrick/comboji/ -> Lien d'accès en local je t'ai tout mis ici : C:\Users\emman\Desktop\Studio Hana-Bi\Projets\COMBOJI\COMBOJI 2\Assets\Code source COMBOJI 1\comboji-main
+
+Et donc sur le mien (COMBOJI 2) dispo à cette adresse : https://github.com/garigarikun-commits/comboji-2
+Et ici en local : C:\Users\emman\Desktop\Studio Hana-Bi\Projets\COMBOJI\COMBOJI 2
+
+Comboji est un jeu d'énigme et d'association de emoji ! 
+
+Mais là pour ce spin off. C'est un peu différent, on inverse le principe. 
+On doit deviner le mot ! À partir de 3 ou 4 emoji !
+C'est basé sur exactement les mêmes énigmes tout pareil, juste on inverse le concept, on doit donner la réponse à l'écrit. 
+
+Voici toutes les énigmes dispo à ce jour:
+FILMS 
+2 Emoji 
+
+- Twister : 
+🐄
+Indice : Film catastrophe
+Réponse : 🌪️🏚️ 
+
+- Là-haut: 
+🎈
+Indice : Tenir une promesse  
+Réponse : 👴🏻🏠 
+
+- Sauvez Willy : 
+👅
+Indice : Orque
+Réponse : 🧒🏻🌊
+
+- Kill Bill :
+🐍
+Indice : Black Mamba
+Réponse : 👰🔪
+
+
+- Le silence des agneaux : 
+🫁
+Indice : Hannibal
+Réponse : 🤫🐑 
+
+- Seul au monde
+🏝️
+Indice : Un homme survit seul sur une île après un crash
+Réponse : 🧔🏻‍♂️🏐
+
+- La petite sirène
+🐚
+Indice : Rêve de devenir humaine par amour 
+Réponse : 🤏🧜🏻‍♀️
+
+
+- Shrek
+📖
+Indice : "Il était une fois dans un royaume fort fort lointain..."
+Réponse : 🧌🐴
+
+
+- Matrix : 
+🕶️
+Indice : Neo
+Réponse : 💊🟩 
+
+- Mars Attack : 
+👽
+Indice : Fak Fak Fak !
+Réponse : 🔊🤯
+
+- Ratatouille
+🐀
+Indice : Le seul chef qui tient dans une toque
+Réponse : 👨🏼‍🍳🍝
+
+- Malcolm
+👦🏼
+Indice : "Toi tu vies, toi tu vies, toi tu crèves..."
+Réponse : 💀🪖
+
+- Yannick
+🎭
+Indice : Un spectateur interrompt la pièce
+Réponse : 🔫👨🏻
+
+
+
+3 Emoji 
+- Kill Bill :
+👰
+Indice : Vernita Green
+Réponse : 👧🏾🥣🔪
+
+- Le monde de Nemo :
+🤡
+Indice : Un père traverse l’océan pour retrouver son fils
+Réponse : 🪸🦈🐠
+
+- Orange Is the New Black
+⛓️
+Indice : La vie carcérale au féminin
+Réponse : ⚫🍊👮
+
+- Squid Game 
+🦑
+Indice : Tout commence par une invitation
+Réponse : 🎲💰⚰️
+
+- Rubber
+🏜️
+Indice : Pneu tueur et télépathe
+Réponse : 🛞〰️🤯
+
+- Severance
+🌐
+Indice : Lumon
+Réponse : 👔🛗🖥️
+
+- Buffy 
+👱🏻‍♀️
+Indice : Elle chasse les vampires 
+Réponse : 🧛‍♂️🗡️⚰️
+
+- Prison Break
+⛓️
+Indice : Scofield
+Réponse : 🏃🏻🔓🪡
+
+- La Famille Bélier : 
+🔇
+Indice : Signe de Feu
+👂👨‍👩‍👧♈ 
+
+- Alice au pays des Merveilles : 
+🐇
+Indice : En retard
+Réponse : 🐛🚬🔠 
+
+- Hook : 
+🧚
+Indice : Peter Pan
+Réponse : 🪝🐊⏰ 
+
+- The Ring : 
+📺
+Indice : Sadako
+Réponse : 📼👧🏻🕳️ 
+
+
+
+- Pulp Fiction
+🥤
+Indice : Vincent Vega
+Réponse : 🤵🏻🤵🏾🔫
+
+- Inglourious Basterds 
+🥛
+Indice : Monsieur LaPadite
+Réponse : 🪖🔯🦅
+
+- Fight Club
+🧼
+Indice : On n’en parle pas...
+Réponse : 💢👊💥
+
+
+- Harry Potter : 
+🧙‍♂️
+Indice : Harry
+Réponse : ⚡👦🏻🦉 
+
+- Monstres et Cie
+👹
+Indice : Leur métier c’est de faire peur aux enfants
+Réponse : 🚪😱🔋
+
+- Retour vers le futur 
+🍌 
+Indice : "Banane !" 
+Réponse : 🥼🧑🏻🚗
+
+- Le Père Noël est une ordure 
+🗑️
+Indice : Un classique de la comédie française
+Réponse : 📞🎅🎁
+
+- Million Dollar Baby
+🥊
+Indice : Boxeuse prête à tout pour réussir
+Réponse : 💵👧🏻🏥
+
+- Vice-versa
+😄
+Indice : Des émotions prennent le contrôle d’une petite fille
+Réponse : 😡🤢😢
+
+- Attrape-moi si tu peux 
+💼
+Indice : Un escroc change d’identité et fuit les autorités 
+Réponse : 🏃‍♂️✈️👨🏻‍✈️
+
+- L'âge de glace
+🌰
+Indice : Des animaux préhistoriques dans le froid
+Réponse : 🧊🦣🐿️
+
+- Maman j’ai raté l’avion 
+🎁
+Indice : Oublié chez lui à Noël
+Réponse : 👦🏼🏠🎄
+
+- Eyes Wide Shut : 
+🎭
+Indice : Cérémonie secrète
+Réponse : 🤫👥🔞
+
+
+
+JEUX VIDEOS
+
+2 Emojis
+- God of War : 
+⛓️
+Indice : Sparte
+Réponse : 🏛️🩸 
+
+- Sonic : 
+🌀
+Indice : C'est plus fort que toi ! 
+Réponse : 🦔💨 
+
+- Tekken Ball : 
+🏖️
+Indice : Mini-jeu de la licence Tekken
+Réponse : 🦖🏐 
+
+- Crash Team Racing :
+🏆
+Indice : Pyramide Papu 
+Réponse : 🏎️🏁
+
+- Yoshi : 
+🍉
+Indice : La monture de Mario
+Réponse : 🦖🥚  
+
+- Tombi! : 
+🕹️
+Indice : La malédiction du vilain cochon
+Réponse : 👦🏻🐖 
+
+- Mario Galaxy : 
+🌌
+Indice : Quand Isaac Newton rencontre Mario
+Réponse : 👨🏻🪐
+
+Final Fantasy X : 
+🥅
+Indice : Sport majeur sur Spira
+Réponse : ⚽🌊 
+
+- Metal Gear Solid : 
+🐍
+Indice : Solid Snake
+Réponse : 📦❗️
+
+- Spyro the Dragon : 
+🕹️
+Indice : Petit dragon violet
+Réponse : 🐲💎  
+
+- Ape Escape : 
+🕹️
+Indice : Chasse aux singes 
+Réponse : 🐒🥅 
+
+- Les Sims : 
+🌳
+Indice : Simulation de vie
+Réponse : 🧍🏻‍♂️🏠  
+
+- Project Zero : 
+🪦
+Indice : Tes munitions sont des pellicules
+Réponse : 👻📷 
+
+- Kingdom Hearts : 
+🐭
+Indice : Disney rencontre Square Enix
+Réponse : 🔑❤️ 
+
+- Bubble Bobble : 
+🕹️
+Indice : Des bulles comme seule arme
+Réponse : 🐲🫧 
+
+- Aerith : 
+⛪
+Indice : Mort tragique du jeu vidéo
+Réponse : 💐👧🏻 
+
+- Rocket League : 
+🥅 
+Indice : Flip Reset
+Réponse : 🚗⚽
+
+- Street Fighter : 
+🥋
+Indice : Hadouken
+Réponse : 🫸🔵
+
+- Prince of Persia : 
+🗡️ 
+Indice : Un prince qui refuse le présent
+Réponse : ⏳↩️
+
+- Celeste
+⛰️
+Indice : Aide Madeline à survivre à ses démons intérieurs
+Réponse : 👩‍🦰🍓
+
+- Phoenix Wright
+🫵🏻
+Indice : Objection ! 
+Réponse : ⚖️👨🏻‍⚖️
+
+- Kirby 
+⭐
+Indice : Il devient ce qu’il mange
+Réponse : 😮💨
+
+
+
+3 Emojis 
+
+- Crash Bandicoot :
+🎭
+Indice : Uka Uka
+Réponse : 🦊🍎💎 
+
+
+- Cuphead
+☕
+Indice : Un contrat… avec le diable
+Réponse : 😈🎲👉
+
+
+- God of War : 
+🩸
+Indice : Fantôme de sparte
+Réponse : 🌊🔱⛓️ 
+
+
+- Mario Galaxy : 
+☄️
+Indice : Quand Isaac Newton rencontre Mario
+Réponse : 👨🏻🪐🌌 
+ 
+
+- Street Fighter : 
+💥
+Indice : Hadouken
+Réponse : 🥋🫸🔵
+
+- GTA : 
+🚔
+Indice : Rockstar 
+Réponse : 🔫🔞💉
+
+- Rayman : 
+🟣
+Indice : Un héros dont les membres flottent
+Réponse : 🦟👟🤜 
+
+- Resident Evil : 
+☂️
+Indice : Umbrella Corporation
+Réponse : 🧟‍♂️🧪🩸 
+
+- Ils sèment le chaos à Gotham
+🦇
+Indice : Ils sèment le chaos à Gotham
+Réponse : 🐧🪙🃏
+
+- Tomb Raider :  
+🧭
+Indice : Lara Croft
+Réponse : 👩🏻🏛️💎 
+
+- Oddworld : L'Odysée d'Abe :
+🗣️
+Indice : "Suis-moi !"
+Réponse : 👽🧵👄
+
+- Paper Mario 
+🔨
+Indice : Un plombier… mais en papier
+Réponse :  📜⭐🪙
+
+- Alex Kidd 
+🏍️
+Indice : Alex Kidd
+Réponse : ✊✋✌️
+
+- Heart of Darkness : 
+🐶
+Indice : Éric Chahi (1998)
+Réponse : 👦🏻🔫⚡
+
+- Worms : 
+🪖
+Indice : Vers de guerre
+Réponse : 🪱💣💥 
+
+- Dino Crisis : 
+🦖
+Indice : Quand Jurassic Park rencontre Capcom
+Réponse : 🔬🔫😱 
+
+- Shadow of the Colossus : 
+🐎
+Indice : Suivre la lumière (Jeu vidéo)
+Réponse : 🗿🧗‍♂️⚔️  
+
+- Hitman : 
+🕴️
+Indice : Agent 47
+Réponse : 🎯🔫🩸
+
+
+MANGAS/ANIMES/DESSINS ANIMES
+
+2 Emojis  
+- Kakashi : 
+📖
+Indice : Kakashi
+Réponse : 🍑🙏🏼 
+
+- Tour Karin : 
+🐱
+Indice : Dragon Ball Z
+Réponse : 🫘🗼 
+
+- Ōzaru : 
+🦍
+Indice : Une nuit pas comme les autres
+Réponse : 🌕🐒
+
+
+- Monsieur Hankey : 
+❄️
+Indice : Un 25 décembre à South Park
+Réponse : 💩🎄
+
+- Madara : 
+🩸
+Indice : Madara
+Réponse : 🌕👁️  
+
+- Kyubi : 
+🌀
+Indice : Ce que Naruto renferme
+Réponse : 🦊9️⃣ 
+
+- Kangoo Juniors : 
+📺
+Indice : Le matin sur TF1
+Réponse : 🦘🏀 
+
+- Chicken Run : 
+🥚
+Indice : Aardman Animations 
+Réponse : 🐔🏃‍♂️ 
+
+-  Ruban Rouge :
+🪖
+Indice : L'armée du... 
+Réponse : 🎀®️ 
+
+- Cowboy Bebop : 
+🎷
+Indice : Spike Spiegel
+Réponse : 🚬🤠
+
+- GTO :  
+🚬
+Indice :  22 ans, célibataire
+Réponse : 👨🏼‍🏫🏍️ 
+
+- Kung Fu Panda : 
+🎋
+Indice : Un guerrier improbable venu de Chine
+Réponse : 🐼🥋
+
+- Ken le Survivant
+🔪
+Indice : L'école du Hokuto de cuisine 
+Réponse : 👊💥
+
+
+3 Emojis 
+
+- Fusion :
+👂
+Indice : Potara
+Réponse : 🧑‍🤝‍🧑👉👈 
+
+- Cell  
+🥼
+Indice : "Tuer" est autorisé dans ce tournoi
+Réponse : 🦗🧬🏟️ 
+
+- One Piece : 
+☀️
+Indice : Nika 
+Réponse : 🏴‍☠️👒🍖 
+
+- Sexy Jutsu
+💋
+Indice : Sexy Jutsu
+Réponse : 🪵☁️🔞
+
+- Kakashi : 
+🐶
+Indice : Kakashi
+Réponse : 👁️📖😷 
+
+- Dumbo : 
+🎪
+Indice : Disney
+Réponse : 🐘🪽👂 
+
+- Le Roi Lion : 
+👑
+Indice : Longue vie au roi !
+Réponse : 🦁🌅🐗 
+
+- Wall-E
+🪐
+Indice : Le petit robot de Pixar
+Réponse : 🤖🌱👞
+
+- Happy Tree Friends
+🩷
+Indice : Happy Tree Friends 
+Réponse : 🦌🥄🦵  
+
+- Death Note : 
+📓
+Indice : Kira
+Réponse : ☠️🍎✍️ 
+
+- L'Attaque des Titans : 
+🪽
+Indice : Titans
+Réponse : 🔰⚔️🧱 
+
+- Hunter x Hunter : 
+🕸️
+Indice : Brigade Fantôme
+Réponse : 🕷️🩸🃏 
+
+
+- Samurai Champloo : 
+🌻
+Indice : Nujabes
+Réponse : 🗡️⛩️🎶 
+
+- Akira :  
+🏍️
+Indice : Tetsuo's Nightmare 
+Réponse : 🚗🐇🧸
+
+- Naruto : 
+🍥
+Indice : Konoha
+Réponse : 👦🏼🌀🍃
+
+- Les Simpson 
+🍩
+Indice : Springfield
+Réponse : 🏡🛋️📺
+
+- Rick and Morty
+🧪
+Indice : Ils voyagent entre les dimensions
+Réponse : 🥼🌀🔫
+
+
+- Les Mystérieuses Cités d'Or
+🌄
+Indice : À la recherche des cités perdues
+Réponse : 🪙🏺🦅
+
+- Olive et Tom
+⚽
+Indice : New Team
+Réponse : 🎌🥅🇳
+
+- Mutafukaz
+🪳
+Indice : Angelino et Vinz
+Réponse : ⚫💀🔥
+
+AUTRES
+2 Emojis : 
+
+
+- Pain Noir : 
+
+2 EMOJIS
+
+- Le Pain Noir : 
+🐀
+Indice : Famine (Siège de Paris)
+Réponse : 🍞⚫ 
+
+- Siège de Paris : 
+🍞
+Indice : Famine (Siège de Paris)
+Réponse : 🐀🍽️ 
+
+- La vie : 
+🌱
+Indice : La vie
+Réponse : 🌧️☀️
+
+- Réveil :
+⏰
+Indice : Matin
+Réponse : 🐓🌅
+
+- Fish & Chips :
+💂‍♀️
+Indice : Plat anglais
+Réponse : 🐟🍟
+
+- Aimant :
+🧲
+Indice : Attraction
+Réponse : ⚙️🔩
+
+- Carie 
+🍬
+Indice : Trop de sucre… 
+Réponse : 🦷😖
+
+- Taco Bell
+🌶️
+Indice : Chaîne de fast-food mexicain bien connue
+Réponse : 🌮🔔
+
+
+3 EMOJIS
+
+-  L'homme
+❓
+Indice : L'Énigme du Sphinx 
+👶🧍‍♂️🦯
+
+- Abidal : 
+😬
+Indice : Le mec il a paaaaaas
+Réponse : 🙂‍↔️⛔✖️ 
+
+- Koh-Lanta
+🥥
+Indice : Koh-Lanta
+Réponse : 🗿⛺🔥 
+
+- Osaka :
+🏯
+Indice : La rivale de Tokyo
+Réponse : 🏃‍♂️🐙👣
+
+- Jour de paie :
+🔔
+Indice : Notification que l'on attend chaque mois
+Réponse : 💶1️⃣📅
+
+
+
+REGLES IMPORTANTES A SAVOIR : 
+
+1. Faire une copie PARFAITE (à quelques détails près évidemment) du jeu d'origine "Comboji" et "Comboji 2" C'est un Spin-Off ! Basé sur le(s) contenus) open-source du GitHub que je t'ai filé. Et ceux en local. T'as presque rien à toucher le jeu est déjà en place. 
+2. Les énigmes sont les mêmes.
+3. Le système de cœur est le même.
+3. C'est simplement le GAMEPLAY qui change ! 
+En gros dans JICOMBO, à partir des énigmes déjà fournies (qui sont les énigmes du Comboji 2). On doit deviner et taper la réponse avec notre clavier en se basant sur 3 ou 4 emoji. 
+Il y a 3 ou 4 emoji flottants au milieu de l'écran, un champ libre en dessous. 
+On clique/tap sur le champ libre, le clavier apparait et on doit écrire la réponse. 
+Puis en dessous un petit bouton (Valider)
+Si c'est bon : petit song, vibration, shake et du vert
+et si c'est faux : du rouge.
+4. On a le droit d'avoir différentes séries de emoji pour la même chose ! Pour varier le plaisir et les parties. A CONDITION SEULEMENT qu'il n'apparaisse qu'une fois dans une partie en cours evidemment. Pour ne pas tomber deux fois dessus (Exemple : Deux fois sur God of War au cours de la même partie)
+5. Sur la HOME d'accueil un moment il y a marqué "Un jeu d'association par Patrick Baud" 
+Mets en dessous quelque chose comme "Spin-off non officiel par Emmanuel Galey" 
+6. Changer les couleurs de la DA générale, le code couleurs du jeu, pour signifier que c'est une spin-off du 2 et pas le même jeu quoi. Tu comprends ? C'est JICOMBO, man ! Le nouveau logo C:\Users\emman\Desktop\Studio Hana-Bi\Projets\COMBOJI\JICOMBO\Assets\Jicombo-logo.png  que j'ai fait est dans des teintes orange. 
+
+DA JICOMBO :
+
+La DA du jeu, tu te bases sur le logo. 
+Voici quelques codes couleurs du plus foncé au plus clair : #68152c #ab1a33 #6d1f4f #d2397f #ba2c6c #d84a58 #f24661 #feb805 #feec67 #fefcce
+En gros c'est l'opposé/couleurs complémentaires du jeu COMBOJI 2, qui lui était plus "ICY". Là on part sur quelque chose de plus "Tropical", du violet rose en passant au orange jusqu'au jaune très clair/pale. 
+
+7. Logo du jeu : C:\Users\emman\Desktop\Studio Hana-Bi\Projets\COMBOJI\JICOMBO\Assets\Jicombo-logo.png
+8. Logo de l'icon app pour le PWA : C:\Users\emman\Desktop\Studio Hana-Bi\Projets\COMBOJI\JICOMBO\Assets\Jicombo-icon.png
+
