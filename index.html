@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JICOMBO">
   <title>JICOMBO</title>
-  <link rel="manifest" href="manifest.webmanifest?v=3">
-  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=3">
-  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=3">
-  <link rel="icon" href="Jicombo-icon.png?v=3">
+  <link rel="manifest" href="manifest.webmanifest?v=4">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=4">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=4">
+  <link rel="icon" href="Jicombo-icon.png?v=4">
   <style>
     :root {
       --wine: #68152c;
@@ -27,6 +27,7 @@
       --stroke: rgba(254, 184, 5, .24);
       --green: #64f5a7;
       --red: #ff4f6d;
+      --app-height: 100vh;
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -45,14 +46,19 @@
     body {
       margin: 0;
       min-width: 100%;
-      min-height: 100vh;
-      min-height: 100dvh;
+      min-height: var(--app-height);
       color: var(--text);
       font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-      background: transparent;
+      display: flex;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 48% 18%, rgba(254, 184, 5, .20), transparent 22rem),
+        radial-gradient(circle at 83% 9%, rgba(242, 70, 97, .22), transparent 20rem),
+        linear-gradient(155deg, #68152c 0%, #2c0925 48%, #08030b 100%);
+      background-attachment: fixed;
       overflow-x: hidden;
       overflow-y: auto;
-      overscroll-behavior: none;
+      overscroll-behavior-y: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       -ms-overflow-style: none;
@@ -81,8 +87,7 @@
 
     .screen {
       width: min(100%, 440px);
-      min-height: 100vh;
-      min-height: 100dvh;
+      min-height: var(--app-height);
       margin: 0 auto;
       padding:
         calc(24px + env(safe-area-inset-top))
@@ -2202,7 +2207,17 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "3";
+    const CACHE_VERSION = "4";
+
+    function updateAppHeight() {
+      const height = window.innerHeight || document.documentElement.clientHeight || 0;
+      if (height) document.documentElement.style.setProperty("--app-height", `${height}px`);
+    }
+
+    updateAppHeight();
+    window.addEventListener("resize", updateAppHeight, { passive: true });
+    window.addEventListener("orientationchange", updateAppHeight, { passive: true });
+    window.addEventListener("pageshow", updateAppHeight, { passive: true });
 
     const state = {
       deck: [],
