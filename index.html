@@ -8,9 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JICOMBO">
   <title>JICOMBO</title>
-  <link rel="manifest" href="manifest.webmanifest?v=2">
-  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=2">
-  <link rel="icon" href="Jicombo-icon.png?v=2">
+  <link rel="manifest" href="manifest.webmanifest?v=3">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=3">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=3">
+  <link rel="icon" href="Jicombo-icon.png?v=3">
   <style>
     :root {
       --wine: #68152c;
@@ -30,24 +31,40 @@
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html {
+      width: 100%;
+      height: 100%;
       min-height: 100%;
-      background: #140512;
-      scroll-behavior: smooth;
-    }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      min-height: 100dvh;
-      color: var(--text);
-      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
       background:
         radial-gradient(circle at 48% 18%, rgba(254, 184, 5, .20), transparent 22rem),
         radial-gradient(circle at 83% 9%, rgba(242, 70, 97, .22), transparent 20rem),
         linear-gradient(155deg, #68152c 0%, #2c0925 48%, #08030b 100%);
-      background-attachment: fixed;
+      overscroll-behavior: none;
+      scrollbar-color: transparent transparent;
+      scroll-behavior: smooth;
+    }
+    body {
+      margin: 0;
+      min-width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      color: var(--text);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      background: transparent;
       overflow-x: hidden;
-      overscroll-behavior-y: none;
+      overflow-y: auto;
+      overscroll-behavior: none;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scrollbar-color: transparent transparent;
+      touch-action: pan-y;
       -webkit-font-smoothing: antialiased;
+    }
+    body::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+      background: transparent;
     }
     body::before {
       content: "";
@@ -67,7 +84,11 @@
       min-height: 100vh;
       min-height: 100dvh;
       margin: 0 auto;
-      padding: calc(28px + env(safe-area-inset-top)) 24px calc(28px + env(safe-area-inset-bottom));
+      padding:
+        calc(24px + env(safe-area-inset-top))
+        calc(22px + env(safe-area-inset-right))
+        calc(24px + env(safe-area-inset-bottom))
+        calc(22px + env(safe-area-inset-left));
       gap: 8px;
       display: none;
       flex-direction: column;
@@ -102,11 +123,11 @@
       filter: drop-shadow(0 14px 34px rgba(0,0,0,.48)) brightness(1.03);
     }
     .home-logo {
-      width: min(382px, 80vw);
+      width: min(382px, 78vw);
       margin: 0 0 4px;
     }
     .game-logo {
-      width: min(280px, 70vw);
+      width: min(280px, 68vw);
       margin-bottom: 2px;
       cursor: pointer;
     }
@@ -283,7 +304,7 @@
       align-items: center;
       justify-content: center;
       flex-wrap: nowrap;
-      gap: 16px;
+      gap: 14px;
       padding: 8px 0 2px;
       width: 100%;
     }
@@ -450,12 +471,106 @@
       100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
     }
 
+    @media (max-width: 640px) {
+      .screen {
+        width: min(100%, 420px);
+        padding:
+          calc(18px + env(safe-area-inset-top))
+          calc(18px + env(safe-area-inset-right))
+          calc(18px + env(safe-area-inset-bottom))
+          calc(18px + env(safe-area-inset-left));
+      }
+      .home-example {
+        margin-bottom: 14px;
+        font-size: clamp(22px, 7vw, 30px);
+      }
+      .home-logo {
+        width: min(320px, 74vw);
+      }
+      .game-logo {
+        width: min(248px, 66vw);
+      }
+      .credits {
+        font-size: 14px;
+        gap: 2px;
+      }
+      .actions {
+        width: min(250px, 82vw);
+        gap: 10px;
+      }
+      .btn,
+      .btn.secondary {
+        width: 250px;
+        height: 60px;
+        font-size: .94rem;
+      }
+      .game-screen {
+        gap: 10px;
+      }
+      .prompt-title {
+        margin-bottom: -6px;
+      }
+      .hint {
+        margin-top: -1px;
+      }
+      .clues {
+        min-height: 132px;
+        gap: 8px;
+        padding-top: 4px;
+      }
+      .clue {
+        width: 92px;
+        height: 92px;
+        font-size: 60px;
+        border-radius: 22px;
+      }
+      .answer-form {
+        width: min(312px, 100%);
+        gap: 12px;
+      }
+      .answer-input {
+        height: 54px;
+        font-size: 17px;
+      }
+      .validate-btn {
+        width: 126px;
+        height: 40px;
+      }
+      .hearts {
+        font-size: 20px;
+        gap: 7px;
+      }
+    }
+
     @media (max-width: 390px) {
-      .screen { padding-left: 18px; padding-right: 18px; }
-      .clues { gap: 10px; }
-      .clue { width: 98px; height: 98px; font-size: 66px; border-radius: 24px; }
-      .home-example { font-size: 28px; }
-      .credits { font-size: 15px; }
+      .screen {
+        padding:
+          calc(16px + env(safe-area-inset-top))
+          calc(16px + env(safe-area-inset-right))
+          calc(16px + env(safe-area-inset-bottom))
+          calc(16px + env(safe-area-inset-left));
+      }
+      .home-logo {
+        width: min(300px, 72vw);
+      }
+      .game-logo {
+        width: min(232px, 64vw);
+      }
+      .clues {
+        gap: 7px;
+      }
+      .clue {
+        width: 84px;
+        height: 84px;
+        font-size: 54px;
+        border-radius: 20px;
+      }
+      .home-example {
+        font-size: 24px;
+      }
+      .credits {
+        font-size: 13px;
+      }
     }
   </style>
 </head>
@@ -2087,7 +2202,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "2";
+    const CACHE_VERSION = "3";
 
     const state = {
       deck: [],
