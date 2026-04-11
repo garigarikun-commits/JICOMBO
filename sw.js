@@ -1,11 +1,11 @@
-const CACHE_NAME = "jicombo-v4";
+const CACHE_NAME = "jicombo-v5";
 const ASSETS = [
   "./",
   "./index.html",
-  "./index.html?v=4",
-  "./manifest.webmanifest?v=4",
+  "./index.html?v=5",
+  "./manifest.webmanifest?v=5",
   "./Assets/Jicombo-logo.png",
-  "./Jicombo-icon.png?v=4",
+  "./Jicombo-icon.png?v=5",
   "./Jicombo-icon.png"
 ];
 
@@ -24,7 +24,7 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   if (event.request.mode === "navigate") {
-    event.respondWith(fetch(event.request).catch(() => caches.match("./index.html?v=4") || caches.match("./index.html")));
+    event.respondWith(fetch(event.request).catch(() => caches.match("./index.html?v=5") || caches.match("./index.html")));
     return;
   }
   event.respondWith(
@@ -32,6 +32,6 @@ self.addEventListener("fetch", (event) => {
       const clone = response.clone();
       caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
       return response;
-    }).catch(() => caches.match("./index.html?v=4") || caches.match("./index.html")))
+    }).catch(() => caches.match("./index.html?v=5") || caches.match("./index.html")))
   );
 });
