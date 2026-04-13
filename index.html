@@ -8,12 +8,13 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JICOMBO">
   <title>JICOMBO</title>
-  <link rel="manifest" href="manifest.webmanifest?v=21">
-  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=21">
-  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=21">
-  <link rel="icon" href="Jicombo-icon.png?v=21">
+  <link rel="manifest" href="manifest.webmanifest?v=22">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=22">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=22">
+  <link rel="icon" href="Jicombo-icon.png?v=22">
   <style>
     :root {
+      --app-height: 100dvh;
       --wine: #68152c;
       --plum: #6d1f4f;
       --berry: #ab1a33;
@@ -71,6 +72,7 @@
       right: 0;
       bottom: -120px;
       left: 0;
+      height: calc(var(--app-height, 100dvh) + 240px);
       z-index: -1;
       pointer-events: none;
       background:
@@ -591,7 +593,7 @@
       body.standalone-pwa #home.screen,
       body.standalone-pwa #cheat.screen {
         width: 100%;
-        min-height: calc(100dvh - 28px);
+        min-height: calc(var(--app-height, 100dvh) - 28px);
         padding: 0;
         justify-content: center;
         gap: 8px;
@@ -2309,7 +2311,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "21";
+    const CACHE_VERSION = "22";
 
     const state = {
       deck: [],
@@ -2325,6 +2327,7 @@
     const $ = (id) => document.getElementById(id);
     const isStandalonePwa = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
     if (isStandalonePwa) document.body.classList.add("standalone-pwa");
+    const viewportBg = $("viewport-bg");
     const home = $("home");
     const game = $("game");
     const cheat = $("cheat");
@@ -2343,6 +2346,30 @@
     const modalAnswerLine = $("modalAnswerLine");
     const modalScore = $("modalScore");
     const continueBtn = $("continueBtn");
+
+    function updateViewportMetrics() {
+      if (!isStandalonePwa) return;
+      const visualHeight = window.visualViewport ? window.visualViewport.height : 0;
+      const height = Math.max(Math.round(visualHeight || 0), Math.round(window.innerHeight || 0));
+      if (!height) return;
+      document.documentElement.style.setProperty("--app-height", `${height}px`);
+      if (viewportBg) {
+        viewportBg.style.willChange = "transform";
+        void viewportBg.offsetHeight;
+        viewportBg.style.transform = "translateZ(0)";
+      }
+    }
+
+    function syncViewportOnLaunch() {
+      if (!isStandalonePwa) return;
+      updateViewportMetrics();
+      requestAnimationFrame(() => {
+        updateViewportMetrics();
+        setTimeout(updateViewportMetrics, 50);
+        setTimeout(updateViewportMetrics, 150);
+        setTimeout(updateViewportMetrics, 300);
+      });
+    }
     const validateBtn = $("validateBtn");
     const cheatInput = $("cheatInput");
     const cheatStatus = $("cheatStatus");
@@ -2774,6 +2801,17 @@
     answerInput.addEventListener("input", () => { validateBtn.disabled = !answerInput.value.trim(); });
     answerForm.addEventListener("submit", validateAnswer);
     continueBtn.addEventListener("click", nextPuzzle);
+
+    if (isStandalonePwa) {
+      window.addEventListener("load", syncViewportOnLaunch);
+      window.addEventListener("resize", syncViewportOnLaunch);
+      window.addEventListener("orientationchange", syncViewportOnLaunch);
+      window.addEventListener("pageshow", syncViewportOnLaunch);
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", syncViewportOnLaunch);
+      }
+      syncViewportOnLaunch();
+    }
 
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
