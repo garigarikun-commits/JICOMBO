@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JICOMBO">
   <title>JICOMBO</title>
-  <link rel="manifest" href="manifest.webmanifest?v=11">
-  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=11">
-  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=11">
-  <link rel="icon" href="Jicombo-icon.png?v=11">
+  <link rel="manifest" href="manifest.webmanifest?v=12">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=12">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=12">
+  <link rel="icon" href="Jicombo-icon.png?v=12">
   <style>
     :root {
       --wine: #68152c;
@@ -72,6 +72,7 @@
       background: transparent;
     }
     button, input { font: inherit; }
+    .app { width: min(100%, 720px); }
     button { cursor: pointer; }
 
     .screen {
@@ -469,6 +470,13 @@
 
 
     @media (min-width: 641px) {
+      body {
+        padding: 20px;
+      }
+      .screen {
+        min-height: calc(100vh - 40px);
+        min-height: calc(100dvh - 40px);
+      }
       #home.screen.active,
       #cheat.screen.active,
       #game.screen.active {
@@ -581,6 +589,7 @@
   </style>
 </head>
 <body>
+  <div class="app">
   <main id="home" class="screen active" aria-label="Accueil JICOMBO">
     <div class="home-example" aria-hidden="true">&#x1F41F; + &#x1F35F; + &#x1F482;&#x200D;&#x2640;&#xFE0F; = ?</div>
     <img id="homeLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="JICOMBO" role="button" tabindex="0">
@@ -2208,7 +2217,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "11";
+    const CACHE_VERSION = "12";
 
     const state = {
       deck: [],
