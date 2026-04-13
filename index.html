@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JICOMBO">
   <title>JICOMBO</title>
-  <link rel="manifest" href="manifest.webmanifest?v=16">
-  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=16">
-  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=16">
-  <link rel="icon" href="Jicombo-icon.png?v=16">
+  <link rel="manifest" href="manifest.webmanifest?v=17">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=17">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=17">
+  <link rel="icon" href="Jicombo-icon.png?v=17">
   <style>
     :root {
       --wine: #68152c;
@@ -65,19 +65,17 @@
       background: transparent;
       background-color: #21001c;
     }
-    body::before {
-      content: "";
+    #viewport-bg {
       position: fixed;
-      top: calc(env(safe-area-inset-top) * -1);
-      right: calc(env(safe-area-inset-right) * -1);
-      bottom: calc(env(safe-area-inset-bottom) * -1);
-      left: calc(env(safe-area-inset-left) * -1);
+      top: -120px;
+      right: 0;
+      bottom: -120px;
+      left: 0;
       z-index: -1;
       pointer-events: none;
       background:
         radial-gradient(circle at 50% 18%, rgba(170, 84, 49, 0.95) 0%, rgba(128, 42, 58, 0.92) 38%, rgba(74, 0, 62, 0.96) 72%, rgba(33, 0, 28, 1) 100%);
       background-repeat: no-repeat;
-      background-size: cover;
       background-position: center top;
     }
     body::-webkit-scrollbar {
@@ -617,6 +615,7 @@
   </style>
 </head>
 <body>
+  <div id="viewport-bg" aria-hidden="true"></div>
   <div class="app">
   <main id="home" class="screen active" aria-label="Accueil JICOMBO">
     <div class="home-example" aria-hidden="true">&#x1F41F; + &#x1F35F; + &#x1F482;&#x200D;&#x2640;&#xFE0F; = ?</div>
@@ -2245,7 +2244,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "16";
+    const CACHE_VERSION = "17";
 
     const state = {
       deck: [],

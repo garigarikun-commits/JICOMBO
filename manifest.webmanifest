@@ -2,7 +2,7 @@
   "name": "JICOMBO",
   "short_name": "JICOMBO",
   "description": "Spin-off non officiel de Comboji : devine le mot ? partir des emojis.",
-  "start_url": "./index.html?v=16",
+  "start_url": "./index.html?v=17",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
@@ -10,7 +10,7 @@
   "theme_color": "#68152c",
   "icons": [
     {
-      "src": "Jicombo-icon.png?v=16",
+      "src": "Jicombo-icon.png?v=17",
       "sizes": "512x512",
       "type": "image/png"
     }
