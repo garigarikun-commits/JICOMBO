@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JICOMBO">
   <title>JICOMBO</title>
-  <link rel="manifest" href="manifest.webmanifest?v=9">
-  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=9">
-  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=9">
-  <link rel="icon" href="Jicombo-icon.png?v=9">
+  <link rel="manifest" href="manifest.webmanifest?v=10">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=10">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=10">
+  <link rel="icon" href="Jicombo-icon.png?v=10">
   <style>
     :root {
       --wine: #68152c;
@@ -34,34 +34,45 @@
       width: 100%;
       min-height: 100%;
       height: -webkit-fill-available;
+      margin: 0;
+      overscroll-behavior: none;
+      scrollbar-color: transparent transparent;
+      scroll-behavior: smooth;
       background-color: #160513;
       background-image:
         radial-gradient(circle at 50% 14%, rgba(254, 184, 5, .18), transparent 24rem),
         radial-gradient(circle at 78% 10%, rgba(242, 70, 97, .16), transparent 20rem),
         radial-gradient(circle at 50% 88%, rgba(109, 31, 79, .10), transparent 28rem),
         linear-gradient(180deg, #6a2a29 0%, #541b33 20%, #3c0f32 52%, #240721 76%, #13030f 100%);
-      scrollbar-color: transparent transparent;
-      scroll-behavior: smooth;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
     body {
       margin: 0;
       min-width: 100%;
-      min-height: 100vh;
       min-height: 100dvh;
       min-height: -webkit-fill-available;
       color: var(--text);
       font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-      background: transparent;
       display: flex;
       justify-content: center;
       overflow-x: hidden;
       overflow-y: auto;
+      overscroll-behavior: none;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       -ms-overflow-style: none;
       scrollbar-color: transparent transparent;
       touch-action: pan-y;
       -webkit-font-smoothing: antialiased;
+      background-color: #160513;
+      background-image:
+        radial-gradient(circle at 50% 14%, rgba(254, 184, 5, .18), transparent 24rem),
+        radial-gradient(circle at 78% 10%, rgba(242, 70, 97, .16), transparent 20rem),
+        radial-gradient(circle at 50% 88%, rgba(109, 31, 79, .10), transparent 28rem),
+        linear-gradient(180deg, #6a2a29 0%, #541b33 20%, #3c0f32 52%, #240721 76%, #13030f 100%);
+      background-repeat: no-repeat;
+      background-size: cover;
     }
     body::-webkit-scrollbar {
       display: none;
@@ -74,9 +85,7 @@
 
     .screen {
       position: relative;
-      z-index: 1;
       width: min(100%, 440px);
-      min-height: 100vh;
       min-height: 100dvh;
       min-height: -webkit-fill-available;
       margin: 0 auto;
@@ -2208,7 +2217,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "9";
+    const CACHE_VERSION = "10";
 
     const state = {
       deck: [],
