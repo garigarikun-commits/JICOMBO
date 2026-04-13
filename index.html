@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JICOMBO">
   <title>JICOMBO</title>
-  <link rel="manifest" href="manifest.webmanifest?v=18">
-  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=18">
-  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=18">
-  <link rel="icon" href="Jicombo-icon.png?v=18">
+  <link rel="manifest" href="manifest.webmanifest?v=19">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=19">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=19">
+  <link rel="icon" href="Jicombo-icon.png?v=19">
   <style>
     :root {
       --wine: #68152c;
@@ -513,7 +513,21 @@
           calc(18px + env(safe-area-inset-right))
           calc(18px + env(safe-area-inset-bottom))
           calc(18px + env(safe-area-inset-left));
-        justify-content: center;
+        justify-content: flex-start;
+      }
+      #home.screen.active,
+      #cheat.screen.active,
+      #game.screen.active {
+        justify-content: flex-start;
+      }
+      #home.screen,
+      #cheat.screen {
+        padding-top: calc(env(safe-area-inset-top) + 28px);
+        padding-bottom: calc(env(safe-area-inset-bottom) + 24px);
+      }
+      #game.screen {
+        padding-top: calc(env(safe-area-inset-top) + 20px);
+        padding-bottom: calc(env(safe-area-inset-bottom) + 24px);
       }
       .home-example {
         margin-bottom: 14px;
@@ -543,7 +557,7 @@
       background: transparent !important;
       position: relative;
       z-index: 0;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 10px;
       }
       .prompt-title {
@@ -2244,7 +2258,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "18";
+    const CACHE_VERSION = "19";
 
     const state = {
       deck: [],
