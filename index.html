@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JICOMBO">
   <title>JICOMBO</title>
-  <link rel="manifest" href="manifest.webmanifest?v=25">
-  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=25">
-  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=25">
-  <link rel="icon" href="Jicombo-icon.png?v=25">
+  <link rel="manifest" href="manifest.webmanifest?v=26">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=26">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=26">
+  <link rel="icon" href="Jicombo-icon.png?v=26">
   <style>
     :root {
       --app-height: 100dvh;
@@ -783,7 +783,7 @@
     "hint": "Black Mamba",
     "clues": [
       "🐍",
-      "👰",
+      "👰🏼",
       "🔪"
     ],
     "difficulty": "easy"
@@ -1186,9 +1186,9 @@
   },
   {
     "id": "pain_noir",
-    "title": "Le Pain Noir",
+    "title": "Famine",
     "target": "🐀",
-    "hint": "Famine (Siège de Paris)",
+    "hint": "Une période de guerre entraîne une période de...",
     "clues": [
       "🐀",
       "🍞",
@@ -1246,9 +1246,9 @@
   },
   {
     "id": "aimant",
-    "title": "Aimant",
+    "title": "Magnéto",
     "target": "🧲",
-    "hint": "Attraction",
+    "hint": "Super-vilain",
     "clues": [
       "🧲",
       "⚙️",
@@ -1439,10 +1439,10 @@
   {
     "id": "kill_bill",
     "title": "Kill Bill",
-    "target": "👰",
+    "target": "👰🏼",
     "hint": "Vernita Green",
     "clues": [
-      "👰",
+      "👰🏼",
       "👧🏾",
       "🥣",
       "🔪"
@@ -1479,7 +1479,7 @@
     "id": "hook",
     "title": "Hook",
     "target": "🧚",
-    "hint": "Peter Pan",
+    "hint": "Les Enfants Perdus",
     "clues": [
       "🧚",
       "🪝",
@@ -1505,7 +1505,7 @@
     "id": "harry_potter",
     "title": "Harry Potter",
     "target": "🧙‍♂️",
-    "hint": "Harry",
+    "hint": "10 points pour Gryffondor !",
     "clues": [
       "🧙‍♂️",
       "⚡",
@@ -1698,22 +1698,22 @@
   },
   {
     "id": "fusion_dbz",
-    "title": "Fusion - Dragon Ball Z",
+    "title": "Fusion",
     "target": "👂",
     "hint": "Potara",
     "clues": [
       "👂",
-      "🧑‍🤝‍🧑",
       "👉",
-      "👈"
+      "👈",
+      "🧑‍🤝‍🧑"
     ],
     "difficulty": "medium"
   },
   {
     "id": "cell",
-    "title": "Cell - Dragon Ball Z",
+    "title": "Cell games",
     "target": "🥼",
-    "hint": "Tuer est autorisé dans ce tournoi",
+    "hint": "\"Tuer\" est autorisé dans ce tournoi",
     "clues": [
       "🥼",
       "🦗",
@@ -1791,7 +1791,7 @@
     "id": "attaque_des_titans",
     "title": "L'Attaque des Titans",
     "target": "🪽",
-    "hint": "Titans",
+    "hint": "Sasageyo!",
     "clues": [
       "🪽",
       "🔰",
@@ -1882,7 +1882,7 @@
     "id": "alex_kidd",
     "title": "Alex Kidd",
     "target": "🏍️",
-    "hint": "Alex Kidd",
+    "hint": "Sega Master System",
     "clues": [
       "🏍️",
       "✊",
@@ -1895,7 +1895,7 @@
     "id": "sexy_jutsu",
     "title": "Sexy Jutsu",
     "target": "💋",
-    "hint": "Sexy Jutsu",
+    "hint": "Technique ninja olé olé",
     "clues": [
       "💋",
       "🪵",
@@ -1908,7 +1908,7 @@
     "id": "koh_lanta",
     "title": "Koh-Lanta",
     "target": "🥥",
-    "hint": "Koh-Lanta",
+    "hint": "La sentence est irrévocable",
     "clues": [
       "🥥",
       "🗿",
@@ -1986,7 +1986,7 @@
     "id": "happy_tree_friends",
     "title": "Happy Tree Friends",
     "target": "🩷",
-    "hint": "Happy Tree Friends",
+    "hint": "Mignon mais gore",
     "clues": [
       "🩷",
       "🦌",
@@ -2205,7 +2205,7 @@
   },
   {
     "id": "the_simpsons",
-    "title": "The Simpsons",
+    "title": "Les Simpson",
     "target": "🍩",
     "hint": "Springfield",
     "clues": [
@@ -2322,7 +2322,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "25";
+    const CACHE_VERSION = "26";
 
     const state = {
       deck: [],
@@ -2397,14 +2397,25 @@
     const ANSWER_ALIASES = {
       "attrapemoisitupeux": ["catchmeifyoucan"],
       "bubblebobble": ["bubble bobble"],
-      "crashteamracing": ["ctr"],
       "caries": ["carie", "carries", "carrie"],
+      "cellgames": ["cell"],
+      "crashteamracing": ["ctr"],
+      "dewey": ["malcolm"],
       "finalfantasyx": ["ffx", "ff10", "final fantasy 10"],
+      "godofwar": ["kratos"],
       "grandtheftauto": ["gta"],
-      "inglouriousbasterds": ["inglorious bastards"],
+      "gto": ["onizuka", "eikichi onizuka"],
+      "hook": ["peter pan"],
+      "inglouriousbasterds": ["inglorious", "inglorious bastards", "inglorious bastard", "inglorious basterd"],
+      "kenlesurvivant": ["hokuto no ken"],
       "lejoker": ["joker", "joker le pingouin", "pingouin", "double face"],
+      "lemondedenemo": ["nemo"],
+      "lesimpson": ["les simpsons", "the simpsons", "simpson", "simpsons"],
       "lattaquedestitans": ["snk", "attack on titan", "shingeki no kyojin"],
+      "magneto": ["magneto"],
       "metalgearsolid": ["mgs"],
+      "monstresetcie": ["monstres & cie", "monster & cie", "monster and compagnie", "monstres and compagnie", "monstres et compagnie"],
+      "oliveettom": ["captain tsubasa"],
       "ozaru": ["saiyan gorille", "sangoku gorille"],
       "orangeisthenewblack": ["oitnb", "orange is new black"],
       "retourverslefutur": ["back to the future"],
