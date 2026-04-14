@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JICOMBO">
   <title>JICOMBO</title>
-  <link rel="manifest" href="manifest.webmanifest?v=26">
-  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=26">
-  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=26">
-  <link rel="icon" href="Jicombo-icon.png?v=26">
+  <link rel="manifest" href="manifest.webmanifest?v=27">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=27">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=27">
+  <link rel="icon" href="Jicombo-icon.png?v=27">
   <style>
     :root {
       --app-height: 100dvh;
@@ -777,6 +777,18 @@
     "difficulty": "easy"
   },
   {
+    "id": "alien",
+    "title": "Alien",
+    "target": "🐣",
+    "hint": "Chestburster",
+    "clues": [
+      "🐣",
+      "🫃🏻",
+      "🩸"
+    ],
+    "difficulty": "easy"
+  },
+  {
     "id": "kill_bill",
     "title": "Kill Bill",
     "target": "🐍",
@@ -1193,18 +1205,6 @@
       "🐀",
       "🍞",
       "⚫"
-    ],
-    "difficulty": "easy"
-  },
-  {
-    "id": "siege_de_paris",
-    "title": "Siège de Paris",
-    "target": "🍞",
-    "hint": "Famine (Siège de Paris)",
-    "clues": [
-      "🍞",
-      "🐀",
-      "🍽️"
     ],
     "difficulty": "easy"
   },
@@ -1684,6 +1684,19 @@
     "difficulty": "medium"
   },
   {
+    "id": "maman",
+    "title": "Maman",
+    "target": "🌙",
+    "hint": "A peur de rouler la nuit...",
+    "clues": [
+      "🌙",
+      "😱",
+      "🌃",
+      "🚗"
+    ],
+    "difficulty": "medium"
+  },
+  {
     "id": "hitman",
     "title": "Hitman",
     "target": "🕴️",
@@ -2022,19 +2035,6 @@
     "difficulty": "medium"
   },
   {
-    "id": "jour_de_paie",
-    "title": "Jour de paie",
-    "target": "🔔",
-    "hint": "Notification que l'on attend chaque mois",
-    "clues": [
-      "🔔",
-      "💶",
-      "1️⃣",
-      "📅"
-    ],
-    "difficulty": "medium"
-  },
-  {
     "id": "finding_nemo",
     "title": "Le monde de Nemo",
     "target": "🤡",
@@ -2046,6 +2046,18 @@
       "🐠"
     ],
     "difficulty": "medium"
+  },
+  {
+    "id": "tarte_aux_paramites",
+    "title": "Tarte aux paramites",
+    "target": "👽",
+    "hint": "RuptureFarms",
+    "clues": [
+      "👽",
+      "🥧",
+      "🫳"
+    ],
+    "difficulty": "easy"
   },
   {
     "id": "orange_is_the_new_black",
@@ -2322,7 +2334,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "26";
+    const CACHE_VERSION = "27";
 
     const state = {
       deck: [],
