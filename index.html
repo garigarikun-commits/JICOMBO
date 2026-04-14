@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JICOMBO">
   <title>JICOMBO</title>
-  <link rel="manifest" href="manifest.webmanifest?v=22">
-  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=22">
-  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=22">
-  <link rel="icon" href="Jicombo-icon.png?v=22">
+  <link rel="manifest" href="manifest.webmanifest?v=23">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=23">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=23">
+  <link rel="icon" href="Jicombo-icon.png?v=23">
   <style>
     :root {
       --app-height: 100dvh;
@@ -599,8 +599,10 @@
         gap: 8px;
       }
       body.standalone-pwa #game.screen {
-        padding-top: calc(env(safe-area-inset-top) + 10px);
-        padding-bottom: calc(env(safe-area-inset-bottom) + 14px);
+        width: 100%;
+        min-height: calc(var(--app-height, 100dvh) - 28px);
+        padding: 0;
+        justify-content: center;
         gap: 8px;
       }
       body.standalone-pwa .home-example {
@@ -2311,7 +2313,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "22";
+    const CACHE_VERSION = "23";
 
     const state = {
       deck: [],
