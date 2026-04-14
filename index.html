@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="JICOMBO">
   <title>JICOMBO</title>
-  <link rel="manifest" href="manifest.webmanifest?v=23">
-  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=23">
-  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=23">
-  <link rel="icon" href="Jicombo-icon.png?v=23">
+  <link rel="manifest" href="manifest.webmanifest?v=24">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=24">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=24">
+  <link rel="icon" href="Jicombo-icon.png?v=24">
   <style>
     :root {
       --app-height: 100dvh;
@@ -720,7 +720,7 @@
   <main id="game" class="screen game-screen" aria-label="Partie JICOMBO">
     <img id="gameLogo" class="logo game-logo" src="Assets/Jicombo-logo.png" alt="Retour accueil JICOMBO" role="button" tabindex="0">
     <div id="levelPill" class="level-pill">Niveau 1</div>
-    <p class="prompt-title">Devine le mot !</p>
+    <p class="prompt-title">Trouve la r&eacute;ponse !</p>
     <div id="hint" class="hint"></div>
     <div id="clues" class="clues" aria-label="Emojis indices"></div>
     <form id="answerForm" class="answer-form" autocomplete="off">
@@ -738,6 +738,15 @@
       <p id="modalAnswerLine">R&eacute;ponse : <span id="modalAnswer" class="answer"></span></p>
       <p id="modalScore">Score : 0 point</p>
       <button id="continueBtn" class="btn" type="button">Continuer &#x25BA;</button>
+    </div>
+  </div>
+
+  <div id="levelOverlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="levelModalTitle">
+    <div class="modal">
+      <div id="levelModalEmoji" class="modal-emoji">&#x1F31F;</div>
+      <h2 id="levelModalTitle">Niveau 2 d&eacute;bloqu&eacute; !</h2>
+      <p id="levelModalSubtitle" class="modal-score">De nouvelles &eacute;nigmes arrivent...</p>
+      <button id="levelContinueBtn" class="btn" type="button">Continuer &#x25BA;</button>
     </div>
   </div>
 
@@ -2313,7 +2322,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "23";
+    const CACHE_VERSION = "24";
 
     const state = {
       deck: [],
@@ -2342,12 +2351,17 @@
     const message = $("message");
     const levelPill = $("levelPill");
     const overlay = $("modalOverlay");
+    const levelOverlay = $("levelOverlay");
     const modalEmoji = $("modalEmoji");
     const modalTitle = $("modalTitle");
     const modalAnswer = $("modalAnswer");
     const modalAnswerLine = $("modalAnswerLine");
     const modalScore = $("modalScore");
     const continueBtn = $("continueBtn");
+    const levelModalEmoji = $("levelModalEmoji");
+    const levelModalTitle = $("levelModalTitle");
+    const levelModalSubtitle = $("levelModalSubtitle");
+    const levelContinueBtn = $("levelContinueBtn");
 
     function updateViewportMetrics() {
       if (!isStandalonePwa) return;
@@ -2514,6 +2528,25 @@
       return baseLevel + Math.floor(Math.max(0, blockIndex) / 20);
     }
 
+    function levelBreaks(deck = state.deck) {
+      const firstHardIndex = deck.findIndex((item) => item.clues.length === 4);
+      const safeHardIndex = firstHardIndex === -1 ? deck.length : firstHardIndex;
+      const breaks = [];
+      for (let index = 20; index < safeHardIndex; index += 20) breaks.push(index);
+      if (safeHardIndex > 0 && safeHardIndex < deck.length) breaks.push(safeHardIndex);
+      for (let index = safeHardIndex + 20; index < deck.length; index += 20) breaks.push(index);
+      return breaks;
+    }
+
+    function levelSubtitle(levelNumber, deck = state.deck) {
+      const firstHardIndex = deck.findIndex((item) => item.clues.length === 4);
+      if (firstHardIndex !== -1) {
+        const firstHardLevel = currentLevelLabel(firstHardIndex, deck[firstHardIndex]);
+        if (levelNumber === firstHardLevel) return "On va ajouter une case...";
+      }
+      return "De nouvelles énigmes arrivent...";
+    }
+
     function tone(type) {
       try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -2620,6 +2653,7 @@
       game.classList.toggle("active", target === "game");
       cheat.classList.toggle("active", target === "cheat");
       overlay.classList.remove("active");
+      levelOverlay.classList.remove("active");
       if (target === "home" || target === "cheat") window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
@@ -2662,6 +2696,8 @@
       state.speedrun = speedrun;
       state.startTime = Date.now();
       setScreen("game");
+      overlay.classList.remove("active");
+      levelOverlay.classList.remove("active");
       renderPuzzle();
     }
 
@@ -2674,6 +2710,14 @@
       continueBtn.textContent = buttonText;
       overlay.classList.add("active");
       continueBtn.focus({ preventScroll: true });
+    }
+
+    function showLevelModal(levelNumber) {
+      levelModalEmoji.textContent = state.deck[state.index]?.clues.length === 4 ? "🧩" : "✨";
+      levelModalTitle.textContent = `Niveau ${levelNumber} débloqué !`;
+      levelModalSubtitle.textContent = levelSubtitle(levelNumber);
+      levelOverlay.classList.add("active");
+      levelContinueBtn.focus({ preventScroll: true });
     }
 
     function validateAnswer(event) {
@@ -2722,8 +2766,14 @@
 
     function nextPuzzle() {
       overlay.classList.remove("active");
+      levelOverlay.classList.remove("active");
       if (state.lives <= 0) return startGame(state.speedrun);
       state.index += 1;
+      if (state.index >= state.deck.length) return endGame();
+      if (levelBreaks(state.deck).includes(state.index)) {
+        showLevelModal(currentLevelLabel(state.index, state.deck[state.index]));
+        return;
+      }
       renderPuzzle();
     }
 
@@ -2751,6 +2801,8 @@
     }
 
     function goHome() {
+      overlay.classList.remove("active");
+      levelOverlay.classList.remove("active");
       setScreen("home");
       message.textContent = "";
     }
@@ -2803,6 +2855,10 @@
     answerInput.addEventListener("input", () => { validateBtn.disabled = !answerInput.value.trim(); });
     answerForm.addEventListener("submit", validateAnswer);
     continueBtn.addEventListener("click", nextPuzzle);
+    levelContinueBtn.addEventListener("click", () => {
+      levelOverlay.classList.remove("active");
+      renderPuzzle();
+    });
 
     if (isStandalonePwa) {
       window.addEventListener("load", syncViewportOnLaunch);
