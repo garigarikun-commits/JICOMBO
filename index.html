@@ -467,29 +467,29 @@
     .modal {
       position: relative;
       overflow: hidden;
-      width: min(344px, 90vw);
-      padding: 30px 24px 24px;
-      border-radius: 28px;
+      width: min(312px, 84vw);
+      padding: 22px 22px 20px;
+      border-radius: 24px;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0) 22%),
-        linear-gradient(155deg, rgba(100,24,60,.98), rgba(34,8,28,.98) 72%);
-      border: 1px solid rgba(254,184,5,.28);
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0) 18%),
+        linear-gradient(155deg, rgba(82,18,52,.98), rgba(28,7,24,.98) 72%);
+      border: 1px solid rgba(254,184,5,.24);
       box-shadow:
-        0 30px 90px rgba(0,0,0,.48),
-        inset 0 1px 0 rgba(255,255,255,.07),
-        inset 0 0 42px rgba(242,70,97,.09);
+        0 26px 72px rgba(0,0,0,.42),
+        inset 0 1px 0 rgba(255,255,255,.06),
+        inset 0 0 34px rgba(242,70,97,.07);
       text-align: center;
       animation: modalPop .24s cubic-bezier(.2,.8,.2,1) both;
     }
     .modal::before {
       content: "";
       position: absolute;
-      top: -58px;
+      top: -52px;
       left: 50%;
-      width: 180px;
-      height: 120px;
+      width: 160px;
+      height: 100px;
       transform: translateX(-50%);
-      background: radial-gradient(circle, rgba(254,184,5,.22), rgba(254,184,5,0) 70%);
+      background: radial-gradient(circle, rgba(254,184,5,.18), rgba(254,184,5,0) 70%);
       pointer-events: none;
     }
     .modal::after {
@@ -498,58 +498,65 @@
       inset: 0;
       border-radius: inherit;
       pointer-events: none;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.025);
     }
     .modal-emoji {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 16px;
-      display: grid;
-      place-items: center;
-      border-radius: 22px;
-      font-size: 38px;
-      background: linear-gradient(180deg, rgba(254,184,5,.24), rgba(254,184,5,.08));
-      border: 1px solid rgba(254,184,5,.24);
-      box-shadow: 0 12px 28px rgba(0,0,0,.22);
+      margin: 0 auto 10px;
+      display: block;
+      font-size: 58px;
+      line-height: 1;
+      background: none;
+      border: none;
+      box-shadow: none;
+      width: auto;
+      height: auto;
     }
     .modal h2 {
-      margin: 0 0 10px;
+      margin: 0 0 8px;
       font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-      font-size: 24px;
-      line-height: 1.1;
+      font-size: 22px;
+      line-height: 1.08;
       color: var(--cream);
-      text-shadow: 0 4px 18px rgba(0,0,0,.18);
+      text-shadow: 0 4px 18px rgba(0,0,0,.16);
     }
     .modal p {
-      margin: 8px 0;
+      margin: 4px 0;
       color: rgba(254,252,206,.78);
       font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-      font-size: 15px;
-      line-height: 1.45;
+      font-size: 14px;
+      line-height: 1.28;
     }
     .modal .answer {
-      display: inline-block;
-      margin-top: 4px;
+      display: inline;
+      margin-top: 0;
       color: var(--sun);
       font-weight: 900;
-      font-size: 1.08em;
-      text-shadow: 0 0 18px rgba(254,184,5,.2);
+      font-size: 1.04em;
+      text-shadow: 0 0 14px rgba(254,184,5,.16);
     }
     .modal .btn {
-      width: 100%;
-      margin-top: 18px;
-      min-height: 52px;
-      font-size: 13px;
-      letter-spacing: .12em;
-      box-shadow: 0 16px 30px rgba(0,0,0,.18), 0 0 26px rgba(254,184,5,.08);
+      width: min(228px, 100%);
+      margin-top: 16px;
+      min-height: 58px;
+      border-radius: 16px;
+      color: #191f35;
+      background: linear-gradient(135deg, #9df2ef 0%, #44dfe8 48%, #10d3ee 100%);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: none;
+      box-shadow: 0 16px 30px rgba(16,211,238,.16), 0 0 22px rgba(16,211,238,.12);
+    }
+    .modal .btn:hover, .modal .btn:focus-visible {
+      transform: translateY(-1px) scale(1.01);
+      filter: brightness(1.02);
+      box-shadow: 0 18px 34px rgba(16,211,238,.20), 0 0 26px rgba(16,211,238,.14);
     }
     #levelOverlay .modal {
       background:
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0) 22%),
-        linear-gradient(155deg, rgba(93,28,68,.98), rgba(31,10,35,.98) 72%);
-    }
-    #levelOverlay .modal-emoji {
-      background: linear-gradient(180deg, rgba(255,211,90,.28), rgba(254,184,5,.10));
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0) 18%),
+        linear-gradient(155deg, rgba(88,24,62,.98), rgba(28,8,28,.98) 72%);
     }
     @keyframes overlayFade {
       from { opacity: 0; }
@@ -851,7 +858,7 @@
       <h2 id="modalTitle">Combo r&eacute;ussi !</h2>
       <p id="modalAnswerLine">R&eacute;ponse : <span id="modalAnswer" class="answer"></span></p>
       <p id="modalScore">Score : 0 point</p>
-      <button id="continueBtn" class="btn" type="button">Continuer &#x25BA;</button>
+      <button id="continueBtn" class="btn" type="button">Continuer &#x25B6;&#xFE0F;</button>
     </div>
   </div>
 
@@ -860,7 +867,7 @@
       <div id="levelModalEmoji" class="modal-emoji">&#x1F31F;</div>
       <h2 id="levelModalTitle">Niveau 2 d&eacute;bloqu&eacute; !</h2>
       <p id="levelModalSubtitle" class="modal-score">De nouvelles &eacute;nigmes arrivent...</p>
-      <button id="levelContinueBtn" class="btn" type="button">Continuer &#x25BA;</button>
+      <button id="levelContinueBtn" class="btn" type="button">Continuer &#x25B6;&#xFE0F;</button>
     </div>
   </div>
 
@@ -2855,7 +2862,7 @@
       renderPuzzle();
     }
 
-    function showModal({ emoji, title, answer, scoreText, buttonText = "Continuer \u25ba" }) {
+    function showModal({ emoji, title, answer, scoreText, buttonText = "Continuer ▶️" }) {
       dismissAnswerKeyboard();
       modalEmoji.textContent = emoji;
       modalTitle.textContent = title;
@@ -2896,7 +2903,7 @@
         renderHearts();
         showModal({
           emoji: state.current.clues[0],
-          title: "R\u00e9ponse trouv\u00e9e !",
+          title: "Combo r\u00e9ussi !",
           answer: state.current.title,
           scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
         });
