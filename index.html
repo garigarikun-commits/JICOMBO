@@ -130,12 +130,35 @@
 
     .home-example {
       margin: 0 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       font-family: "Trebuchet MS", "Segoe UI", sans-serif;
       font-weight: 800;
       font-size: clamp(28px, 8vw, 36px);
-      letter-spacing: .04em;
+      letter-spacing: .01em;
       color: var(--cream);
       text-shadow: 0 0 24px rgba(254,184,5,.25);
+    }
+    .home-example .home-emoji {
+      display: inline-block;
+      font-size: 1.08em;
+      line-height: 1;
+      animation: floaty 2.6s ease-in-out infinite;
+    }
+    .home-example .home-emoji:nth-of-type(2) {
+      animation-delay: .18s;
+    }
+    .home-example .home-emoji:nth-of-type(3) {
+      animation-delay: .34s;
+    }
+    .home-example .home-op {
+      display: inline-block;
+      font-size: .72em;
+      line-height: 1;
+      opacity: .92;
+      transform: translateY(.02em);
     }
     .logo {
       display: block;
@@ -805,7 +828,7 @@
   <div id="viewport-bg" aria-hidden="true"></div>
   <div class="app">
   <main id="home" class="screen active" aria-label="Accueil Jicombo">
-    <div class="home-example" aria-hidden="true">&#x1F41F; + &#x1F35F; + &#x1F482;&#x200D;&#x2640;&#xFE0F; = ?</div>
+    <div class="home-example" aria-hidden="true"><span class="home-emoji">&#x1F41F;</span><span class="home-op">+</span><span class="home-emoji">&#x1F35F;</span><span class="home-op">+</span><span class="home-emoji">&#x1F482;&#x200D;&#x2640;&#xFE0F;</span><span class="home-op">=</span><span class="home-op">?</span></div>
     <img id="homeLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="Jicombo" role="button" tabindex="0">
     <div class="credits">
       <div>Un jeu d'association par <strong class="credit-link">Patrick Baud</strong></div>
@@ -2456,7 +2479,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "31";
+    const CACHE_VERSION = "32";
 
     const state = {
       deck: [],
