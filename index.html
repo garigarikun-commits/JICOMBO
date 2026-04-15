@@ -859,7 +859,7 @@
       <h2 id="modalTitle">Combo r&eacute;ussi !</h2>
       <p id="modalAnswerLine">R&eacute;ponse : <span id="modalAnswer" class="answer"></span></p>
       <p id="modalScore">Score : 0 point</p>
-      <button id="continueBtn" class="btn" type="button">Continuer &#x25B6;&#xFE0F;</button>
+      <button id="continueBtn" class="btn" type="button">Continuer</button>
     </div>
   </div>
 
@@ -868,7 +868,7 @@
       <div id="levelModalEmoji" class="modal-emoji">&#x1F31F;</div>
       <h2 id="levelModalTitle">Niveau 2 d&eacute;bloqu&eacute; !</h2>
       <p id="levelModalSubtitle" class="modal-score">De nouvelles &eacute;nigmes arrivent...</p>
-      <button id="levelContinueBtn" class="btn" type="button">Continuer &#x25B6;&#xFE0F;</button>
+      <button id="levelContinueBtn" class="btn" type="button">Continuer</button>
     </div>
   </div>
 
@@ -2456,7 +2456,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "30";
+    const CACHE_VERSION = "31";
 
     const state = {
       deck: [],
@@ -2863,7 +2863,7 @@
       renderPuzzle();
     }
 
-    function showModal({ emoji, title, answer, scoreText, buttonText = "Continuer ▶️" }) {
+    function showModal({ emoji, title, answer, scoreText, buttonText = "Continuer" }) {
       dismissAnswerKeyboard();
       modalEmoji.textContent = emoji;
       modalTitle.textContent = title;
