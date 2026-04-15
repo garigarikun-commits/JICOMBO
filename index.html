@@ -141,24 +141,40 @@
       color: var(--cream);
       text-shadow: 0 0 24px rgba(254,184,5,.25);
     }
-    .home-example .home-emoji {
+    .home-example .floaty-home {
       display: inline-block;
-      font-size: 1.08em;
       line-height: 1;
       animation: floaty 2.6s ease-in-out infinite;
     }
-    .home-example .home-emoji:nth-of-type(2) {
-      animation-delay: .18s;
+    .home-example .floaty-home:nth-child(2) {
+      animation-delay: .08s;
     }
-    .home-example .home-emoji:nth-of-type(3) {
-      animation-delay: .34s;
+    .home-example .floaty-home:nth-child(3) {
+      animation-delay: .16s;
+    }
+    .home-example .floaty-home:nth-child(4) {
+      animation-delay: .24s;
+    }
+    .home-example .floaty-home:nth-child(5) {
+      animation-delay: .32s;
+    }
+    .home-example .floaty-home:nth-child(6) {
+      animation-delay: .40s;
+    }
+    .home-example .floaty-home:nth-child(7) {
+      animation-delay: .48s;
+    }
+    .home-example .home-emoji {
+      font-size: 1.08em;
     }
     .home-example .home-op {
-      display: inline-block;
       font-size: .72em;
-      line-height: 1;
       opacity: .92;
       transform: translateY(.02em);
+    }
+    .home-example .home-question {
+      font-size: .82em;
+      transform: translateY(.01em);
     }
     .logo {
       display: block;
@@ -832,7 +848,7 @@
   <div id="viewport-bg" aria-hidden="true"></div>
   <div class="app">
   <main id="home" class="screen active" aria-label="Accueil Jicombo">
-    <div class="home-example" aria-hidden="true"><span class="home-emoji">&#x1F41F;</span><span class="home-op">+</span><span class="home-emoji">&#x1F35F;</span><span class="home-op">+</span><span class="home-emoji">&#x1F482;&#x200D;&#x2640;&#xFE0F;</span><span class="home-op">=</span><span class="home-op">?</span></div>
+    <div class="home-example" aria-hidden="true"><span class="home-emoji floaty-home">&#x1F41F;</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">&#x1F35F;</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">&#x1F482;&#x200D;&#x2640;&#xFE0F;</span><span class="home-op floaty-home">=</span><span class="home-op home-question floaty-home">&#x2753;</span></div>
     <img id="homeLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="Jicombo" role="button" tabindex="0">
     <div class="credits">
       <div>Un jeu d'association par <strong class="credit-link">Patrick Baud</strong></div>
@@ -2483,7 +2499,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "33";
+    const CACHE_VERSION = "34";
 
     const state = {
       deck: [],
