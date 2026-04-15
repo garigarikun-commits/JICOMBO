@@ -623,15 +623,16 @@
           0
           calc(18px + env(safe-area-inset-bottom))
           0;
-        justify-content: flex-start;
+        justify-content: center;
         gap: 8px;
         overflow-y: auto;
         overscroll-behavior: contain;
       }
       body.standalone-pwa .game-inner {
-        min-height: 100%;
-        padding-top: 6px;
-        justify-content: flex-start;
+        flex: 1 1 auto;
+        min-height: 0;
+        width: 100%;
+        justify-content: center;
       }
       body.standalone-pwa .home-example {
         margin-bottom: 2px;
@@ -682,7 +683,7 @@
         padding-bottom: calc(12px + env(safe-area-inset-bottom));
       }
       body.standalone-pwa.keyboard-open .game-inner {
-        padding-top: 0;
+        flex: 1 1 auto;
       }
     }
 
@@ -2374,7 +2375,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "29";
+    const CACHE_VERSION = "30";
 
     const state = {
       deck: [],
