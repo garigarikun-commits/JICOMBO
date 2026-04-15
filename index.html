@@ -892,7 +892,7 @@
   <div id="viewport-bg" aria-hidden="true"></div>
   <div class="app">
   <main id="home" class="screen active" aria-label="Accueil Jicombo">
-    <div id="homeExample" class="home-example" aria-hidden="true"><span class="home-emoji floaty-home">&#x1F41F;</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">&#x1F35F;</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">&#x1F482;&#x200D;&#x2640;&#xFE0F;</span><span class="home-op floaty-home">=</span><span class="home-op home-question floaty-home">?</span></div>
+    <div class="home-example" aria-hidden="true"><span class="home-emoji floaty-home">🐀</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">👨🏼‍🍳</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">🍝</span><span class="home-op floaty-home">=</span><span class="home-op home-question floaty-home">?</span></div>
     <img id="homeLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="Jicombo" role="button" tabindex="0">
     <div class="credits">
       <div>Un jeu d'association par <strong class="credit-link">Patrick Baud</strong></div>
@@ -2543,7 +2543,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "40";
+    const CACHE_VERSION = "41";
 
     const state = {
       deck: [],
@@ -2564,7 +2564,6 @@
     const game = $("game");
     const cheat = $("cheat");
     const homeLogo = $("homeLogo");
-    const homeExample = $("homeExample");
     const clues = $("clues");
     const hint = $("hint");
     const answerForm = $("answerForm");
@@ -2768,37 +2767,6 @@
       return [...bySize[3], ...bySize[4]];
     }
 
-    function renderHomeExample() {
-      if (!homeExample) return;
-      const candidates = uniqueDeck().filter((puzzle) => puzzle.clues.length === 3);
-      const puzzle = candidates[Math.floor(Math.random() * candidates.length)];
-      if (!puzzle) return;
-
-      homeExample.innerHTML = "";
-      puzzle.clues.slice(0, 3).forEach((emoji, index) => {
-        const emojiSpan = document.createElement("span");
-        emojiSpan.className = "home-emoji floaty-home";
-        emojiSpan.textContent = emoji;
-        homeExample.appendChild(emojiSpan);
-
-        if (index < 2) {
-          const plusSpan = document.createElement("span");
-          plusSpan.className = "home-op floaty-home";
-          plusSpan.textContent = "+";
-          homeExample.appendChild(plusSpan);
-        }
-      });
-
-      const equalSpan = document.createElement("span");
-      equalSpan.className = "home-op floaty-home";
-      equalSpan.textContent = "=";
-      homeExample.appendChild(equalSpan);
-
-      const questionSpan = document.createElement("span");
-      questionSpan.className = "home-op home-question floaty-home";
-      questionSpan.textContent = "?";
-      homeExample.appendChild(questionSpan);
-    }
     function currentLevelLabel(index, puzzle) {
       const firstHardIndex = state.deck.findIndex((item) => item.clues.length === 4);
       const safeHardIndex = firstHardIndex === -1 ? state.deck.length : firstHardIndex;
@@ -3122,8 +3090,6 @@
       vibrate(70);
       deniedSound();
     }
-
-    renderHomeExample();
 
     homeLogo.addEventListener("click", refreshHome);
     homeLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") refreshHome(); });
