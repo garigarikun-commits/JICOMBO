@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
@@ -6,12 +6,12 @@
   <meta name="theme-color" content="#68152c">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="JICOMBO">
-  <title>JICOMBO</title>
-  <link rel="manifest" href="manifest.webmanifest?v=28">
-  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=28">
-  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=28">
-  <link rel="icon" href="Jicombo-icon.png?v=28">
+  <meta name="apple-mobile-web-app-title" content="Jicombo">
+  <title>Jicombo</title>
+  <link rel="manifest" href="manifest.webmanifest?v=29">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=29">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=29">
+  <link rel="icon" href="Jicombo-icon.png?v=29">
   <style>
     :root {
       --app-height: 100dvh;
@@ -712,9 +712,9 @@
 <body>
   <div id="viewport-bg" aria-hidden="true"></div>
   <div class="app">
-  <main id="home" class="screen active" aria-label="Accueil JICOMBO">
+  <main id="home" class="screen active" aria-label="Accueil Jicombo">
     <div class="home-example" aria-hidden="true">&#x1F41F; + &#x1F35F; + &#x1F482;&#x200D;&#x2640;&#xFE0F; = ?</div>
-    <img id="homeLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="JICOMBO" role="button" tabindex="0">
+    <img id="homeLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="Jicombo" role="button" tabindex="0">
     <div class="credits">
       <div>Un jeu d'association par <strong class="credit-link">Patrick Baud</strong></div>
       <div>Spin-off non officiel par <strong>Emmanuel Galey</strong></div>
@@ -726,8 +726,8 @@
     </div>
   </main>
 
-  <main id="cheat" class="screen" aria-label="Cheat code JICOMBO">
-    <img id="cheatLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="Retour accueil JICOMBO" role="button" tabindex="0">
+  <main id="cheat" class="screen" aria-label="Cheat code Jicombo">
+    <img id="cheatLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="Retour accueil Jicombo" role="button" tabindex="0">
     <div class="cheat-card">
       <div class="cheat-title">Cheat Code</div>
       <input class="cheat-input" id="cheatInput" type="text" maxlength="6" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="------">
@@ -743,9 +743,9 @@
     </div>
   </main>
 
-  <main id="game" class="screen game-screen" aria-label="Partie JICOMBO">
+  <main id="game" class="screen game-screen" aria-label="Partie Jicombo">
     <div id="gameInner" class="game-inner">
-      <img id="gameLogo" class="logo game-logo" src="Assets/Jicombo-logo.png" alt="Retour accueil JICOMBO" role="button" tabindex="0">
+      <img id="gameLogo" class="logo game-logo" src="Assets/Jicombo-logo.png" alt="Retour accueil Jicombo" role="button" tabindex="0">
       <div id="levelPill" class="level-pill">Niveau 1</div>
       <p class="prompt-title">Trouve la r&eacute;ponse !</p>
       <div id="hint" class="hint"></div>
@@ -2364,7 +2364,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "28";
+    const CACHE_VERSION = "29";
 
     const state = {
       deck: [],
@@ -2854,7 +2854,7 @@
       const timeText = state.speedrun ? ` \u00b7 Temps : ${elapsed}s` : "";
       showModal({
         emoji: "\u{1F3C6}",
-        title: "JICOMBO termin\u00e9 !",
+        title: "Jicombo termin\u00e9 !",
         answer: "",
         scoreText: `Score : ${state.score}/${state.deck.length}${timeText}`,
         buttonText: "Rejouer \u25ba",
@@ -2974,4 +2974,3 @@
   </script>
 </body>
 </html>
-
