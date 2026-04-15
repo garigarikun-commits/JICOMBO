@@ -386,7 +386,7 @@
       font-size: 18px;
       font-weight: 800;
       letter-spacing: .04em;
-      padding: 0 54px 0 18px;
+      padding: 0 18px;
       box-shadow: 0 0 0 rgba(254,184,5,0), inset 0 0 18px rgba(0,0,0,.22);
       transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease;
     }
@@ -396,30 +396,6 @@
     }
     .answer-input.correct { border-color: var(--green); box-shadow: 0 0 28px rgba(100,245,167,.26); }
     .answer-input.wrong { border-color: var(--red); box-shadow: 0 0 28px rgba(255,79,109,.28); }
-    .dismiss-keyboard-btn {
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-      width: 34px;
-      height: 34px;
-      border: none;
-      border-radius: 12px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(254,184,5,.12);
-      color: rgba(254,252,206,.86);
-      font-size: 18px;
-      line-height: 1;
-      opacity: .88;
-      transition: transform .14s ease, background .14s ease, opacity .14s ease;
-    }
-    .dismiss-keyboard-btn:hover, .dismiss-keyboard-btn:focus-visible {
-      transform: translateY(-50%) scale(1.04);
-      background: rgba(254,184,5,.18);
-      opacity: 1;
-    }
     .validate-btn {
       width: 136px;
       height: 42px;
@@ -612,12 +588,7 @@
       .answer-input {
         height: 54px;
         font-size: 17px;
-        padding-right: 50px;
-      }
-      .dismiss-keyboard-btn {
-        width: 32px;
-        height: 32px;
-        right: 9px;
+        padding-right: 18px;
       }
       .validate-btn {
         width: 126px;
@@ -782,7 +753,6 @@
       <form id="answerForm" class="answer-form" autocomplete="off">
         <div class="answer-input-wrap">
           <input id="answerInput" class="answer-input" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="Ta r&eacute;ponse...">
-          <button id="dismissKeyboardBtn" class="dismiss-keyboard-btn" type="button" aria-label="Fermer le clavier">&#x2304;</button>
         </div>
         <button id="validateBtn" class="validate-btn" type="submit" disabled>Valider</button>
       </form>
@@ -2419,7 +2389,6 @@
     const hint = $("hint");
     const answerForm = $("answerForm");
     const answerInput = $("answerInput");
-    const dismissKeyboardBtn = $("dismissKeyboardBtn");
     const hearts = $("hearts");
     const message = $("message");
     const levelPill = $("levelPill");
@@ -2972,7 +2941,6 @@
         dismissAnswerKeyboard(true);
       }
     });
-    dismissKeyboardBtn.addEventListener("click", () => dismissAnswerKeyboard(true));
     answerForm.addEventListener("submit", validateAnswer);
     continueBtn.addEventListener("click", nextPuzzle);
     levelContinueBtn.addEventListener("click", () => {
