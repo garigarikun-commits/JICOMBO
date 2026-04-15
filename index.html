@@ -133,17 +133,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0;
+      gap: .02em;
       font-family: "Trebuchet MS", "Segoe UI", sans-serif;
       font-weight: 800;
-      font-size: clamp(30px, 8.6vw, 40px);
+      font-size: clamp(31px, 8.9vw, 42px);
       letter-spacing: 0;
       color: var(--cream);
       text-shadow: 0 0 24px rgba(254,184,5,.25);
       white-space: nowrap;
     }
     .home-example .floaty-home {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       line-height: 1;
       animation: floaty 2.6s ease-in-out infinite;
       flex: 0 0 auto;
@@ -167,20 +169,22 @@
       animation-delay: .48s;
     }
     .home-example .home-emoji {
-      font-size: 1.16em;
+      width: 1.12em;
+      font-size: 1.18em;
+      text-align: center;
     }
     .home-example .home-op {
-      width: .72em;
-      font-size: .86em;
+      width: .62em;
+      font-size: .9em;
       font-weight: 950;
       text-align: center;
       opacity: 1;
       transform: translateY(0);
     }
     .home-example .home-question {
-      width: auto;
-      font-size: 1.16em;
-      margin-left: .04em;
+      width: 1.02em;
+      font-size: 1.18em;
+      margin-left: 0;
       transform: translateY(0);
     }
     .logo {
@@ -195,7 +199,7 @@
       filter: drop-shadow(0 10px 24px rgba(39, 7, 24, .32)) brightness(1.02);
     }
     .home-logo {
-      width: min(382px, 78vw);
+      width: min(360px, 74vw);
       margin: 0 0 4px;
     }
     .game-logo {
@@ -665,7 +669,7 @@
         font-size: clamp(22px, 7vw, 30px);
       }
       .home-logo {
-        width: min(320px, 74vw);
+        width: min(304px, 71vw);
       }
       .game-logo {
         width: min(248px, 66vw);
@@ -769,7 +773,7 @@
         font-size: clamp(20px, 6.4vw, 28px);
       }
       body.standalone-pwa .home-logo {
-        width: min(286px, 69vw);
+        width: min(274px, 66vw);
         margin-bottom: 0;
       }
       body.standalone-pwa .game-logo {
@@ -828,7 +832,7 @@
           calc(16px + env(safe-area-inset-left));
       }
       .home-logo {
-        width: min(300px, 72vw);
+        width: min(286px, 68vw);
       }
       .game-logo {
         width: min(232px, 64vw);
@@ -2506,7 +2510,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "37";
+    const CACHE_VERSION = "38";
 
     const state = {
       deck: [],
