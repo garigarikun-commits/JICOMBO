@@ -133,11 +133,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 2px;
       font-family: "Trebuchet MS", "Segoe UI", sans-serif;
       font-weight: 800;
       font-size: clamp(28px, 8vw, 36px);
-      letter-spacing: .01em;
+      letter-spacing: -.015em;
       color: var(--cream);
       text-shadow: 0 0 24px rgba(254,184,5,.25);
     }
@@ -168,13 +168,14 @@
       font-size: 1.08em;
     }
     .home-example .home-op {
-      font-size: .72em;
-      opacity: .92;
-      transform: translateY(.02em);
+      font-size: .68em;
+      font-weight: 900;
+      opacity: 1;
+      transform: translateY(0);
     }
     .home-example .home-question {
-      font-size: .82em;
-      transform: translateY(.01em);
+      font-size: 1.08em;
+      transform: translateY(0);
     }
     .logo {
       display: block;
@@ -2499,7 +2500,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "34";
+    const CACHE_VERSION = "35";
 
     const state = {
       deck: [],
