@@ -184,6 +184,8 @@
     .home-example .home-question {
       width: 1.02em;
       font-size: 1.18em;
+      font-weight: 950;
+      color: #e4452f;
       margin-left: 0;
       transform: translateY(0);
     }
@@ -666,7 +668,22 @@
       }
       .home-example {
         margin-bottom: 14px;
+        gap: .12em;
         font-size: clamp(22px, 7vw, 30px);
+      }
+      .home-example .home-emoji {
+        width: auto;
+        min-width: 1em;
+      }
+      .home-example .home-op {
+        width: auto;
+        min-width: .52em;
+        margin: 0 .02em;
+      }
+      .home-example .home-question {
+        width: auto;
+        min-width: .52em;
+        margin-left: .02em;
       }
       .home-logo {
         width: min(304px, 71vw);
@@ -770,7 +787,22 @@
       }
       body.standalone-pwa .home-example {
         margin-bottom: 2px;
+        gap: .11em;
         font-size: clamp(20px, 6.4vw, 28px);
+      }
+      body.standalone-pwa .home-example .home-emoji {
+        width: auto;
+        min-width: 1em;
+      }
+      body.standalone-pwa .home-example .home-op {
+        width: auto;
+        min-width: .5em;
+        margin: 0 .02em;
+      }
+      body.standalone-pwa .home-example .home-question {
+        width: auto;
+        min-width: .5em;
+        margin-left: .02em;
       }
       body.standalone-pwa .home-logo {
         width: min(274px, 66vw);
@@ -847,6 +879,7 @@
         border-radius: 20px;
       }
       .home-example {
+        gap: .1em;
         font-size: 24px;
       }
       .credits {
@@ -859,7 +892,7 @@
   <div id="viewport-bg" aria-hidden="true"></div>
   <div class="app">
   <main id="home" class="screen active" aria-label="Accueil Jicombo">
-    <div id="homeExample" class="home-example" aria-hidden="true"><span class="home-emoji floaty-home">&#x1F41F;</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">&#x1F35F;</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">&#x1F482;&#x200D;&#x2640;&#xFE0F;</span><span class="home-op floaty-home">=</span><span class="home-op home-question floaty-home">&#x2753;</span></div>
+    <div id="homeExample" class="home-example" aria-hidden="true"><span class="home-emoji floaty-home">&#x1F41F;</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">&#x1F35F;</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">&#x1F482;&#x200D;&#x2640;&#xFE0F;</span><span class="home-op floaty-home">=</span><span class="home-op home-question floaty-home">?</span></div>
     <img id="homeLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="Jicombo" role="button" tabindex="0">
     <div class="credits">
       <div>Un jeu d'association par <strong class="credit-link">Patrick Baud</strong></div>
@@ -2510,7 +2543,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "39";
+    const CACHE_VERSION = "40";
 
     const state = {
       deck: [],
@@ -2763,7 +2796,7 @@
 
       const questionSpan = document.createElement("span");
       questionSpan.className = "home-op home-question floaty-home";
-      questionSpan.textContent = "❓";
+      questionSpan.textContent = "?";
       homeExample.appendChild(questionSpan);
     }
     function currentLevelLabel(index, puzzle) {
