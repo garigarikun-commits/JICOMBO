@@ -125,7 +125,7 @@
       flex-direction: column;
       align-items: center;
       gap: inherit;
-      transition: gap .25s ease, padding .25s ease;
+      transition: transform .25s ease, gap .25s ease, padding .25s ease;
     }
 
     .home-example {
@@ -679,11 +679,12 @@
       }
       body.standalone-pwa.keyboard-open .game-screen {
         gap: 6px;
-        padding-top: calc(24px + env(safe-area-inset-top));
+        padding-top: calc(12px + env(safe-area-inset-top));
         padding-bottom: calc(4px + env(safe-area-inset-bottom));
       }
       body.standalone-pwa.keyboard-open .game-inner {
         flex: 1 1 auto;
+        transform: translateY(28px);
       }
     }
 
