@@ -698,7 +698,8 @@
       backdrop-filter: blur(10px);
       z-index: 10;
     }
-    .overlay.active { display: grid; animation: overlayFade .22s ease both; }
+    .overlay.active { display: grid; animation: overlayFade .26s ease both; }
+    .overlay.closing { display: grid; animation: overlayFadeOut .2s ease both; }
     .modal {
       position: relative;
       overflow: hidden;
@@ -714,17 +715,19 @@
         inset 0 1px 0 rgba(255,255,255,.06),
         inset 0 0 34px rgba(242,70,97,.07);
       text-align: center;
-      animation: modalPop .24s cubic-bezier(.2,.8,.2,1) both;
+      animation: modalPop .34s cubic-bezier(.18,.88,.24,1) both;
+      transform-origin: center 82%;
     }
     .modal::before {
       content: "";
       position: absolute;
-      top: -52px;
+      top: -56px;
       left: 50%;
-      width: 160px;
-      height: 100px;
+      width: 176px;
+      height: 112px;
       transform: translateX(-50%);
-      background: radial-gradient(circle, rgba(254,184,5,.18), rgba(254,184,5,0) 70%);
+      background: radial-gradient(circle, rgba(254,184,5,.22), rgba(254,184,5,0) 72%);
+      filter: blur(2px);
       pointer-events: none;
     }
     .modal::after {
@@ -739,13 +742,14 @@
       margin: 0 auto 10px;
       display: block;
       font-size: 58px;
-      animation: modalFloat 3.8s ease-in-out infinite;
+      animation: modalFloat 4.4s ease-in-out infinite;
       line-height: 1;
       background: none;
       border: none;
       box-shadow: none;
       width: auto;
       height: auto;
+      will-change: transform;
     }
     .modal h2 {
       margin: 0 0 8px;
@@ -771,23 +775,41 @@
       text-shadow: 0 0 14px rgba(254,184,5,.16);
     }
     .modal .btn {
+      position: relative;
+      overflow: hidden;
       width: min(176px, 100%);
       margin-top: 16px;
       min-height: 60px;
       border-radius: 11px;
       color: #3b1608;
       background: linear-gradient(135deg, #fff0a8 0%, #ffd85a 24%, #ffb347 58%, #ff8b3d 100%);
+      background-size: 140% 100%;
+      background-position: 0% 50%;
       font-family: "Trebuchet MS", "Segoe UI", sans-serif;
       font-size: 18px;
       font-weight: 980;
       letter-spacing: .06em;
       text-transform: none;
       box-shadow: 0 16px 30px rgba(255,139,61,.22), 0 0 22px rgba(255,216,90,.16);
+      transition: transform .16s ease, filter .16s ease, box-shadow .16s ease, background-position .24s ease;
+    }
+    .modal .btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 22%, rgba(255,255,255,.2) 48%, rgba(255,255,255,0) 74%);
+      transform: translateX(-130%);
+      transition: transform .34s ease;
+      pointer-events: none;
     }
     .modal .btn:hover, .modal .btn:focus-visible {
       transform: translateY(-1px) scale(1.01);
       filter: brightness(1.02);
       box-shadow: 0 18px 34px rgba(255,139,61,.28), 0 0 26px rgba(255,216,90,.2);
+      background-position: 100% 50%;
+    }
+    .modal .btn:hover::after, .modal .btn:focus-visible::after {
+      transform: translateX(130%);
     }
     #levelOverlay .modal {
       background:
@@ -798,9 +820,18 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+    @keyframes overlayFadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
     @keyframes modalPop {
-      from { opacity: 0; transform: translateY(10px) scale(.96); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+      0% { opacity: 0; transform: translateY(14px) scale(.94); }
+      62% { opacity: 1; transform: translateY(-2px) scale(1.015); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes modalClose {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(8px) scale(.985); }
     }
     @keyframes screenFadeIn {
       from { opacity: 0; transform: translateY(10px) scale(.992); }
@@ -2780,7 +2811,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "49";
+    const CACHE_VERSION = "50";
 
     const state = {
       deck: [],
@@ -3355,6 +3386,7 @@
 
     function showModal({ emoji, title, answer, scoreText, buttonText = "Continuer" }) {
       dismissAnswerKeyboard();
+      overlay.classList.remove("closing");
       modalEmoji.textContent = emoji;
       modalTitle.textContent = title;
       modalAnswerLine.style.display = answer ? "block" : "none";
@@ -3370,9 +3402,28 @@
       levelModalEmoji.textContent = state.deck[state.index]?.clues.length === 4 ? "🧩" : "✨";
       levelModalTitle.textContent = `Niveau ${levelNumber} débloqué !`;
       levelModalSubtitle.textContent = levelSubtitle(levelNumber);
+      levelOverlay.classList.remove("closing");
       levelOverlay.classList.add("active");
       vibrate([18, 26, 18]);
       levelContinueBtn.focus({ preventScroll: true });
+    }
+
+    function closeRewardOverlay(targetOverlay, callback) {
+      if (!targetOverlay.classList.contains("active")) {
+        callback();
+        return;
+      }
+      const modal = targetOverlay.querySelector(".modal");
+      targetOverlay.classList.remove("active");
+      targetOverlay.classList.add("active", "closing");
+      if (modal) {
+        modal.style.animation = "modalClose .18s ease both";
+      }
+      window.setTimeout(() => {
+        targetOverlay.classList.remove("active", "closing");
+        if (modal) modal.style.animation = "";
+        callback();
+      }, 180);
     }
 
     function validateAnswer(event) {
@@ -3420,16 +3471,25 @@
     }
 
     function nextPuzzle() {
-      overlay.classList.remove("active");
-      levelOverlay.classList.remove("active");
-      if (state.lives <= 0) return startGame(state.speedrun);
-      state.index += 1;
-      if (state.index >= state.deck.length) return endGame();
-      if (levelBreaks(state.deck).includes(state.index)) {
-        showLevelModal(currentLevelLabel(state.index, state.deck[state.index]));
+      const proceed = () => {
+        if (state.lives <= 0) return startGame(state.speedrun);
+        state.index += 1;
+        if (state.index >= state.deck.length) return endGame();
+        if (levelBreaks(state.deck).includes(state.index)) {
+          showLevelModal(currentLevelLabel(state.index, state.deck[state.index]));
+          return;
+        }
+        renderPuzzle();
+      };
+      if (overlay.classList.contains("active")) {
+        closeRewardOverlay(overlay, proceed);
         return;
       }
-      renderPuzzle();
+      if (levelOverlay.classList.contains("active")) {
+        closeRewardOverlay(levelOverlay, proceed);
+        return;
+      }
+      proceed();
     }
 
     function endGame() {
@@ -3543,12 +3603,15 @@
     });
     continueBtn.addEventListener("click", () => {
       uiGameSound("continue");
+      pressFeedback(continueBtn);
       nextPuzzle();
     });
     levelContinueBtn.addEventListener("click", () => {
       uiGameSound("continue");
-      levelOverlay.classList.remove("active");
-      renderPuzzle();
+      pressFeedback(levelContinueBtn);
+      closeRewardOverlay(levelOverlay, () => {
+        renderPuzzle();
+      });
     });
     document.addEventListener("pointerdown", (event) => {
       if (!game.classList.contains("active")) return;
