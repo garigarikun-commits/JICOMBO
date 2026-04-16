@@ -219,6 +219,7 @@
       font-weight: 300;
     }
     .credits strong { color: rgba(254,252,206,.9); font-weight: 700; text-decoration: none; }
+    .credits a.credit-link { color: rgba(254,252,206,.9); font-weight: 700; text-decoration: underline; }
     .credits .credit-link { text-decoration: underline; }
     .actions {
       width: min(260px, 82vw);
@@ -895,7 +896,7 @@
     <div id="homeExample" class="home-example" aria-hidden="true"><span class="home-emoji floaty-home">🐀</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">👨🏼‍🍳</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">🍝</span><span class="home-op floaty-home">=</span><span class="home-op home-question floaty-home">?</span></div>
     <img id="homeLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="Jicombo" role="button" tabindex="0">
     <div class="credits">
-      <div>Un jeu d'association par <strong class="credit-link">Patrick Baud</strong></div>
+      <div>D&rsquo;apr&egrave;s le jeu original de <a class="credit-link" href="https://axopatrick.github.io/comboji/" target="_blank" rel="noopener noreferrer">Patrick Baud</a></div>
       <div>Spin-off non officiel par <strong>Emmanuel Galey</strong></div>
     </div>
     <div class="actions">
@@ -2543,7 +2544,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "42";
+    const CACHE_VERSION = "43";
 
     const state = {
       deck: [],
