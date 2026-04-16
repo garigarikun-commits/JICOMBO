@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Jicombo">
   <title>Jicombo</title>
-  <link rel="manifest" href="manifest.webmanifest?v=29">
-  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=29">
-  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=29">
-  <link rel="icon" href="Jicombo-icon.png?v=29">
+  <link rel="manifest" href="manifest.webmanifest?v=44">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=44">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=44">
+  <link rel="icon" href="Jicombo-icon.png?v=44">
   <style>
     :root {
       --app-height: 100dvh;
@@ -90,6 +90,48 @@
     main { position: relative; z-index: 0; background: transparent !important; }
     .app { position: relative; z-index: 0; width: min(100%, 720px); background: transparent !important; }
     button { cursor: pointer; }
+    body.is-booting {
+      overflow: hidden;
+    }
+    body.is-screen-transitioning .app {
+      pointer-events: none;
+    }
+    .launch-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(254,184,5,.16), rgba(254,184,5,0) 34%),
+        linear-gradient(180deg, rgba(122,40,64,.82), rgba(33,0,28,.96));
+      transition: opacity .45s ease, visibility .45s ease;
+    }
+    .launch-splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .launch-splash__inner {
+      display: grid;
+      justify-items: center;
+      gap: 12px;
+      animation: splashRise .7s cubic-bezier(.18,.82,.22,1) both;
+    }
+    .launch-splash__logo {
+      width: min(280px, 62vw);
+      height: auto;
+      filter: drop-shadow(0 14px 36px rgba(0,0,0,.26));
+    }
+    .launch-splash__glow {
+      width: 118px;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(254,184,5,0), rgba(254,184,5,.88), rgba(254,184,5,0));
+      box-shadow: 0 0 18px rgba(254,184,5,.28);
+      opacity: .92;
+    }
 
     .screen {
       background: transparent !important;
@@ -112,6 +154,14 @@
       text-align: center;
     }
     .screen.active { display: flex; }
+    .screen.entering {
+      animation: screenFadeIn .26s ease both;
+    }
+    .screen.leaving {
+      display: flex;
+      pointer-events: none;
+      animation: screenFadeOut .18s ease both;
+    }
     .game-screen {
       background: transparent !important;
       position: relative;
@@ -252,6 +302,32 @@
       transform: translateY(-2px) scale(1.02);
       box-shadow: 0 14px 30px rgba(242,70,97,.16), 0 0 20px rgba(254,184,5,.14);
       filter: brightness(1.02);
+    }
+    .actions .btn {
+      position: relative;
+      transform-origin: center;
+      will-change: transform, box-shadow, filter;
+    }
+    #home.active .actions .btn {
+      animation: homeButtonBreath 3.8s ease-in-out infinite;
+    }
+    #home.active .actions .btn:nth-child(2) {
+      animation-delay: .22s;
+    }
+    #home.active .actions .btn:nth-child(3) {
+      animation-delay: .44s;
+    }
+    .btn.is-pressed,
+    .btn:active,
+    .validate-btn:active,
+    .cheat-key:active,
+    .modal .btn:active {
+      transform: scale(.975);
+      filter: brightness(.98);
+    }
+    .btn.is-pressed.secondary,
+    .btn.secondary:active {
+      box-shadow: inset 0 0 0 1px rgba(254,184,5,.05), 0 8px 14px rgba(0,0,0,.14);
     }
     .btn.secondary {
       width: 260px;
@@ -407,6 +483,22 @@
     .clue:nth-child(2) { animation-delay: .18s; }
     .clue:nth-child(3) { animation-delay: .34s; }
     .clue:nth-child(4) { animation-delay: .5s; }
+    .clue.clue-enter {
+      animation: clueReveal .38s cubic-bezier(.2,.8,.2,1) both, floaty 2.6s ease-in-out infinite;
+      animation-delay: var(--clue-delay, 0s), calc(.32s + var(--float-delay, 0s));
+    }
+    .game-inner.puzzle-enter .level-pill,
+    .game-inner.puzzle-enter .prompt-title,
+    .game-inner.puzzle-enter .hint,
+    .game-inner.puzzle-enter .answer-form,
+    .game-inner.puzzle-enter .hearts,
+    .game-inner.puzzle-enter .message {
+      animation: puzzleFade .3s ease both;
+    }
+    .game-inner.puzzle-enter .prompt-title { animation-delay: .03s; }
+    .game-inner.puzzle-enter .hint { animation-delay: .06s; }
+    .game-inner.puzzle-enter .answer-form { animation-delay: .1s; }
+    .game-inner.puzzle-enter .hearts { animation-delay: .12s; }
     @keyframes floaty {
       0%, 100% { transform: translateY(0) rotate(-1deg); }
       50% { transform: translateY(-10px) rotate(1deg); }
@@ -623,6 +715,30 @@
     @keyframes modalPop {
       from { opacity: 0; transform: translateY(10px) scale(.96); }
       to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes screenFadeIn {
+      from { opacity: 0; transform: translateY(10px) scale(.992); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes screenFadeOut {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(8px) scale(.992); }
+    }
+    @keyframes splashRise {
+      from { opacity: 0; transform: translateY(12px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes homeButtonBreath {
+      0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 12px 26px rgba(242,70,97,.12), 0 0 16px rgba(254,184,5,.10); }
+      50% { transform: translateY(-1px) scale(1.01); box-shadow: 0 15px 30px rgba(242,70,97,.16), 0 0 18px rgba(254,184,5,.12); }
+    }
+    @keyframes clueReveal {
+      from { opacity: 0; transform: translateY(12px) scale(.9); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes puzzleFade {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .confetti-piece {
       position: fixed;
@@ -890,6 +1006,12 @@
   </style>
 </head>
 <body>
+  <div id="launchSplash" class="launch-splash" aria-hidden="true">
+    <div class="launch-splash__inner">
+      <img class="launch-splash__logo" src="Assets/Jicombo-logo.png" alt="">
+      <div class="launch-splash__glow"></div>
+    </div>
+  </div>
   <div id="viewport-bg" aria-hidden="true"></div>
   <div class="app">
   <main id="home" class="screen active" aria-label="Accueil Jicombo">
@@ -2544,7 +2666,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "43";
+    const CACHE_VERSION = "44";
 
     const state = {
       deck: [],
@@ -2560,11 +2682,21 @@
     const $ = (id) => document.getElementById(id);
     const isStandalonePwa = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
     if (isStandalonePwa) document.body.classList.add("standalone-pwa");
+    document.body.classList.add("is-booting");
     const viewportBg = $("viewport-bg");
     const home = $("home");
     const game = $("game");
     const cheat = $("cheat");
     const homeLogo = $("homeLogo");
+    const gameLogo = $("gameLogo");
+    const cheatLogo = $("cheatLogo");
+    const gameInner = $("gameInner");
+    const launchSplash = $("launchSplash");
+    const playBtn = $("playBtn");
+    const speedBtn = $("speedBtn");
+    const cheatBtn = $("cheatBtn");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const canHover = window.matchMedia("(hover: hover)").matches && window.matchMedia("(pointer: fine)").matches;
     const homeExample = $("homeExample");
     const clues = $("clues");
     const hint = $("hint");
@@ -2870,6 +3002,26 @@
       } catch (_) {}
     }
 
+    function uiMenuSound(kind = "tap") {
+      if (kind === "hover") {
+        playToneSequence([880], "sine", 0.08, 80, 0.03);
+        return;
+      }
+      if (kind === "play") {
+        playToneSequence([392, 523, 659], "triangle", 0.18, 72, 0.055);
+        return;
+      }
+      if (kind === "speed") {
+        playToneSequence([523, 659, 880], "triangle", 0.16, 58, 0.05);
+        return;
+      }
+      if (kind === "cheat") {
+        playToneSequence([330, 392, 523], "triangle", 0.16, 78, 0.05);
+        return;
+      }
+      playToneSequence([659], "sine", 0.09, 80, 0.04);
+    }
+
     function soundWin() {
       playToneSequence([523, 659, 784, 1047], "sine", 0.28, 110, 0.22);
     }
@@ -2928,6 +3080,80 @@
       } catch (_) {}
     }
 
+    function hideLaunchSplash() {
+      if (!launchSplash || launchSplash.classList.contains("hidden")) return;
+      const delay = prefersReducedMotion ? 120 : 620;
+      window.setTimeout(() => {
+        launchSplash.classList.add("hidden");
+        document.body.classList.remove("is-booting");
+      }, delay);
+    }
+
+    let activeScreen = "home";
+    let screenTransitionTimer = 0;
+    let lastHoverToneAt = 0;
+
+    function pressFeedback(element) {
+      if (!element) return;
+      element.classList.remove("is-pressed");
+      void element.offsetWidth;
+      element.classList.add("is-pressed");
+      window.setTimeout(() => element.classList.remove("is-pressed"), 170);
+    }
+
+    function transitionToScreen(target, afterChange = () => {}) {
+      const current = activeScreen;
+      if (target === current) {
+        setScreen(target);
+        afterChange();
+        return;
+      }
+      const screens = { home, game, cheat };
+      const currentEl = screens[current];
+      const nextEl = screens[target];
+      const finish = () => {
+        setScreen(target);
+        activeScreen = target;
+        if (!prefersReducedMotion && nextEl) {
+          nextEl.classList.add("entering");
+          requestAnimationFrame(() => nextEl.classList.remove("entering"));
+        }
+        document.body.classList.remove("is-screen-transitioning");
+        afterChange();
+      };
+
+      clearTimeout(screenTransitionTimer);
+      if (prefersReducedMotion || !currentEl || !nextEl) {
+        finish();
+        return;
+      }
+
+      document.body.classList.add("is-screen-transitioning");
+      currentEl.classList.add("leaving");
+      screenTransitionTimer = window.setTimeout(() => {
+        currentEl.classList.remove("active", "leaving");
+        finish();
+      }, 170);
+    }
+
+    function bindHomeAction(button, soundKind, action) {
+      if (!button) return;
+      if (canHover) {
+        button.addEventListener("pointerenter", () => {
+          const now = Date.now();
+          if (now - lastHoverToneAt < 90) return;
+          lastHoverToneAt = now;
+          uiMenuSound("hover");
+        });
+      }
+      button.addEventListener("click", () => {
+        pressFeedback(button);
+        uiMenuSound(soundKind);
+        vibrate(soundKind === "play" ? [12, 18, 12] : 12);
+        window.setTimeout(action, prefersReducedMotion ? 0 : 48);
+      });
+    }
+
     function setScreen(target) {
       home.classList.toggle("active", target === "home");
       game.classList.toggle("active", target === "game");
@@ -2952,12 +3178,20 @@
       const level = currentLevelLabel(state.index, state.current);
       levelPill.textContent = `NIVEAU ${level}`;
       clues.innerHTML = "";
-      for (const emoji of state.current.clues) {
-        const span = document.createElement("span");
-        span.className = "clue";
-        span.textContent = emoji;
-        clues.appendChild(span);
+      if (gameInner) {
+        gameInner.classList.remove("puzzle-enter");
+        void gameInner.offsetWidth;
+        gameInner.classList.add("puzzle-enter");
+        window.setTimeout(() => gameInner.classList.remove("puzzle-enter"), 420);
       }
+      state.current.clues.forEach((emoji, index) => {
+        const span = document.createElement("span");
+        span.className = "clue clue-enter";
+        span.textContent = emoji;
+        span.style.setProperty("--clue-delay", `${index * 0.06}s`);
+        span.style.setProperty("--float-delay", `${index * 0.16}s`);
+        clues.appendChild(span);
+      });
       hint.textContent = `Indice : ${state.current.hint}`;
       answerInput.value = "";
       answerInput.classList.remove("correct", "wrong", "shake");
@@ -2977,10 +3211,11 @@
       state.score = startIndex;
       state.speedrun = speedrun;
       state.startTime = Date.now();
-      setScreen("game");
-      overlay.classList.remove("active");
-      levelOverlay.classList.remove("active");
-      renderPuzzle();
+      transitionToScreen("game", () => {
+        overlay.classList.remove("active");
+        levelOverlay.classList.remove("active");
+        renderPuzzle();
+      });
     }
 
     function showModal({ emoji, title, answer, scoreText, buttonText = "Continuer" }) {
@@ -3001,6 +3236,7 @@
       levelModalTitle.textContent = `Niveau ${levelNumber} débloqué !`;
       levelModalSubtitle.textContent = levelSubtitle(levelNumber);
       levelOverlay.classList.add("active");
+      vibrate([18, 26, 18]);
       levelContinueBtn.focus({ preventScroll: true });
     }
 
@@ -3064,6 +3300,7 @@
     function endGame() {
       const elapsed = Math.round((Date.now() - state.startTime) / 1000);
       const timeText = state.speedrun ? ` \u00b7 Temps : ${elapsed}s` : "";
+      vibrate([22, 26, 38]);
       showModal({
         emoji: "\u{1F3C6}",
         title: "Jicombo termin\u00e9 !",
@@ -3075,21 +3312,23 @@
     }
 
     function showCheat() {
-      setScreen("cheat");
-      cheatStatus.textContent = "";
-      cheatStatus.className = "cheat-status";
-      cheatInput.value = "";
-      cheatInput.className = "cheat-input";
-      document.querySelector(".cheat-card").classList.remove("unlock");
-      setTimeout(() => cheatInput.focus({ preventScroll: true }), 80);
+      transitionToScreen("cheat", () => {
+        cheatStatus.textContent = "";
+        cheatStatus.className = "cheat-status";
+        cheatInput.value = "";
+        cheatInput.className = "cheat-input";
+        document.querySelector(".cheat-card").classList.remove("unlock");
+        setTimeout(() => cheatInput.focus({ preventScroll: true }), 80);
+      });
     }
 
     function goHome() {
       dismissAnswerKeyboard();
       overlay.classList.remove("active");
       levelOverlay.classList.remove("active");
-      setScreen("home");
-      message.textContent = "";
+      transitionToScreen("home", () => {
+        message.textContent = "";
+      });
     }
 
     function refreshHome() {
@@ -3126,15 +3365,17 @@
 
     if (!window.matchMedia("(max-width: 640px)").matches && !isStandalonePwa) renderHomeExample();
 
+    hideLaunchSplash();
+
     homeLogo.addEventListener("click", refreshHome);
     homeLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") refreshHome(); });
-    $("playBtn").addEventListener("click", () => startGame(false));
-    $("speedBtn").addEventListener("click", () => startGame(true));
-    $("cheatBtn").addEventListener("click", showCheat);
-    $("gameLogo").addEventListener("click", goHome);
-    $("gameLogo").addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") goHome(); });
-    $("cheatLogo").addEventListener("click", goHome);
-    $("cheatLogo").addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") goHome(); });
+    bindHomeAction(playBtn, "play", () => startGame(false));
+    bindHomeAction(speedBtn, "speed", () => startGame(true));
+    bindHomeAction(cheatBtn, "cheat", showCheat);
+    gameLogo.addEventListener("click", goHome);
+    gameLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") goHome(); });
+    cheatLogo.addEventListener("click", goHome);
+    cheatLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") goHome(); });
     $("cheatSubmit").addEventListener("click", submitCheat);
     cheatInput.addEventListener("input", (event) => { event.target.value = event.target.value.toUpperCase().replace(/[^A-Z0-9._-]/g, "").slice(0, 6); });
     cheatInput.addEventListener("keydown", (event) => { if (event.key === "Enter") submitCheat(); });
@@ -3187,4 +3428,4 @@
     }
   </script>
 </body>
-</html>
+</html>
