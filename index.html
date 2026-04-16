@@ -2780,7 +2780,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "48";
+    const CACHE_VERSION = "49";
 
     const state = {
       deck: [],
@@ -3143,11 +3143,10 @@
         return;
       }
       if (kind === "continue") {
-        playToneSequence([330, 392], "triangle", 0.1, 62, 0.03);
+        playToneSequence([392], "sine", 0.065, 50, 0.018);
         return;
       }
       if (kind === "submit") {
-        playToneSequence([349, 415], "triangle", 0.1, 56, 0.028);
         return;
       }
       playToneSequence([392], "sine", 0.08, 56, 0.02);
@@ -3540,7 +3539,6 @@
       }
     });
     answerForm.addEventListener("submit", (event) => {
-      uiGameSound("submit");
       validateAnswer(event);
     });
     continueBtn.addEventListener("click", () => {
