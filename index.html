@@ -103,10 +103,10 @@
       display: grid;
       place-items: center;
       padding: 24px;
-      background:
-        radial-gradient(circle at 50% 30%, rgba(254,184,5,.16), rgba(254,184,5,0) 34%),
-        linear-gradient(180deg, rgba(122,40,64,.82), rgba(33,0,28,.96));
-      transition: opacity .45s ease, visibility .45s ease;
+      background: linear-gradient(180deg, rgba(56, 14, 38, .36), rgba(20, 3, 16, .56));
+      backdrop-filter: blur(18px) saturate(112%);
+      -webkit-backdrop-filter: blur(18px) saturate(112%);
+      transition: opacity .38s ease, visibility .38s ease;
     }
     .launch-splash.hidden {
       opacity: 0;
@@ -114,23 +114,29 @@
       pointer-events: none;
     }
     .launch-splash__inner {
+      position: relative;
       display: grid;
-      justify-items: center;
-      gap: 12px;
-      animation: splashRise .7s cubic-bezier(.18,.82,.22,1) both;
+      place-items: center;
+      padding: 24px 28px;
+      animation: splashRise .52s cubic-bezier(.18,.82,.22,1) both;
     }
     .launch-splash__logo {
-      width: min(280px, 62vw);
+      width: min(248px, 58vw);
       height: auto;
-      filter: drop-shadow(0 14px 36px rgba(0,0,0,.26));
+      filter: drop-shadow(0 16px 34px rgba(0,0,0,.22));
     }
     .launch-splash__glow {
-      width: 118px;
-      height: 4px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(254,184,5,0), rgba(254,184,5,.88), rgba(254,184,5,0));
-      box-shadow: 0 0 18px rgba(254,184,5,.28);
-      opacity: .92;
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 220px;
+      height: 220px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(254,184,5,.17) 0%, rgba(242,70,97,.08) 38%, rgba(242,70,97,0) 72%);
+      filter: blur(20px);
+      opacity: .95;
+      z-index: -1;
+      pointer-events: none;
     }
 
     .screen {
@@ -309,13 +315,7 @@
       will-change: transform, box-shadow, filter;
     }
     #home.active .actions .btn {
-      animation: homeButtonBreath 3.8s ease-in-out infinite;
-    }
-    #home.active .actions .btn:nth-child(2) {
-      animation-delay: .22s;
-    }
-    #home.active .actions .btn:nth-child(3) {
-      animation-delay: .44s;
+      animation: homeButtonBreath 4.1s ease-in-out infinite;
     }
     .btn.is-pressed,
     .btn:active,
@@ -2666,7 +2666,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "44";
+    const CACHE_VERSION = "45";
 
     const state = {
       deck: [],
@@ -3004,22 +3004,22 @@
 
     function uiMenuSound(kind = "tap") {
       if (kind === "hover") {
-        playToneSequence([880], "sine", 0.08, 80, 0.03);
+        playToneSequence([523, 659], "sine", 0.09, 70, 0.028);
         return;
       }
       if (kind === "play") {
-        playToneSequence([392, 523, 659], "triangle", 0.18, 72, 0.055);
+        playToneSequence([330, 494, 659], "triangle", 0.18, 70, 0.055);
         return;
       }
       if (kind === "speed") {
-        playToneSequence([523, 659, 880], "triangle", 0.16, 58, 0.05);
+        playToneSequence([392, 587, 880], "triangle", 0.16, 58, 0.05);
         return;
       }
       if (kind === "cheat") {
-        playToneSequence([330, 392, 523], "triangle", 0.16, 78, 0.05);
+        playToneSequence([294, 440, 659], "triangle", 0.16, 66, 0.05);
         return;
       }
-      playToneSequence([659], "sine", 0.09, 80, 0.04);
+      playToneSequence([392, 587], "sine", 0.09, 72, 0.032);
     }
 
     function soundWin() {
@@ -3082,7 +3082,7 @@
 
     function hideLaunchSplash() {
       if (!launchSplash || launchSplash.classList.contains("hidden")) return;
-      const delay = prefersReducedMotion ? 120 : 620;
+      const delay = prefersReducedMotion ? 90 : 420;
       window.setTimeout(() => {
         launchSplash.classList.add("hidden");
         document.body.classList.remove("is-booting");
