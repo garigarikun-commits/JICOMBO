@@ -544,7 +544,7 @@
       margin-top: 2px;
     }
     .answer-form.ready .validate-btn:not(:disabled) {
-      animation: validateReadyGlow 2.4s ease-in-out infinite;
+      animation: none;
     }
     .answer-input-wrap {
       position: relative;
@@ -605,20 +605,22 @@
       font-weight: 800;
       letter-spacing: .08em;
       text-transform: uppercase;
-      color: #031c34;
-      background: linear-gradient(135deg, #f6f0c3 0%, #dbd3a6 100%);
+      color: #3b1808;
+      background: linear-gradient(135deg, #ffe98d 0%, #ffd451 56%, #ffc126 100%);
+      background-size: 135% 100%;
+      background-position: 0% 50%;
       box-shadow: 0 10px 22px rgba(0,0,0,.14);
-      transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease, filter .16s ease, background .18s ease;
+      transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease, filter .16s ease, background-position .22s ease;
       will-change: transform, box-shadow;
     }
     .validate-btn:not(:disabled) {
-      background: linear-gradient(135deg, #fff5c8 0%, #ffe37f 42%, #ffca4f 100%);
-      box-shadow: 0 12px 26px rgba(254,184,5,.18), 0 8px 18px rgba(0,0,0,.16);
+      box-shadow: 0 12px 24px rgba(254,184,5,.22), 0 8px 18px rgba(0,0,0,.16);
     }
     .validate-btn:hover:not(:disabled), .validate-btn:focus-visible:not(:disabled) {
       transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 14px 28px rgba(254,184,5,.22), 0 10px 20px rgba(0,0,0,.2);
-      filter: brightness(1.02);
+      box-shadow: 0 14px 28px rgba(254,184,5,.26), 0 10px 20px rgba(0,0,0,.2);
+      filter: brightness(1.015);
+      background-position: 100% 50%;
     }
     .validate-btn:disabled {
       opacity: .34;
@@ -663,12 +665,17 @@
       animation: heartLoss .4s ease both;
     }
     .message {
-      min-height: 24px;
+      min-height: 38px;
+      width: min(320px, 100%);
+      padding: 0 6px;
       color: rgba(254,252,206,.78);
       font-family: "Trebuchet MS", "Segoe UI", sans-serif;
       font-size: 14px;
       font-weight: 700;
+      line-height: 1.34;
       letter-spacing: .01em;
+      text-align: center;
+      text-wrap: balance;
     }
     .message.good {
       color: var(--green);
@@ -967,6 +974,11 @@
       .hearts {
         font-size: 20px;
         gap: 7px;
+      }
+      .message {
+        width: min(300px, 100%);
+        min-height: 42px;
+        font-size: 13px;
       }
     }
 
@@ -2768,7 +2780,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "47";
+    const CACHE_VERSION = "48";
 
     const state = {
       deck: [],
@@ -3125,6 +3137,22 @@
       playToneSequence([294, 330, 392], "sine", 0.09, 66, 0.03);
     }
 
+    function uiGameSound(kind = "tap") {
+      if (kind === "input") {
+        playToneSequence([392, 466], "sine", 0.08, 54, 0.022);
+        return;
+      }
+      if (kind === "continue") {
+        playToneSequence([330, 392], "triangle", 0.1, 62, 0.03);
+        return;
+      }
+      if (kind === "submit") {
+        playToneSequence([349, 415], "triangle", 0.1, 56, 0.028);
+        return;
+      }
+      playToneSequence([392], "sine", 0.08, 56, 0.02);
+    }
+
     function soundWin() {
       playToneSequence([523, 659, 784, 1047], "sine", 0.28, 110, 0.22);
     }
@@ -3360,8 +3388,8 @@
         state.score += 1;
         state.lives = Math.min(MAX_LIVES, state.lives + 1);
         answerInput.classList.add("correct");
-        message.textContent = "Bien jou\u00e9 !";
-        message.className = "message good";
+        message.textContent = "";
+        message.className = "message";
         soundWin();
         spawnConfetti();
         vibrate([24, 18, 24]);
@@ -3496,6 +3524,7 @@
     answerInput.addEventListener("focus", () => {
       document.body.classList.add("keyboard-open");
       if (answerInputWrap) answerInputWrap.classList.add("is-focused");
+      uiGameSound("input");
     });
     answerInput.addEventListener("blur", () => {
       if (answerInputWrap) answerInputWrap.classList.remove("is-focused");
@@ -3510,9 +3539,16 @@
         dismissAnswerKeyboard(true);
       }
     });
-    answerForm.addEventListener("submit", validateAnswer);
-    continueBtn.addEventListener("click", nextPuzzle);
+    answerForm.addEventListener("submit", (event) => {
+      uiGameSound("submit");
+      validateAnswer(event);
+    });
+    continueBtn.addEventListener("click", () => {
+      uiGameSound("continue");
+      nextPuzzle();
+    });
     levelContinueBtn.addEventListener("click", () => {
+      uiGameSound("continue");
       levelOverlay.classList.remove("active");
       renderPuzzle();
     });
