@@ -543,9 +543,28 @@
       gap: 14px;
       margin-top: 2px;
     }
+    .answer-form.ready .validate-btn:not(:disabled) {
+      animation: validateReadyGlow 2.4s ease-in-out infinite;
+    }
     .answer-input-wrap {
       position: relative;
       width: 100%;
+    }
+    .answer-input-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: 17px;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 18%, rgba(254,252,206,.14) 48%, rgba(255,255,255,0) 76%);
+      opacity: 0;
+      transform: translateX(-18%);
+      transition: opacity .22s ease, transform .32s ease;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    .answer-input-wrap.is-focused::after {
+      opacity: .88;
+      transform: translateX(8%);
     }
     .answer-input {
       width: 100%;
@@ -562,11 +581,13 @@
       letter-spacing: .04em;
       padding: 0 18px;
       box-shadow: 0 0 0 rgba(254,184,5,0), inset 0 0 18px rgba(0,0,0,.22);
-      transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+      transition: border-color .16s ease, box-shadow .18s ease, transform .18s ease, background .18s ease;
     }
     .answer-input:focus {
       border-color: var(--sun);
-      box-shadow: 0 0 24px rgba(254,184,5,.18), inset 0 0 18px rgba(0,0,0,.22);
+      background: rgba(22, 6, 18, .58);
+      box-shadow: 0 0 26px rgba(254,184,5,.22), 0 0 0 3px rgba(254,184,5,.08), inset 0 0 18px rgba(0,0,0,.22);
+      transform: translateY(-1px);
     }
     .answer-input.correct { border-color: var(--green); box-shadow: 0 0 28px rgba(100,245,167,.26); }
     .answer-input.wrong { border-color: var(--red); box-shadow: 0 0 28px rgba(255,79,109,.28); }
@@ -587,11 +608,17 @@
       color: #031c34;
       background: linear-gradient(135deg, #f6f0c3 0%, #dbd3a6 100%);
       box-shadow: 0 10px 22px rgba(0,0,0,.14);
-      transition: transform .14s ease, box-shadow .14s ease, opacity .14s ease;
+      transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease, filter .16s ease, background .18s ease;
+      will-change: transform, box-shadow;
+    }
+    .validate-btn:not(:disabled) {
+      background: linear-gradient(135deg, #fff5c8 0%, #ffe37f 42%, #ffca4f 100%);
+      box-shadow: 0 12px 26px rgba(254,184,5,.18), 0 8px 18px rgba(0,0,0,.16);
     }
     .validate-btn:hover:not(:disabled), .validate-btn:focus-visible:not(:disabled) {
       transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 12px 24px rgba(0,0,0,.18);
+      box-shadow: 0 14px 28px rgba(254,184,5,.22), 0 10px 20px rgba(0,0,0,.2);
+      filter: brightness(1.02);
     }
     .validate-btn:disabled {
       opacity: .34;
@@ -611,9 +638,29 @@
       display: flex;
       justify-content: center;
       gap: 8px;
-      min-height: 26px;
+      min-height: 30px;
       font-size: 22px;
       filter: drop-shadow(0 5px 9px rgba(0,0,0,.26));
+    }
+    .heart {
+      display: inline-grid;
+      place-items: center;
+      min-width: 1.1em;
+      transform-origin: center;
+      transition: transform .16s ease, filter .16s ease, opacity .16s ease;
+    }
+    .heart.live {
+      filter: drop-shadow(0 0 10px rgba(242,70,97,.18));
+    }
+    .heart.empty {
+      opacity: .76;
+      filter: saturate(.88);
+    }
+    .heart.gain {
+      animation: heartGain .44s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .heart.loss {
+      animation: heartLoss .4s ease both;
     }
     .message {
       min-height: 24px;
@@ -621,9 +668,16 @@
       font-family: "Trebuchet MS", "Segoe UI", sans-serif;
       font-size: 14px;
       font-weight: 700;
+      letter-spacing: .01em;
     }
-    .message.good { color: var(--green); }
-    .message.bad { color: var(--red); }
+    .message.good {
+      color: var(--green);
+      animation: messageLift .26s ease both;
+    }
+    .message.bad {
+      color: var(--red);
+      animation: messageLift .26s ease both;
+    }
 
     .overlay {
       position: fixed;
@@ -768,6 +822,24 @@
     }
     @keyframes puzzleFade {
       from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes validateReadyGlow {
+      0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 12px 26px rgba(254,184,5,.18), 0 8px 18px rgba(0,0,0,.16); }
+      50% { transform: translateY(-1px) scale(1.015); box-shadow: 0 16px 30px rgba(254,184,5,.24), 0 10px 20px rgba(0,0,0,.18); }
+    }
+    @keyframes heartGain {
+      0% { transform: scale(.84); filter: drop-shadow(0 0 0 rgba(242,70,97,0)); }
+      55% { transform: scale(1.22); filter: drop-shadow(0 0 16px rgba(242,70,97,.34)); }
+      100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(242,70,97,.18)); }
+    }
+    @keyframes heartLoss {
+      0% { transform: scale(1); opacity: 1; }
+      35% { transform: scale(.82) rotate(-10deg); opacity: .88; }
+      100% { transform: scale(1) rotate(0); opacity: .76; }
+    }
+    @keyframes messageLift {
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
     .confetti-piece {
@@ -2696,7 +2768,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "46";
+    const CACHE_VERSION = "47";
 
     const state = {
       deck: [],
@@ -2743,6 +2815,7 @@
     const modalAnswerLine = $("modalAnswerLine");
     const modalScore = $("modalScore");
     const continueBtn = $("continueBtn");
+    const answerInputWrap = document.querySelector(".answer-input-wrap");
     const levelModalEmoji = $("levelModalEmoji");
     const levelModalTitle = $("levelModalTitle");
     const levelModalSubtitle = $("levelModalSubtitle");
@@ -3193,11 +3266,15 @@
       if (target === "home" || target === "cheat") window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function renderHearts() {
+    function renderHearts(previousLives = state.lives) {
       hearts.innerHTML = "";
       for (let i = 0; i < MAX_LIVES; i++) {
         const span = document.createElement("span");
-        span.textContent = i < state.lives ? "\u2764\uFE0F" : "\u{1F5A4}";
+        const isLive = i < state.lives;
+        span.className = `heart ${isLive ? "live" : "empty"}`;
+        if (state.lives > previousLives && isLive && i === state.lives - 1) span.classList.add("gain");
+        if (state.lives < previousLives && !isLive && i === previousLives - 1) span.classList.add("loss");
+        span.textContent = isLive ? "❤️" : "🖤";
         hearts.appendChild(span);
       }
     }
@@ -3228,7 +3305,8 @@
       message.textContent = "";
       message.className = "message";
       validateBtn.disabled = true;
-      renderHearts();
+      answerForm.classList.remove("ready");
+      renderHearts(state.lives);
       if (!window.matchMedia("(max-width: 640px)").matches && !isStandalonePwa) {
         setTimeout(() => answerInput.focus({ preventScroll: true }), 80);
       }
@@ -3287,7 +3365,7 @@
         soundWin();
         spawnConfetti();
         vibrate([24, 18, 24]);
-        renderHearts();
+        renderHearts(state.lives - 1);
         showModal({
           emoji: state.current.clues[0],
           title: "Combo r\u00e9ussi !",
@@ -3301,7 +3379,7 @@
         message.className = "message bad";
         tone("bad");
         vibrate([70]);
-        renderHearts();
+        renderHearts(state.lives + 1);
         if (state.lives <= 0) {
           showModal({
             emoji: "\u{1F494}",
@@ -3410,11 +3488,17 @@
     cheatInput.addEventListener("input", (event) => { event.target.value = event.target.value.toUpperCase().replace(/[^A-Z0-9._-]/g, "").slice(0, 6); });
     cheatInput.addEventListener("keydown", (event) => { if (event.key === "Enter") submitCheat(); });
     document.querySelectorAll(".cheat-key").forEach((btn) => btn.addEventListener("click", () => { const key = btn.dataset.key; if (key === "DEL") { cheatInput.value = cheatInput.value.slice(0, -1); return; } if (cheatInput.value.length < 6) cheatInput.value += key; }));
-    answerInput.addEventListener("input", () => { validateBtn.disabled = !answerInput.value.trim(); });
+    answerInput.addEventListener("input", () => {
+      const ready = !!answerInput.value.trim();
+      validateBtn.disabled = !ready;
+      answerForm.classList.toggle("ready", ready);
+    });
     answerInput.addEventListener("focus", () => {
       document.body.classList.add("keyboard-open");
+      if (answerInputWrap) answerInputWrap.classList.add("is-focused");
     });
     answerInput.addEventListener("blur", () => {
+      if (answerInputWrap) answerInputWrap.classList.remove("is-focused");
       setTimeout(() => {
         if (document.activeElement !== answerInput) document.body.classList.remove("keyboard-open");
         if (isStandalonePwa) syncViewportOnLaunch(true);
