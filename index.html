@@ -76,41 +76,97 @@
       z-index: -1;
       pointer-events: none;
       overflow: hidden;
-      background:
-        radial-gradient(circle at 18% 16%, rgba(255, 188, 89, .16) 0%, rgba(255, 188, 89, 0) 30%),
-        radial-gradient(circle at 84% 14%, rgba(242, 70, 97, .12) 0%, rgba(242, 70, 97, 0) 34%),
-        linear-gradient(180deg, #a5513f 0%, #7d2a42 32%, #531340 62%, #31032f 82%, #21001c 100%);
-      background-position: center top;
-      background-size: 100% 100%;
       isolation: isolate;
+      background:
+        radial-gradient(circle at 18% 14%, rgba(255, 206, 112, .18) 0%, rgba(255, 206, 112, 0) 18%),
+        radial-gradient(circle at 82% 16%, rgba(243, 98, 117, .14) 0%, rgba(243, 98, 117, 0) 22%),
+        linear-gradient(180deg, #a5513f 0%, #7d2a42 28%, #571540 56%, #31042f 78%, #160013 100%);
+      background-blend-mode: screen, soft-light, normal;
     }
-    #viewport-bg::before,
+    #viewport-bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 42%, rgba(25,0,20,.18) 68%, rgba(9,0,8,.52) 100%);
+      pointer-events: none;
+      z-index: 3;
+    }
     #viewport-bg::after {
       content: "";
       position: absolute;
-      inset: -18%;
+      inset: -12%;
+      background:
+        radial-gradient(circle at 50% 34%, rgba(255, 243, 185, .08) 0%, rgba(255, 243, 185, 0) 18%),
+        radial-gradient(circle at 38% 72%, rgba(255, 149, 95, .06) 0%, rgba(255, 149, 95, 0) 20%);
+      filter: blur(20px);
+      opacity: .82;
+      mix-blend-mode: screen;
       pointer-events: none;
-      filter: blur(44px);
-      opacity: .88;
+      z-index: 0;
+    }
+    .aurora-orb {
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+      filter: blur(76px);
+      opacity: .95;
       will-change: transform, opacity;
     }
-    #viewport-bg::before {
-      background:
-        radial-gradient(circle at 22% 26%, rgba(255, 214, 118, .34) 0%, rgba(255, 214, 118, 0) 28%),
-        radial-gradient(circle at 68% 24%, rgba(243, 98, 117, .24) 0%, rgba(243, 98, 117, 0) 30%),
-        radial-gradient(circle at 46% 70%, rgba(210, 57, 127, .24) 0%, rgba(210, 57, 127, 0) 34%);
+    .aurora-orb.orb-a {
+      top: -8%;
+      left: -12%;
+      width: 58vw;
+      height: 58vw;
+      min-width: 300px;
+      min-height: 300px;
+      max-width: 720px;
+      max-height: 720px;
+      background: radial-gradient(circle at 42% 40%, rgba(255, 245, 194, .98) 0%, rgba(255, 205, 104, .82) 18%, rgba(255, 150, 88, .52) 42%, rgba(255, 150, 88, 0) 72%);
       mix-blend-mode: screen;
-      animation: auroraDriftA 24s ease-in-out infinite alternate;
+      animation: orbFloatA 11s ease-in-out infinite alternate;
+      z-index: 1;
     }
-    #viewport-bg::after {
-      inset: -24%;
-      background:
-        radial-gradient(circle at 78% 22%, rgba(255, 168, 84, .28) 0%, rgba(255, 168, 84, 0) 26%),
-        radial-gradient(circle at 30% 58%, rgba(255, 101, 135, .18) 0%, rgba(255, 101, 135, 0) 32%),
-        radial-gradient(circle at 58% 84%, rgba(255, 220, 122, .16) 0%, rgba(255, 220, 122, 0) 28%);
+    .aurora-orb.orb-b {
+      top: 2%;
+      right: -10%;
+      width: 52vw;
+      height: 52vw;
+      min-width: 260px;
+      min-height: 260px;
+      max-width: 640px;
+      max-height: 640px;
+      background: radial-gradient(circle at 46% 42%, rgba(255, 167, 114, .88) 0%, rgba(244, 89, 107, .62) 28%, rgba(210, 57, 127, .34) 52%, rgba(210, 57, 127, 0) 74%);
+      mix-blend-mode: screen;
+      animation: orbFloatB 13s ease-in-out infinite alternate;
+      z-index: 1;
+    }
+    .aurora-orb.orb-c {
+      top: 34%;
+      left: 14%;
+      width: 54vw;
+      height: 54vw;
+      min-width: 280px;
+      min-height: 280px;
+      max-width: 680px;
+      max-height: 680px;
+      background: radial-gradient(circle at 52% 48%, rgba(255, 195, 102, .48) 0%, rgba(236, 77, 118, .34) 26%, rgba(109, 31, 79, .3) 50%, rgba(109, 31, 79, 0) 74%);
       mix-blend-mode: soft-light;
-      opacity: .78;
-      animation: auroraDriftB 32s ease-in-out infinite alternate;
+      animation: orbFloatC 14s ease-in-out infinite alternate;
+      z-index: 1;
+    }
+    .aurora-orb.orb-d {
+      top: 42%;
+      right: 8%;
+      width: 34vw;
+      height: 34vw;
+      min-width: 180px;
+      min-height: 180px;
+      max-width: 420px;
+      max-height: 420px;
+      background: radial-gradient(circle at 48% 48%, rgba(255, 237, 160, .6) 0%, rgba(255, 184, 5, .34) 30%, rgba(255, 184, 5, 0) 70%);
+      mix-blend-mode: screen;
+      animation: orbFloatD 10s ease-in-out infinite alternate;
+      z-index: 1;
     }
     body::-webkit-scrollbar {
       display: none;
@@ -958,15 +1014,25 @@
       55% { transform: translateX(58%) scaleX(1); opacity: 1; }
       100% { transform: translateX(180%) scaleX(.72); opacity: .78; }
     }
-    @keyframes auroraDriftA {
-      0% { transform: translate3d(-3%, -2%, 0) scale(1.02) rotate(0deg); opacity: .78; }
-      50% { transform: translate3d(4%, 3%, 0) scale(1.08) rotate(6deg); opacity: .92; }
-      100% { transform: translate3d(-2%, 6%, 0) scale(1.04) rotate(-5deg); opacity: .82; }
+    @keyframes orbFloatA {
+      0% { transform: translate3d(0, 0, 0) scale(1); opacity: .86; }
+      50% { transform: translate3d(12%, 8%, 0) scale(1.12); opacity: 1; }
+      100% { transform: translate3d(4%, 18%, 0) scale(1.04); opacity: .9; }
     }
-    @keyframes auroraDriftB {
-      0% { transform: translate3d(5%, -4%, 0) scale(1.06) rotate(0deg); opacity: .64; }
-      50% { transform: translate3d(-4%, 3%, 0) scale(1.12) rotate(-7deg); opacity: .84; }
-      100% { transform: translate3d(3%, 8%, 0) scale(1.05) rotate(5deg); opacity: .7; }
+    @keyframes orbFloatB {
+      0% { transform: translate3d(0, 0, 0) scale(1.04); opacity: .78; }
+      50% { transform: translate3d(-12%, 10%, 0) scale(1.16); opacity: .96; }
+      100% { transform: translate3d(-22%, 18%, 0) scale(1.08); opacity: .84; }
+    }
+    @keyframes orbFloatC {
+      0% { transform: translate3d(0, 0, 0) scale(1); opacity: .58; }
+      50% { transform: translate3d(14%, -8%, 0) scale(1.14); opacity: .74; }
+      100% { transform: translate3d(20%, 10%, 0) scale(1.06); opacity: .62; }
+    }
+    @keyframes orbFloatD {
+      0% { transform: translate3d(0, 0, 0) scale(.94); opacity: .64; }
+      50% { transform: translate3d(-14%, -12%, 0) scale(1.18); opacity: .9; }
+      100% { transform: translate3d(-8%, 8%, 0) scale(1); opacity: .68; }
     }
     @keyframes homeButtonBreath {
       0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 12px 26px rgba(242,70,97,.12), 0 0 16px rgba(254,184,5,.10); }
@@ -1259,8 +1325,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      #viewport-bg::before,
-      #viewport-bg::after {
+      .aurora-orb {
         animation: none;
         transform: none;
       }
@@ -1307,7 +1372,12 @@
       <div class="launch-splash__bar" aria-hidden="true"><div class="launch-splash__bar-fill"></div></div>
     </div>
   </div>
-  <div id="viewport-bg" aria-hidden="true"></div>
+  <div id="viewport-bg" aria-hidden="true">
+    <span class="aurora-orb orb-a"></span>
+    <span class="aurora-orb orb-b"></span>
+    <span class="aurora-orb orb-c"></span>
+    <span class="aurora-orb orb-d"></span>
+  </div>
   <div class="app">
   <main id="home" class="screen active" aria-label="Accueil Jicombo">
     <div id="homeExample" class="home-example" aria-hidden="true"><span class="home-emoji floaty-home">🐀</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">👨🏼‍🍳</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">🍝</span><span class="home-op floaty-home">=</span><span class="home-op home-question floaty-home">?</span></div>
@@ -2961,7 +3031,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "61";
+    const CACHE_VERSION = "62";
 
     const state = {
       deck: [],
