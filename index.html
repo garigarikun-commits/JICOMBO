@@ -545,6 +545,11 @@
     }
     .answer-form.ready .validate-btn:not(:disabled) {
       animation: none;
+      background-position: 42% 50%;
+      box-shadow: 0 14px 28px rgba(254,184,5,.24), 0 10px 20px rgba(0,0,0,.18);
+    }
+    .answer-form.ready .validate-btn:not(:disabled).wake {
+      animation: validateWake .24s cubic-bezier(.2,.8,.2,1) both;
     }
     .answer-input-wrap {
       position: relative;
@@ -613,18 +618,29 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      position: relative;
+      overflow: hidden;
       font-family: "Trebuchet MS", "Segoe UI", sans-serif;
       font-size: .98rem;
       font-weight: 800;
       letter-spacing: .08em;
       text-transform: uppercase;
       color: #3b1808;
-      background: linear-gradient(135deg, #ffe98d 0%, #ffd451 56%, #ffc126 100%);
-      background-size: 135% 100%;
+      background: linear-gradient(135deg, #fff0a8 0%, #ffd85a 26%, #ffbf2e 100%);
+      background-size: 145% 100%;
       background-position: 0% 50%;
       box-shadow: 0 10px 22px rgba(0,0,0,.14);
       transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease, filter .16s ease, background-position .22s ease;
       will-change: transform, box-shadow;
+    }
+    .validate-btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 24%, rgba(255,255,255,.18) 50%, rgba(255,255,255,0) 76%);
+      transform: translateX(-140%);
+      transition: transform .28s ease;
+      pointer-events: none;
     }
     .validate-btn:not(:disabled) {
       box-shadow: 0 12px 24px rgba(254,184,5,.22), 0 8px 18px rgba(0,0,0,.16);
@@ -634,6 +650,10 @@
       box-shadow: 0 14px 28px rgba(254,184,5,.26), 0 10px 20px rgba(0,0,0,.2);
       filter: brightness(1.015);
       background-position: 100% 50%;
+    }
+    .validate-btn:hover:not(:disabled)::after, .validate-btn:focus-visible:not(:disabled)::after,
+    .validate-btn.wake:not(:disabled)::after {
+      transform: translateX(130%);
     }
     .validate-btn:disabled {
       opacity: .34;
@@ -656,6 +676,14 @@
       min-height: 30px;
       font-size: 22px;
       filter: drop-shadow(0 5px 9px rgba(0,0,0,.26));
+      transition: transform .22s ease, filter .22s ease;
+      will-change: transform;
+    }
+    .hearts.hearts-loss {
+      animation: heartsLossSweep .44s cubic-bezier(.2,.8,.2,1);
+    }
+    .hearts.hearts-gain {
+      animation: heartsGainLift .44s cubic-bezier(.2,.8,.2,1);
     }
     .heart {
       display: inline-grid;
@@ -872,12 +900,13 @@
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
     @keyframes puzzleFade {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    @keyframes validateReadyGlow {
-      0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 12px 26px rgba(254,184,5,.18), 0 8px 18px rgba(0,0,0,.16); }
-      50% { transform: translateY(-1px) scale(1.015); box-shadow: 0 16px 30px rgba(254,184,5,.24), 0 10px 20px rgba(0,0,0,.18); }
+    @keyframes validateWake {
+      0% { transform: translateY(3px) scale(.94); box-shadow: 0 6px 12px rgba(0,0,0,.1); }
+      62% { transform: translateY(-1px) scale(1.03); box-shadow: 0 16px 30px rgba(254,184,5,.28), 0 10px 18px rgba(0,0,0,.18); }
+      100% { transform: translateY(0) scale(1); box-shadow: 0 14px 28px rgba(254,184,5,.24), 0 10px 20px rgba(0,0,0,.18); }
     }
     @keyframes heartGain {
       0% { transform: scale(.72) translateY(8px); opacity: .48; filter: drop-shadow(0 0 0 rgba(242,70,97,0)); }
@@ -886,9 +915,21 @@
       100% { transform: scale(1) translateY(0); opacity: 1; filter: drop-shadow(0 0 10px rgba(242,70,97,.18)); }
     }
     @keyframes heartLoss {
-      0% { transform: scale(1); opacity: 1; }
-      35% { transform: scale(.82) rotate(-10deg); opacity: .88; }
-      100% { transform: scale(1) rotate(0); opacity: .76; }
+      0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; filter: drop-shadow(0 0 10px rgba(242,70,97,.18)); }
+      26% { transform: translateY(1px) scale(.9) rotate(-12deg); opacity: .96; filter: drop-shadow(0 0 16px rgba(255,79,109,.24)); }
+      54% { transform: translateY(5px) scale(.76) rotate(10deg); opacity: .76; filter: drop-shadow(0 0 10px rgba(255,79,109,.14)); }
+      100% { transform: translateY(2px) scale(.88) rotate(0deg); opacity: .58; filter: drop-shadow(0 0 0 rgba(255,79,109,0)); }
+    }
+    @keyframes heartsLossSweep {
+      0% { transform: translateX(0); filter: drop-shadow(0 5px 9px rgba(0,0,0,.26)); }
+      32% { transform: translateX(-4px); filter: drop-shadow(0 8px 14px rgba(0,0,0,.28)); }
+      64% { transform: translateX(3px); filter: drop-shadow(0 6px 12px rgba(0,0,0,.24)); }
+      100% { transform: translateX(0); filter: drop-shadow(0 5px 9px rgba(0,0,0,.26)); }
+    }
+    @keyframes heartsGainLift {
+      0% { transform: translateY(0); }
+      40% { transform: translateY(-2px); }
+      100% { transform: translateY(0); }
     }
     @keyframes messageLift {
       from { opacity: 0; transform: translateY(6px); }
@@ -1130,7 +1171,13 @@
       }
       body.standalone-pwa.keyboard-open .game-inner {
         flex: 1 1 auto;
-        transform: translateY(64px);
+        transform: translateY(68px);
+      }
+      body.standalone-pwa.keyboard-open .answer-form {
+        gap: 10px;
+      }
+      body.standalone-pwa.keyboard-open .message {
+        min-height: 46px;
       }
     }
 
@@ -2829,7 +2876,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "53";
+    const CACHE_VERSION = "54";
 
     const state = {
       deck: [],
@@ -3344,6 +3391,13 @@
 
     function renderHearts(previousLives = state.lives) {
       hearts.innerHTML = "";
+      hearts.classList.remove("hearts-loss", "hearts-gain");
+      void hearts.offsetWidth;
+      if (state.lives < previousLives) {
+        hearts.classList.add("hearts-loss");
+      } else if (state.lives > previousLives) {
+        hearts.classList.add("hearts-gain");
+      }
       for (let i = 0; i < MAX_LIVES; i++) {
         const span = document.createElement("span");
         const isLive = i < state.lives;
@@ -3353,6 +3407,7 @@
         span.textContent = isLive ? "❤️" : "🖤";
         hearts.appendChild(span);
       }
+      window.setTimeout(() => hearts.classList.remove("hearts-loss", "hearts-gain"), 460);
     }
 
     function renderPuzzle() {
@@ -3387,6 +3442,14 @@
       if (!window.matchMedia("(max-width: 640px)").matches && !isStandalonePwa) {
         setTimeout(() => answerInput.focus({ preventScroll: true }), 80);
       }
+    }
+
+    function wakeValidateButton() {
+      if (!validateBtn || validateBtn.disabled) return;
+      validateBtn.classList.remove("wake");
+      void validateBtn.offsetWidth;
+      validateBtn.classList.add("wake");
+      window.setTimeout(() => validateBtn.classList.remove("wake"), 240);
     }
 
     function startGame(speedrun = false, startIndex = 0, deck = null) {
@@ -3607,8 +3670,10 @@
     document.querySelectorAll(".cheat-key").forEach((btn) => btn.addEventListener("click", () => { const key = btn.dataset.key; if (key === "DEL") { cheatInput.value = cheatInput.value.slice(0, -1); return; } if (cheatInput.value.length < 6) cheatInput.value += key; }));
     answerInput.addEventListener("input", () => {
       const ready = !!answerInput.value.trim();
+      const wasReady = answerForm.classList.contains("ready");
       validateBtn.disabled = !ready;
       answerForm.classList.toggle("ready", ready);
+      if (ready && !wasReady) wakeValidateButton();
     });
     answerInput.addEventListener("focus", () => {
       document.body.classList.add("keyboard-open");
@@ -3627,6 +3692,9 @@
         event.preventDefault();
         dismissAnswerKeyboard(true);
       }
+    });
+    validateBtn.addEventListener("pointerdown", () => {
+      if (!validateBtn.disabled) pressFeedback(validateBtn);
     });
     answerForm.addEventListener("submit", (event) => {
       validateAnswer(event);
@@ -3669,4 +3737,4 @@
     }
   </script>
 </body>
-</html>
+</html>
