@@ -698,6 +698,7 @@
     .heart.empty {
       opacity: .76;
       filter: saturate(.88);
+      transform: scale(.88);
     }
     .heart.gain {
       animation: heartGain .44s cubic-bezier(.2,.8,.2,1) both;
@@ -741,6 +742,32 @@
     }
     .overlay.active { display: grid; animation: overlayFade .26s ease both; }
     .overlay.closing { display: grid; animation: overlayFadeOut .2s ease both; }
+    .overlay[data-variant="danger"] {
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,79,109,.16), rgba(255,79,109,0) 38%),
+        rgba(10,1,8,.82);
+    }
+    .overlay[data-variant="danger"] .modal {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0) 18%),
+        linear-gradient(155deg, rgba(90,18,40,.98), rgba(34,7,18,.98) 72%);
+      border: 1px solid rgba(255,79,109,.24);
+      box-shadow:
+        0 26px 72px rgba(0,0,0,.42),
+        inset 0 1px 0 rgba(255,255,255,.06),
+        inset 0 0 34px rgba(255,79,109,.08);
+    }
+    .overlay[data-variant="danger"] .modal::before {
+      background: radial-gradient(circle, rgba(255,79,109,.22), rgba(255,79,109,0) 72%);
+    }
+    .overlay[data-variant="danger"] .modal .answer {
+      color: #ff8f9d;
+      text-shadow: 0 0 14px rgba(255,79,109,.18);
+    }
+    .overlay[data-variant="danger"] .modal .btn {
+      background: linear-gradient(135deg, #fff0a8 0%, #ffbe73 32%, #ff7f63 100%);
+      box-shadow: 0 16px 30px rgba(255,127,99,.22), 0 0 22px rgba(255,190,115,.16);
+    }
     .modal {
       position: relative;
       overflow: hidden;
@@ -2876,7 +2903,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "54";
+    const CACHE_VERSION = "55";
 
     const state = {
       deck: [],
@@ -3248,6 +3275,10 @@
       playToneSequence([392], "sine", 0.08, 56, 0.02);
     }
 
+
+    function gameOverSound() {
+      playToneSequence([330, 262, 196, 147], "triangle", 0.2, 92, 0.06);
+    }
     function soundWin() {
       playToneSequence([523, 659, 784, 1047], "sine", 0.28, 110, 0.22);
     }
@@ -3466,11 +3497,13 @@
       });
     }
 
-    function showModal({ emoji, title, answer, scoreText, buttonText = "Continuer" }) {
+    function showModal({ emoji, title, answer, scoreText, buttonText = "Continuer", variant = "default" }) {
       dismissAnswerKeyboard();
       answerInput.classList.remove("correct");
       if (answerInputWrap) answerInputWrap.classList.remove("success-flash");
       overlay.classList.remove("closing");
+      if (variant === "default") overlay.removeAttribute("data-variant");
+      else overlay.setAttribute("data-variant", variant);
       modalEmoji.textContent = emoji;
       modalTitle.textContent = title;
       modalAnswerLine.style.display = answer ? "block" : "none";
@@ -3550,13 +3583,17 @@
         vibrate([70]);
         renderHearts(state.lives + 1);
         if (state.lives <= 0) {
-          showModal({
-            emoji: "\u{1F494}",
-            title: "Partie termin\u00e9e",
-            answer: state.current.title,
-            scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
-            buttonText: "Rejouer \u25ba",
-          });
+          gameOverSound();
+          window.setTimeout(() => {
+            showModal({
+              emoji: "💔",
+              title: "Partie terminée",
+              answer: state.current.title,
+              scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
+              buttonText: "Rejouer ►",
+              variant: "danger",
+            });
+          }, 220);
         }
       }
     }
@@ -3590,11 +3627,12 @@
       const timeText = state.speedrun ? ` \u00b7 Temps : ${elapsed}s` : "";
       vibrate([22, 26, 38]);
       showModal({
-        emoji: "\u{1F3C6}",
-        title: "Jicombo termin\u00e9 !",
+        emoji: "🏆",
+        title: "Jicombo terminé !",
         answer: "",
         scoreText: `Score : ${state.score}/${state.deck.length}${timeText}`,
-        buttonText: "Rejouer \u25ba",
+        buttonText: "Rejouer ►",
+        variant: "default",
       });
       state.lives = 0;
     }
@@ -3702,6 +3740,7 @@
     continueBtn.addEventListener("click", () => {
       uiGameSound("continue");
       pressFeedback(continueBtn);
+      overlay.removeAttribute("data-variant");
       nextPuzzle();
     });
     levelContinueBtn.addEventListener("click", () => {
