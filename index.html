@@ -213,7 +213,7 @@
     }
 
     .home-example {
-      margin: 0 0 16px;
+      margin: 0 0 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -223,7 +223,7 @@
       font-size: clamp(28px, 7.8vw, 38px);
       letter-spacing: 0;
       color: var(--cream);
-      text-shadow: 0 0 18px rgba(254,184,5,.18);
+      text-shadow: 0 0 24px rgba(254,184,5,.25);
       white-space: nowrap;
     }
     .home-example .floaty-home {
@@ -286,7 +286,7 @@
     }
     .home-logo {
       width: min(360px, 74vw);
-      margin: 0 0 6px;
+      margin: 0 0 4px;
     }
     .game-logo {
       width: min(280px, 68vw);
@@ -294,24 +294,22 @@
       cursor: pointer;
     }
     .credits {
-      margin: 6px 0 0;
+      margin: 10px 0 0;
       display: grid;
-      gap: 3px;
+      gap: 4px;
       color: rgba(254,252,206,.72);
       font-size: .95rem;
-      line-height: 1.24;
+      line-height: 1.3;
       font-weight: 300;
-      text-align: center;
-      max-width: 290px;
     }
     .credits strong { color: rgba(254,252,206,.9); font-weight: 700; text-decoration: none; }
     .credits a.credit-link { color: rgba(254,252,206,.9); font-weight: 700; text-decoration: underline; }
     .credits .credit-link { text-decoration: underline; }
     .actions {
       width: min(260px, 82vw);
-      margin-top: 14px;
+      margin-top: 10px;
       display: grid;
-      gap: 10px;
+      gap: 12px;
     }
     .btn {
       width: 260px;
@@ -381,21 +379,9 @@
       text-align: center;
       font-size: .96rem;
     }
-    .actions .btn-label {
-      font-weight: 800;
-    }
     #home.active .actions .btn {
       animation: none;
     }
-    #home.active .home-example,
-    #home.active .home-logo,
-    #home.active .credits,
-    #home.active .actions {
-      animation: homeSectionFade .42s cubic-bezier(.2,.8,.2,1) both;
-    }
-    #home.active .home-logo { animation-delay: .04s; }
-    #home.active .credits { animation-delay: .09s; }
-    #home.active .actions { animation-delay: .14s; }
     .btn.is-pressed,
     .btn:active,
     .validate-btn:active,
@@ -446,9 +432,6 @@
     #speedBtn,
     #cheatBtn {
       box-shadow: inset 0 0 0 1px rgba(254,184,5,.05);
-      color: rgba(254,184,5,.96);
-      background: rgba(104,21,44,.12);
-      border-color: rgba(254,184,5,.22);
     }
     #speedBtn:hover,
     #speedBtn:focus-visible,
@@ -1086,10 +1069,6 @@
       40% { transform: translateY(-2px); }
       100% { transform: translateY(0); }
     }
-    @keyframes homeSectionFade {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
     @keyframes messageLift {
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
@@ -1142,7 +1121,7 @@
         justify-content: center;
       }
       .home-example {
-        margin-bottom: 10px;
+        margin-bottom: 14px;
         gap: .12em;
         font-size: clamp(22px, 7vw, 30px);
       }
@@ -1162,31 +1141,23 @@
       }
       .home-logo {
         width: min(304px, 71vw);
-        margin-bottom: 4px;
       }
       .game-logo {
         width: min(248px, 66vw);
       }
       .credits {
-        max-width: 270px;
-        font-size: 13px;
+        font-size: 14px;
         gap: 2px;
       }
       .actions {
         width: min(190px, 64vw);
-        margin-top: 12px;
         gap: 10px;
       }
-      #playBtn {
+      .btn,
+      .btn.secondary {
         width: 190px;
         height: 46px;
-        font-size: .98rem;
-      }
-      #speedBtn,
-      #cheatBtn {
-        width: 176px;
-        height: 42px;
-        font-size: .9rem;
+        font-size: .96rem;
       }
       .game-screen {
       background: transparent !important;
@@ -1289,7 +1260,7 @@
         justify-content: center;
       }
       body.standalone-pwa .home-example {
-        margin-bottom: 4px;
+        margin-bottom: 2px;
         gap: .11em;
         font-size: clamp(20px, 6.4vw, 28px);
       }
@@ -1309,33 +1280,27 @@
       }
       body.standalone-pwa .home-logo {
         width: min(274px, 66vw);
-        margin-bottom: 4px;
+        margin-bottom: 0;
       }
       body.standalone-pwa .game-logo {
         width: min(224px, 60vw);
         margin-bottom: 0;
       }
       body.standalone-pwa .credits {
-        margin-top: 0;
-        gap: 2px;
-        max-width: 248px;
-        font-size: 12px;
+        margin-top: 2px;
+        gap: 1px;
+        font-size: 13px;
       }
       body.standalone-pwa .actions {
         width: min(182px, 58vw);
-        margin-top: 12px;
+        margin-top: 6px;
         gap: 10px;
       }
-      body.standalone-pwa #playBtn {
+      body.standalone-pwa .btn,
+      body.standalone-pwa .btn.secondary {
         width: 182px;
         height: 44px;
         font-size: .98rem;
-      }
-      body.standalone-pwa #speedBtn,
-      body.standalone-pwa #cheatBtn {
-        width: 170px;
-        height: 40px;
-        font-size: .88rem;
       }
       body.standalone-pwa .actions .btn.is-pressed,
       body.standalone-pwa .actions .btn:active {
@@ -1348,6 +1313,12 @@
         border-color: rgba(254,184,5,.54);
         background: rgba(126,32,59,.26);
         box-shadow: inset 0 0 0 1px rgba(254,184,5,.2), 0 4px 8px rgba(0,0,0,.18);
+      }
+      body.standalone-pwa .actions .btn.secondary.is-pressed,
+      body.standalone-pwa .actions .btn.secondary:active {
+        color: #fff2c3;
+        border-color: rgba(255,240,178,.52);
+        background: rgba(136,36,64,.34);
       }
       body.standalone-pwa .prompt-title {
         margin-bottom: -4px;
@@ -3106,7 +3077,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "76";
+    const CACHE_VERSION = "75";
 
     const state = {
       deck: [],
