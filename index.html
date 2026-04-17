@@ -542,7 +542,6 @@
     .hint {
       min-height: 24px;
       width: min(340px, 100%);
-      max-width: 34ch;
       margin: -2px auto 0;
       color: var(--muted);
       font-family: "Trebuchet MS", "Segoe UI", sans-serif;
@@ -550,6 +549,9 @@
       line-height: 1.32;
       letter-spacing: .02em;
       text-align: center;
+    }
+    .hint.is-long {
+      max-width: 34ch;
       text-wrap: balance;
     }
     .answer-form {
@@ -1076,9 +1078,11 @@
       }
       .hint {
         margin-top: -1px;
-        max-width: 31ch;
         font-size: 13px;
         line-height: 1.28;
+      }
+      .hint.is-long {
+        max-width: 31ch;
       }
       .clues {
         min-height: 132px;
@@ -1209,9 +1213,11 @@
       }
       body.standalone-pwa .hint {
         margin-top: 0;
-        max-width: 29ch;
         font-size: 13px;
         line-height: 1.26;
+      }
+      body.standalone-pwa .hint.is-long {
+        max-width: 29ch;
       }
       body.standalone-pwa .clues {
         min-height: 118px;
@@ -2958,7 +2964,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "66";
+    const CACHE_VERSION = "67";
 
     const state = {
       deck: [],
