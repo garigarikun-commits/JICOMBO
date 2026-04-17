@@ -2964,7 +2964,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "67";
+    const CACHE_VERSION = "68";
 
     const state = {
       deck: [],
@@ -3503,6 +3503,45 @@
       }
       window.setTimeout(() => hearts.classList.remove("hearts-loss", "hearts-gain"), 460);
     }
+    function splitLongHint(text) {
+      const value = String(text || "").trim();
+      const words = value.split(/\s+/).filter(Boolean);
+      if (value.length < 46 || words.length < 6) return null;
+
+      let bestLines = null;
+      let bestScore = Infinity;
+
+      for (let index = 2; index <= words.length - 2; index += 1) {
+        const firstLine = words.slice(0, index).join(" ");
+        const secondLine = words.slice(index).join(" ");
+        const secondWords = words.length - index;
+        if (secondWords < 2) continue;
+
+        const score = Math.abs(firstLine.length - secondLine.length) + Math.abs(secondWords - 3) * 6;
+        if (score < bestScore) {
+          bestScore = score;
+          bestLines = [firstLine, secondLine];
+        }
+      }
+
+      return bestLines;
+    }
+
+    function renderHint(text) {
+      const hintText = String(text || "").trim();
+      const lines = splitLongHint(hintText);
+      hint.classList.toggle("is-long", !!lines);
+      hint.innerHTML = "";
+
+      if (!lines) {
+        hint.textContent = "Indice : " + hintText;
+        return;
+      }
+
+      hint.append(document.createTextNode("Indice : " + lines[0]));
+      hint.append(document.createElement("br"));
+      hint.append(document.createTextNode(lines[1]));
+    }
 
     function renderPuzzle() {
       state.current = state.deck[state.index];
@@ -3525,7 +3564,7 @@
         span.style.setProperty("--float-delay", `${index * 0.16}s`);
         clues.appendChild(span);
       });
-      hint.textContent = `Indice : ${state.current.hint}`;
+      renderHint(state.current.hint);
       answerInput.value = "";
       answerInput.classList.remove("correct", "wrong", "shake");
       if (answerInputWrap) answerInputWrap.classList.remove("success-flash");
