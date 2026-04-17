@@ -491,6 +491,7 @@
       gap: 14px;
       padding: 8px 0 2px;
       width: 100%;
+      transition: gap .2s ease;
     }
     .clue {
       display: inline-grid;
@@ -504,6 +505,16 @@
       font-size: 84px;
       animation: floaty 2.6s ease-in-out infinite;
       flex: 0 0 auto;
+      transition: width .2s ease, height .2s ease, font-size .2s ease, border-radius .2s ease;
+    }
+    .clues.is-four {
+      gap: 10px;
+    }
+    .clues.is-four .clue {
+      width: 106px;
+      height: 106px;
+      font-size: 72px;
+      border-radius: 26px;
     }
     .clue:nth-child(2) { animation-delay: .18s; }
     .clue:nth-child(3) { animation-delay: .34s; }
@@ -530,11 +541,16 @@
     }
     .hint {
       min-height: 24px;
-      margin: -2px 0 0;
+      width: min(320px, 100%);
+      max-width: 30ch;
+      margin: -2px auto 0;
       color: var(--muted);
       font-family: "Trebuchet MS", "Segoe UI", sans-serif;
       font-size: 14px;
-      letter-spacing: .04em;
+      line-height: 1.32;
+      letter-spacing: .02em;
+      text-align: center;
+      text-wrap: balance;
     }
     .answer-form {
       width: min(340px, 100%);
@@ -690,29 +706,20 @@
       place-items: center;
       min-width: 1.1em;
       transform-origin: center;
-    }
+      transition: transform .18s ease, opacity .18s ease, filter .18s ease;
     }
     .heart.live {
+      opacity: 1;
+      transform: scale(1);
       filter: drop-shadow(0 0 10px rgba(242,70,97,.18));
     }
     .heart.empty {
       opacity: .76;
-      filter: saturate(.88);
       transform: scale(.88);
-      transition: none;
-    .heart.loss,
-    .heart.empty.loss {
-      opacity: .76;
-      filter: saturate(.88);
-      transform: scale(.88);
-      transition: none;
-    }
+      filter: saturate(.82) brightness(.9);
     }
     .heart.gain {
       animation: heartGain .44s cubic-bezier(.2,.8,.2,1) both;
-    }
-    .heart.loss {
-      animation: heartLoss .4s ease both;
     }
     .message {
       min-height: 38px;
@@ -1069,17 +1076,29 @@
       }
       .hint {
         margin-top: -1px;
+        max-width: 26ch;
+        font-size: 13px;
+        line-height: 1.28;
       }
       .clues {
         min-height: 132px;
         gap: 8px;
         padding-top: 4px;
       }
+      .clues.is-four {
+        gap: 6px;
+      }
       .clue {
         width: 92px;
         height: 92px;
         font-size: 60px;
         border-radius: 22px;
+      }
+      .clues.is-four .clue {
+        width: 76px;
+        height: 76px;
+        font-size: 48px;
+        border-radius: 18px;
       }
       .answer-form {
         width: min(312px, 100%);
@@ -1190,15 +1209,27 @@
       }
       body.standalone-pwa .hint {
         margin-top: 0;
+        max-width: 24ch;
+        font-size: 13px;
+        line-height: 1.26;
       }
       body.standalone-pwa .clues {
         min-height: 118px;
         padding-top: 2px;
       }
+      body.standalone-pwa .clues.is-four {
+        gap: 5px;
+      }
       body.standalone-pwa .clue {
         width: 86px;
         height: 86px;
         font-size: 56px;
+      }
+      body.standalone-pwa .clues.is-four .clue {
+        width: 72px;
+        height: 72px;
+        font-size: 44px;
+        border-radius: 18px;
       }
       body.standalone-pwa.keyboard-open .game-screen {
         gap: 6px;
@@ -1236,11 +1267,20 @@
       .clues {
         gap: 7px;
       }
+      .clues.is-four {
+        gap: 5px;
+      }
       .clue {
         width: 84px;
         height: 84px;
         font-size: 54px;
         border-radius: 20px;
+      }
+      .clues.is-four .clue {
+        width: 68px;
+        height: 68px;
+        font-size: 41px;
+        border-radius: 17px;
       }
       .home-example {
         gap: .1em;
@@ -2918,7 +2958,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "64";
+    const CACHE_VERSION = "65";
 
     const state = {
       deck: [],
@@ -3436,20 +3476,22 @@
     }
 
     function renderHearts(previousLives = state.lives) {
+      const safePreviousLives = Math.max(0, Math.min(MAX_LIVES, previousLives));
+      const gainedLife = state.lives > safePreviousLives && safePreviousLives < MAX_LIVES;
+      const lostLife = state.lives < safePreviousLives;
       hearts.innerHTML = "";
       hearts.classList.remove("hearts-loss", "hearts-gain");
       void hearts.offsetWidth;
-      if (state.lives < previousLives) {
+      if (lostLife) {
         hearts.classList.add("hearts-loss");
-      } else if (state.lives > previousLives) {
+      } else if (gainedLife) {
         hearts.classList.add("hearts-gain");
       }
       for (let i = 0; i < MAX_LIVES; i++) {
         const span = document.createElement("span");
         const isLive = i < state.lives;
         span.className = `heart ${isLive ? "live" : "empty"}`;
-        if (state.lives > previousLives && isLive && i === state.lives - 1) span.classList.add("gain");
-        if (state.lives < previousLives && !isLive && i === previousLives - 1) span.classList.add("loss");
+        if (gainedLife && isLive && i === state.lives - 1) span.classList.add("gain");
         span.textContent = isLive ? "❤️" : "🖤";
         hearts.appendChild(span);
       }
@@ -3462,6 +3504,7 @@
       const level = currentLevelLabel(state.index, state.current);
       levelPill.textContent = `NIVEAU ${level}`;
       clues.innerHTML = "";
+      clues.classList.toggle("is-four", state.current.clues.length === 4);
       if (gameInner) {
         gameInner.classList.remove("puzzle-enter");
         void gameInner.offsetWidth;
@@ -3564,11 +3607,12 @@
       const typed = answerInput.value.trim();
       if (!typed) return;
       const isGood = isAcceptedAnswer(typed, state.current);
+      const previousLives = state.lives;
       answerInput.classList.remove("correct", "wrong", "shake");
       void answerInput.offsetWidth;
       if (isGood) {
         state.score += 1;
-        state.lives = Math.min(MAX_LIVES, state.lives + 1);
+        state.lives = Math.min(MAX_LIVES, previousLives + 1);
         answerInput.classList.add("correct");
         if (answerInputWrap) {
           answerInputWrap.classList.remove("success-flash");
@@ -3580,7 +3624,7 @@
         soundWin();
         spawnConfetti();
         vibrate([24, 18, 24]);
-        renderHearts(state.lives - 1);
+        renderHearts(previousLives);
         window.setTimeout(() => {
           showModal({
             emoji: state.current.clues[0],
@@ -3590,13 +3634,13 @@
           });
         }, 320);
       } else {
-        state.lives -= 1;
+        state.lives = Math.max(0, previousLives - 1);
         answerInput.classList.add("wrong", "shake");
         message.textContent = state.lives > 0 ? `Rat\u00e9 ! Il te reste ${state.lives} ${state.lives > 1 ? "essais" : "essai"}.` : "Perdu...";
         message.className = "message bad";
         tone("bad");
         vibrate([70]);
-        renderHearts(state.lives + 1);
+        renderHearts(previousLives);
         if (state.lives <= 0) {
           gameOverSound();
           window.setTimeout(() => {
