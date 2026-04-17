@@ -2911,7 +2911,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "59";
+    const CACHE_VERSION = "60";
 
     const state = {
       deck: [],
@@ -3585,7 +3585,7 @@
       } else {
         state.lives -= 1;
         answerInput.classList.add("wrong", "shake");
-        message.textContent = state.lives > 0 ? `Rat\u00e9 ! Il te reste ${state.lives} ${state.lives > 1 ? "essais" : "essai"}.` : "Plus de c\u0153ur...";
+        message.textContent = state.lives > 0 ? `Rat\u00e9 ! Il te reste ${state.lives} ${state.lives > 1 ? "essais" : "essai"}.` : "Perdu...";
         message.className = "message bad";
         tone("bad");
         vibrate([70]);
