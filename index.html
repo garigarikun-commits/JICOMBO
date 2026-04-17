@@ -367,8 +367,16 @@
     }
     .actions .btn {
       position: relative;
+      width: 190px;
+      height: 46px;
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       transform-origin: center;
       will-change: transform, box-shadow, filter;
+      text-align: center;
+      font-size: .96rem;
     }
     #home.active .actions .btn {
       animation: none;
@@ -398,6 +406,28 @@
     .btn.is-pressed.secondary,
     .btn.secondary:active {
       box-shadow: inset 0 0 0 1px rgba(254,184,5,.05), 0 8px 14px rgba(0,0,0,.14);
+    }
+    .actions .btn .btn-icon,
+    .actions .btn::after {
+      display: none;
+    }
+    .actions .btn .btn-label {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+    #playBtn {
+      border-radius: 12px;
+      color: #3b1808;
+      background: linear-gradient(135deg, #fff0a8 0%, #ffd85a 26%, #ffbf2e 100%);
+      background-size: 145% 100%;
+      background-position: 0% 50%;
+      box-shadow: 0 12px 24px rgba(254,184,5,.22), 0 8px 18px rgba(0,0,0,.16);
+    }
+    #playBtn:hover,
+    #playBtn:focus-visible {
+      box-shadow: 0 14px 28px rgba(254,184,5,.26), 0 10px 20px rgba(0,0,0,.2);
+      background-position: 100% 50%;
     }
     .btn.secondary {
       width: 260px;
@@ -1110,14 +1140,14 @@
         gap: 2px;
       }
       .actions {
-        width: min(236px, 78vw);
+        width: min(190px, 64vw);
         gap: 10px;
       }
       .btn,
       .btn.secondary {
-        width: 236px;
-        height: 58px;
-        font-size: .98rem;
+        width: 190px;
+        height: 46px;
+        font-size: .96rem;
       }
       .game-screen {
       background: transparent !important;
@@ -1252,15 +1282,15 @@
         font-size: 13px;
       }
       body.standalone-pwa .actions {
-        width: min(214px, 70vw);
+        width: min(182px, 58vw);
         margin-top: 6px;
         gap: 10px;
       }
       body.standalone-pwa .btn,
       body.standalone-pwa .btn.secondary {
-        width: 204px;
-        height: 54px;
-        font-size: .96rem;
+        width: 182px;
+        height: 44px;
+        font-size: .98rem;
       }
       body.standalone-pwa .actions .btn.is-pressed,
       body.standalone-pwa .actions .btn:active {
@@ -1393,9 +1423,9 @@
       <div>Spin-off non officiel par <strong>Emmanuel Galey</strong></div>
     </div>
     <div class="actions">
-      <button class="btn" id="playBtn" type="button"><span class="btn-icon" aria-hidden="true">&#x25B6;</span><span class="btn-label">Jouer</span></button>
-      <button class="btn secondary" id="speedBtn" type="button"><span class="btn-icon" aria-hidden="true">&#x23F1;&#xFE0F;</span><span class="btn-label">Speedrun</span></button>
-      <button class="btn secondary" id="cheatBtn" type="button"><span class="btn-icon" aria-hidden="true">&#x1F510;</span><span class="btn-label">Cheat Code</span></button>
+      <button class="btn" id="playBtn" type="button"><span class="btn-label">Jouer</span></button>
+      <button class="btn secondary" id="speedBtn" type="button"><span class="btn-label">Speedrun</span></button>
+      <button class="btn secondary" id="cheatBtn" type="button"><span class="btn-label">Cheat Code</span></button>
     </div>
   </main>
 
@@ -3037,7 +3067,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "73";
+    const CACHE_VERSION = "74";
 
     const state = {
       deck: [],
