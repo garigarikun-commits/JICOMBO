@@ -825,9 +825,9 @@
       to { opacity: 0; }
     }
     @keyframes modalPop {
-      0% { opacity: 0; transform: translateY(14px) scale(.94); }
-      62% { opacity: 1; transform: translateY(-2px) scale(1.015); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
+      0% { opacity: 0; transform: translateY(18px) scale(.935); filter: blur(4px); }
+      58% { opacity: 1; transform: translateY(-3px) scale(1.018); filter: blur(0); }
+      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
     }
     @keyframes modalClose {
       from { opacity: 1; transform: translateY(0) scale(1); }
@@ -867,9 +867,10 @@
       50% { transform: translateY(-1px) scale(1.015); box-shadow: 0 16px 30px rgba(254,184,5,.24), 0 10px 20px rgba(0,0,0,.18); }
     }
     @keyframes heartGain {
-      0% { transform: scale(.84); filter: drop-shadow(0 0 0 rgba(242,70,97,0)); }
-      55% { transform: scale(1.22); filter: drop-shadow(0 0 16px rgba(242,70,97,.34)); }
-      100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(242,70,97,.18)); }
+      0% { transform: scale(.72) translateY(8px); opacity: .48; filter: drop-shadow(0 0 0 rgba(242,70,97,0)); }
+      38% { transform: scale(1.28) translateY(-4px); opacity: 1; filter: drop-shadow(0 0 18px rgba(242,70,97,.38)); }
+      68% { transform: scale(.94) translateY(1px); opacity: 1; filter: drop-shadow(0 0 12px rgba(242,70,97,.22)); }
+      100% { transform: scale(1) translateY(0); opacity: 1; filter: drop-shadow(0 0 10px rgba(242,70,97,.18)); }
     }
     @keyframes heartLoss {
       0% { transform: scale(1); opacity: 1; }
@@ -2811,7 +2812,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "50";
+    const CACHE_VERSION = "51";
 
     const state = {
       deck: [],
@@ -3444,12 +3445,14 @@
         spawnConfetti();
         vibrate([24, 18, 24]);
         renderHearts(state.lives - 1);
-        showModal({
-          emoji: state.current.clues[0],
-          title: "Combo r\u00e9ussi !",
-          answer: state.current.title,
-          scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
-        });
+        window.setTimeout(() => {
+          showModal({
+            emoji: state.current.clues[0],
+            title: "Combo réussi !",
+            answer: state.current.title,
+            scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
+          });
+        }, 240);
       } else {
         state.lives -= 1;
         answerInput.classList.add("wrong", "shake");
