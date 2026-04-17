@@ -75,64 +75,10 @@
       height: calc(var(--app-height, 100dvh) + 240px);
       z-index: -1;
       pointer-events: none;
-      overflow: hidden;
       background:
-        radial-gradient(circle at 50% 12%, rgba(254, 236, 103, 0.16) 0%, rgba(254, 184, 5, 0.10) 18%, rgba(242, 70, 97, 0.08) 34%, rgba(104, 21, 44, 0) 58%),
-        linear-gradient(180deg, #d84a58 0%, #ba2c6c 22%, #6d1f4f 48%, #68152c 70%, #21001c 100%);
+        radial-gradient(circle at 50% 18%, rgba(170, 84, 49, 0.94) 0%, rgba(151, 61, 53, 0.88) 26%, rgba(110, 30, 66, 0.70) 52%, rgba(33, 0, 28, 0) 76%),
+        linear-gradient(180deg, #9b4d3d 0%, #7a2840 34%, #52133f 63%, #36032d 82%, #21001c 100%);
       background-position: center top, center top;
-      isolation: isolate;
-    }
-    .aurora-orb {
-      position: absolute;
-      border-radius: 999px;
-      filter: blur(92px);
-      opacity: .78;
-      mix-blend-mode: screen;
-      will-change: transform, opacity;
-      transform: translate3d(0, 0, 0);
-      animation-timing-function: ease-in-out;
-      animation-iteration-count: infinite;
-      animation-direction: alternate;
-    }
-    .orb-a {
-      width: 44vw;
-      height: 44vw;
-      min-width: 300px;
-      min-height: 300px;
-      left: -8vw;
-      top: -2vh;
-      background: radial-gradient(circle, rgba(254, 236, 103, 0.82) 0%, rgba(254, 184, 5, 0.68) 24%, rgba(242, 70, 97, 0.22) 56%, rgba(242, 70, 97, 0) 72%);
-      animation: auroraFloatA 9s ease-in-out infinite alternate;
-    }
-    .orb-b {
-      width: 48vw;
-      height: 48vw;
-      min-width: 340px;
-      min-height: 340px;
-      right: -10vw;
-      top: 10vh;
-      background: radial-gradient(circle, rgba(210, 57, 127, 0.74) 0%, rgba(186, 44, 108, 0.62) 28%, rgba(109, 31, 79, 0.18) 58%, rgba(109, 31, 79, 0) 74%);
-      animation: auroraFloatB 11s ease-in-out infinite alternate;
-    }
-    .orb-c {
-      width: 46vw;
-      height: 46vw;
-      min-width: 320px;
-      min-height: 320px;
-      left: 12vw;
-      bottom: -12vh;
-      background: radial-gradient(circle, rgba(242, 70, 97, 0.64) 0%, rgba(216, 74, 88, 0.50) 28%, rgba(104, 21, 44, 0.12) 58%, rgba(104, 21, 44, 0) 76%);
-      animation: auroraFloatC 10s ease-in-out infinite alternate;
-    }
-    .orb-d {
-      width: 38vw;
-      height: 38vw;
-      min-width: 260px;
-      min-height: 260px;
-      right: 18vw;
-      top: -4vh;
-      background: radial-gradient(circle, rgba(254, 252, 206, 0.32) 0%, rgba(254, 236, 103, 0.24) 24%, rgba(254, 184, 5, 0.08) 52%, rgba(254, 184, 5, 0) 72%);
-      animation: auroraFloatD 8s ease-in-out infinite alternate;
     }
     body::-webkit-scrollbar {
       display: none;
@@ -979,22 +925,6 @@
       0% { transform: translateX(-120%) scaleX(.55); opacity: .72; }
       55% { transform: translateX(58%) scaleX(1); opacity: 1; }
       100% { transform: translateX(180%) scaleX(.72); opacity: .78; }
-    }
-    @keyframes auroraFloatA {
-      0% { transform: translate3d(-4%, -3%, 0) scale(1); }
-      100% { transform: translate3d(10%, 8%, 0) scale(1.16); }
-    }
-    @keyframes auroraFloatB {
-      0% { transform: translate3d(4%, -4%, 0) scale(.98); }
-      100% { transform: translate3d(-12%, 10%, 0) scale(1.18); }
-    }
-    @keyframes auroraFloatC {
-      0% { transform: translate3d(-2%, 4%, 0) scale(1.02); }
-      100% { transform: translate3d(12%, -10%, 0) scale(1.14); }
-    }
-    @keyframes auroraFloatD {
-      0% { transform: translate3d(0, 0, 0) scale(.96); opacity: .22; }
-      100% { transform: translate3d(-10%, 8%, 0) scale(1.2); opacity: .42; }
     }
     @keyframes homeButtonBreath {
 
@@ -2988,7 +2918,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "65";
+    const CACHE_VERSION = "64";
 
     const state = {
       deck: [],
@@ -3774,16 +3704,9 @@
       deniedSound();
     }
 
-    window.addEventListener("load", hideLaunchSplash, { once: true });
-    window.setTimeout(hideLaunchSplash, 1400);
+    if (!window.matchMedia("(max-width: 640px)").matches && !isStandalonePwa) renderHomeExample();
 
-    try {
-      if (!window.matchMedia("(max-width: 640px)").matches && !isStandalonePwa) renderHomeExample();
-    } catch (error) {
-      console.warn("Home example render failed", error);
-    } finally {
-      hideLaunchSplash();
-    }
+    hideLaunchSplash();
 
     homeLogo.addEventListener("click", refreshHome);
     homeLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") refreshHome(); });
