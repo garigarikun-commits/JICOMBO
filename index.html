@@ -566,6 +566,13 @@
       opacity: .88;
       transform: translateX(8%);
     }
+    .answer-input-wrap.success-flash::after {
+      opacity: .92;
+      background: linear-gradient(120deg, rgba(100,245,167,0) 10%, rgba(100,245,167,.22) 38%, rgba(170,255,208,.44) 50%, rgba(100,245,167,.18) 62%, rgba(100,245,167,0) 88%);
+      background-size: 190% 100%;
+      animation: successBorderSweep .48s ease both;
+      transform: translateX(0);
+    }
     .answer-input {
       width: 100%;
       height: 58px;
@@ -589,7 +596,11 @@
       box-shadow: 0 0 26px rgba(254,184,5,.22), 0 0 0 3px rgba(254,184,5,.08), inset 0 0 18px rgba(0,0,0,.22);
       transform: translateY(-1px);
     }
-    .answer-input.correct { border-color: var(--green); box-shadow: 0 0 28px rgba(100,245,167,.26); }
+    .answer-input.correct {
+      border-color: var(--green);
+      box-shadow: 0 0 30px rgba(100,245,167,.28), 0 0 0 3px rgba(100,245,167,.08), inset 0 0 18px rgba(0,0,0,.18);
+      background: rgba(14, 35, 22, .48);
+    }
     .answer-input.wrong { border-color: var(--red); box-shadow: 0 0 28px rgba(255,79,109,.28); }
     .validate-btn {
       width: 136px;
@@ -880,6 +891,10 @@
     @keyframes messageLift {
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes successBorderSweep {
+      0% { background-position: 140% 50%; }
+      100% { background-position: -40% 50%; }
     }
     .confetti-piece {
       position: fixed;
@@ -2812,7 +2827,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "51";
+    const CACHE_VERSION = "52";
 
     const state = {
       deck: [],
@@ -3361,6 +3376,7 @@
       hint.textContent = `Indice : ${state.current.hint}`;
       answerInput.value = "";
       answerInput.classList.remove("correct", "wrong", "shake");
+      if (answerInputWrap) answerInputWrap.classList.remove("success-flash");
       message.textContent = "";
       message.className = "message";
       validateBtn.disabled = true;
@@ -3439,6 +3455,11 @@
         state.score += 1;
         state.lives = Math.min(MAX_LIVES, state.lives + 1);
         answerInput.classList.add("correct");
+        if (answerInputWrap) {
+          answerInputWrap.classList.remove("success-flash");
+          void answerInputWrap.offsetWidth;
+          answerInputWrap.classList.add("success-flash");
+        }
         message.textContent = "";
         message.className = "message";
         soundWin();
@@ -3452,7 +3473,7 @@
             answer: state.current.title,
             scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
           });
-        }, 240);
+        }, 320);
       } else {
         state.lives -= 1;
         answerInput.classList.add("wrong", "shake");
@@ -3474,6 +3495,8 @@
     }
 
     function nextPuzzle() {
+      answerInput.classList.remove("correct");
+      if (answerInputWrap) answerInputWrap.classList.remove("success-flash");
       const proceed = () => {
         if (state.lives <= 0) return startGame(state.speedrun);
         state.index += 1;
