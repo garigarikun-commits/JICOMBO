@@ -324,17 +324,19 @@
       border-radius: 999px;
       color: #240d1a;
       background: linear-gradient(135deg, #fefcce 0%, #ffe78b 48%, #feb805 100%);
+      background-size: 135% 100%;
+      background-position: 0% 50%;
       font-family: "Poppins", "Segoe UI", sans-serif;
       font-size: .98rem;
       font-weight: 800;
       letter-spacing: .08em;
       text-transform: uppercase;
-      box-shadow: 0 12px 26px rgba(242,70,97,.12), 0 0 16px rgba(254,184,5,.10);
-      transition: transform .14s ease, box-shadow .14s ease, filter .14s ease, opacity .14s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,.14);
+      transition: transform .14s ease, box-shadow .14s ease, filter .14s ease, opacity .14s ease, background-position .16s ease;
     }
     .btn:hover, .btn:focus-visible {
       transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 14px 30px rgba(242,70,97,.16), 0 0 20px rgba(254,184,5,.14);
+      box-shadow: 0 12px 24px rgba(0,0,0,.18);
       filter: brightness(1.02);
     }
     .actions .btn {
@@ -343,7 +345,7 @@
       will-change: transform, box-shadow, filter;
     }
     #home.active .actions .btn {
-      animation: homeButtonBreath 4.1s ease-in-out infinite;
+      animation: none;
     }
     .btn.is-pressed,
     .btn:active,
@@ -352,6 +354,13 @@
     .modal .btn:active {
       transform: scale(.975);
       filter: brightness(.98);
+    }
+    .actions .btn.is-pressed,
+    .actions .btn:active {
+      transform: translateY(2px) scale(.968);
+      filter: brightness(1.04) saturate(1.02);
+      box-shadow: 0 5px 10px rgba(0,0,0,.18), inset 0 2px 6px rgba(255,255,255,.18);
+      background-position: 100% 50%;
     }
     .btn.is-pressed.secondary,
     .btn.secondary:active {
@@ -1068,14 +1077,14 @@
         gap: 2px;
       }
       .actions {
-        width: min(250px, 82vw);
+        width: min(236px, 78vw);
         gap: 10px;
       }
       .btn,
       .btn.secondary {
-        width: 250px;
-        height: 60px;
-        font-size: .94rem;
+        width: 236px;
+        height: 58px;
+        font-size: .98rem;
       }
       .game-screen {
       background: transparent !important;
@@ -1210,15 +1219,20 @@
         font-size: 13px;
       }
       body.standalone-pwa .actions {
-        width: min(230px, 74vw);
+        width: min(214px, 70vw);
         margin-top: 6px;
         gap: 10px;
       }
       body.standalone-pwa .btn,
       body.standalone-pwa .btn.secondary {
-        width: 230px;
-        height: 56px;
-        font-size: .9rem;
+        width: 214px;
+        height: 54px;
+        font-size: .96rem;
+      }
+      body.standalone-pwa .actions .btn.is-pressed,
+      body.standalone-pwa .actions .btn:active {
+        transform: translateY(3px) scale(.958);
+        box-shadow: 0 4px 8px rgba(0,0,0,.18), inset 0 2px 7px rgba(255,255,255,.16);
       }
       body.standalone-pwa .prompt-title {
         margin-bottom: -4px;
@@ -2977,7 +2991,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "70";
+    const CACHE_VERSION = "71";
 
     const state = {
       deck: [],
