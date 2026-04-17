@@ -690,7 +690,7 @@
       place-items: center;
       min-width: 1.1em;
       transform-origin: center;
-      transition: transform .16s ease, filter .16s ease, opacity .16s ease;
+    }
     }
     .heart.live {
       filter: drop-shadow(0 0 10px rgba(242,70,97,.18));
@@ -699,6 +699,14 @@
       opacity: .76;
       filter: saturate(.88);
       transform: scale(.88);
+      transition: none;
+    .heart.loss,
+    .heart.empty.loss {
+      opacity: .76;
+      filter: saturate(.88);
+      transform: scale(.88);
+      transition: none;
+    }
     }
     .heart.gain {
       animation: heartGain .44s cubic-bezier(.2,.8,.2,1) both;
@@ -2903,7 +2911,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "58";
+    const CACHE_VERSION = "59";
 
     const state = {
       deck: [],
@@ -3277,7 +3285,7 @@
 
 
     function gameOverSound() {
-      playToneSequence([330, 262, 196, 147], "triangle", 0.2, 92, 0.06);
+      playToneSequence([392, 330, 262, 196, 147, 131], "triangle", 0.3, 118, 0.072);
     }
     function soundWin() {
       playToneSequence([523, 659, 784, 1047], "sine", 0.28, 110, 0.22);
@@ -3593,7 +3601,7 @@
               buttonText: "Rejouer ►",
               variant: "danger",
             });
-          }, 220);
+          }, 560);
         }
       }
     }
