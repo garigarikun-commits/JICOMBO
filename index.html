@@ -551,8 +551,16 @@
       text-align: center;
     }
     .hint.is-long {
-      max-width: 34ch;
-      text-wrap: balance;
+      max-width: 36ch;
+      font-size: 13px;
+      line-height: 1.22;
+      letter-spacing: .01em;
+    }
+    .hint-line {
+      display: block;
+    }
+    .hint.is-long .hint-line {
+      white-space: nowrap;
     }
     .answer-form {
       width: min(340px, 100%);
@@ -1082,7 +1090,8 @@
         line-height: 1.28;
       }
       .hint.is-long {
-        max-width: 31ch;
+        max-width: 33ch;
+        font-size: 12.5px;
       }
       .clues {
         min-height: 132px;
@@ -1217,7 +1226,8 @@
         line-height: 1.26;
       }
       body.standalone-pwa .hint.is-long {
-        max-width: 29ch;
+        max-width: 31ch;
+        font-size: 12.5px;
       }
       body.standalone-pwa .clues {
         min-height: 118px;
@@ -2964,7 +2974,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "68";
+    const CACHE_VERSION = "69";
 
     const state = {
       deck: [],
@@ -3538,9 +3548,13 @@
         return;
       }
 
-      hint.append(document.createTextNode("Indice : " + lines[0]));
-      hint.append(document.createElement("br"));
-      hint.append(document.createTextNode(lines[1]));
+      const firstLine = document.createElement("span");
+      firstLine.className = "hint-line";
+      firstLine.textContent = "Indice : " + lines[0];
+      const secondLine = document.createElement("span");
+      secondLine.className = "hint-line";
+      secondLine.textContent = lines[1];
+      hint.append(firstLine, secondLine);
     }
 
     function renderPuzzle() {
