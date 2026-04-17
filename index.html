@@ -75,34 +75,10 @@
       height: calc(var(--app-height, 100dvh) + 240px);
       z-index: -1;
       pointer-events: none;
-      overflow: hidden;
-      isolation: isolate;
-      background: linear-gradient(180deg, #d84a58 0%, #f24661 12%, #ba2c6c 26%, #6d1f4f 48%, #68152c 70%, #320822 86%, #160013 100%);
-    }
-    #viewportBgCanvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-      pointer-events: none;
-    }
-    #viewport-bg::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: linear-gradient(180deg, rgba(254,252,206,.06) 0%, rgba(254,236,103,.04) 15%, rgba(104,21,44,0) 38%, rgba(20,0,17,.18) 70%, rgba(8,0,7,.56) 100%);
-      mix-blend-mode: screen;
-      z-index: 1;
-    }
-    #viewport-bg::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 56%, rgba(13,0,11,.18) 72%, rgba(8,0,7,.46) 100%);
-      z-index: 2;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(170, 84, 49, 0.94) 0%, rgba(151, 61, 53, 0.88) 26%, rgba(110, 30, 66, 0.70) 52%, rgba(33, 0, 28, 0) 76%),
+        linear-gradient(180deg, #9b4d3d 0%, #7a2840 34%, #52133f 63%, #36032d 82%, #21001c 100%);
+      background-position: center top, center top;
     }
     body::-webkit-scrollbar {
       display: none;
@@ -1284,7 +1260,10 @@
     </div>
   </div>
   <div id="viewport-bg" aria-hidden="true">
-    <canvas id="viewportBgCanvas"></canvas>
+    <span class="aurora-orb orb-a"></span>
+    <span class="aurora-orb orb-b"></span>
+    <span class="aurora-orb orb-c"></span>
+    <span class="aurora-orb orb-d"></span>
   </div>
   <div class="app">
   <main id="home" class="screen active" aria-label="Accueil Jicombo">
@@ -2939,7 +2918,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "65";
+    const CACHE_VERSION = "64";
 
     const state = {
       deck: [],
@@ -2957,7 +2936,6 @@
     if (isStandalonePwa) document.body.classList.add("standalone-pwa");
     document.body.classList.add("is-booting");
     const viewportBg = $("viewport-bg");
-    const viewportBgCanvas = $("viewportBgCanvas");
     const home = $("home");
     const game = $("game");
     const cheat = $("cheat");
@@ -3010,8 +2988,6 @@
         void viewportBg.offsetHeight;
         viewportBg.style.transform = "translateZ(0)";
       }
-      resizeBackgroundCanvas();
-      }
     }
 
     function syncViewportOnLaunch(force = false) {
@@ -3024,73 +3000,6 @@
         setTimeout(() => updateViewportMetrics(force), 300);
       });
     }
-    function resizeBackgroundCanvas() {
-      if (!viewportBg || !viewportBgCanvas) return;
-      const rect = viewportBg.getBoundingClientRect();
-      const width = Math.max(1, Math.round(rect.width));
-      const height = Math.max(1, Math.round(rect.height));
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.6);
-      const pixelWidth = Math.max(1, Math.round(width * dpr));
-      const pixelHeight = Math.max(1, Math.round(height * dpr));
-      if (viewportBgCanvas.width !== pixelWidth || viewportBgCanvas.height !== pixelHeight) {
-        viewportBgCanvas.width = pixelWidth;
-        viewportBgCanvas.height = pixelHeight;
-      }
-      viewportBgCanvas.style.width = `${width}px`;
-      viewportBgCanvas.style.height = `${height}px`;
-      backgroundCtx = viewportBgCanvas.getContext("2d", { alpha: true });
-      if (!backgroundCtx) return;
-      backgroundCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      backgroundRender = { width, height, dpr };
-    }
-
-    function drawBackgroundBlob(ctx, width, height, time, blob) {
-      const x = (blob.baseX + Math.sin(time * blob.speedX + blob.phase) * blob.ampX + Math.cos(time * (blob.speedY * 0.6) + blob.phase) * (blob.ampX * 0.28)) * width;
-      const y = (blob.baseY + Math.cos(time * blob.speedY + blob.phase) * blob.ampY + Math.sin(time * (blob.speedX * 0.52) + blob.phase * 0.7) * (blob.ampY * 0.22)) * height;
-      const radius = Math.max(width, height) * blob.radius;
-      const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-      gradient.addColorStop(0, `rgba(${blob.color[0]}, ${blob.color[1]}, ${blob.color[2]}, ${blob.alpha})`);
-      gradient.addColorStop(0.2, `rgba(${blob.color[0]}, ${blob.color[1]}, ${blob.color[2]}, ${blob.alpha * 0.72})`);
-      gradient.addColorStop(0.5, `rgba(${blob.color[0]}, ${blob.color[1]}, ${blob.color[2]}, ${blob.alpha * 0.24})`);
-      gradient.addColorStop(1, `rgba(${blob.color[0]}, ${blob.color[1]}, ${blob.color[2]}, 0)`);
-      ctx.fillStyle = gradient;
-      ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
-    }
-
-    function renderBackgroundFrame(now = performance.now()) {
-      if (!backgroundCtx) return;
-      const { width, height } = backgroundRender;
-      if (!width || !height) return;
-      const time = (now - backgroundStart) / 1000;
-      backgroundCtx.clearRect(0, 0, width, height);
-      backgroundCtx.save();
-      backgroundCtx.globalCompositeOperation = "screen";
-      backgroundCtx.filter = `blur(${Math.round(Math.max(width, height) * 0.085)}px)`;
-      BACKGROUND_BLOBS.forEach((blob) => drawBackgroundBlob(backgroundCtx, width, height, time, blob));
-      backgroundCtx.restore();
-      backgroundCtx.save();
-      backgroundCtx.globalCompositeOperation = "lighter";
-      backgroundCtx.filter = `blur(${Math.round(Math.max(width, height) * 0.045)}px)`;
-      drawBackgroundBlob(backgroundCtx, width, height, time * 1.24 + 0.8, { color: [254, 236, 103], alpha: 0.22, radius: 0.24, baseX: 0.56, baseY: 0.18, ampX: 0.10, ampY: 0.08, speedX: 1.4, speedY: 1.02, phase: 1.1 });
-      backgroundCtx.restore();
-    }
-
-    function startBackgroundAnimation() {
-      if (!viewportBgCanvas) return;
-      resizeBackgroundCanvas();
-      backgroundStart = performance.now();
-      if (backgroundFrame) cancelAnimationFrame(backgroundFrame);
-      if (prefersReducedMotion) {
-        renderBackgroundFrame(backgroundStart);
-        return;
-      }
-      const step = (now) => {
-        renderBackgroundFrame(now);
-        backgroundFrame = requestAnimationFrame(step);
-      };
-      backgroundFrame = requestAnimationFrame(step);
-    }
-
     function dismissAnswerKeyboard(forceSync = false) {
       if (document.activeElement === answerInput) answerInput.blur();
       document.body.classList.remove("keyboard-open");
@@ -3099,19 +3008,6 @@
     const validateBtn = $("validateBtn");
     const cheatInput = $("cheatInput");
     const cheatStatus = $("cheatStatus");
-
-    const BACKGROUND_BLOBS = [
-      { color: [254, 252, 206], alpha: 0.94, radius: 0.44, baseX: 0.20, baseY: 0.10, ampX: 0.16, ampY: 0.10, speedX: 1.08, speedY: 0.72, phase: 0.2 },
-      { color: [254, 236, 103], alpha: 0.88, radius: 0.42, baseX: 0.82, baseY: 0.12, ampX: 0.18, ampY: 0.12, speedX: 0.96, speedY: 0.78, phase: 1.8 },
-      { color: [254, 184, 5], alpha: 0.72, radius: 0.36, baseX: 0.72, baseY: 0.26, ampX: 0.14, ampY: 0.12, speedX: 1.2, speedY: 0.92, phase: 2.6 },
-      { color: [242, 70, 97], alpha: 0.62, radius: 0.48, baseX: 0.34, baseY: 0.30, ampX: 0.18, ampY: 0.14, speedX: 0.84, speedY: 0.66, phase: 3.1 },
-      { color: [210, 57, 127], alpha: 0.56, radius: 0.50, baseX: 0.54, baseY: 0.46, ampX: 0.16, ampY: 0.16, speedX: 0.78, speedY: 1.02, phase: 4.2 },
-      { color: [186, 44, 108], alpha: 0.48, radius: 0.38, baseX: 0.14, baseY: 0.58, ampX: 0.12, ampY: 0.10, speedX: 1.12, speedY: 0.74, phase: 5.0 }
-    ];
-    let backgroundCtx = null;
-    let backgroundRender = { width: 0, height: 0, dpr: 1 };
-    let backgroundFrame = 0;
-    let backgroundStart = 0;
 
     const STOP_WORDS = new Set([
       "a", "au", "aux", "de", "des", "du", "en", "et", "la", "le", "les", "l", "un", "une", "the", "of", "and"
@@ -3811,7 +3707,6 @@
     if (!window.matchMedia("(max-width: 640px)").matches && !isStandalonePwa) renderHomeExample();
 
     hideLaunchSplash();
-    startBackgroundAnimation();
 
     homeLogo.addEventListener("click", refreshHome);
     homeLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") refreshHome(); });
@@ -3887,12 +3782,7 @@
         window.visualViewport.addEventListener("resize", syncViewportOnLaunch);
       }
       syncViewportOnLaunch();
-      startBackgroundAnimation();
     }
-
-    window.addEventListener("resize", resizeBackgroundCanvas);
-    window.addEventListener("orientationchange", resizeBackgroundCanvas);
-    window.addEventListener("pageshow", resizeBackgroundCanvas);
 
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
