@@ -1788,7 +1788,7 @@
     "hint": "Hadouken",
     "clues": [
       "🥋",
-      "🫸",
+      "🫸🏻",
       "🔵"
     ],
     "difficulty": "easy"
@@ -1819,7 +1819,7 @@
   },
   {
     "id": "karin_tower",
-    "title": "Tour Karin - Dragon Ball Z",
+    "title": "La Tour Karin",
     "target": "🐱",
     "hint": "Dragon Ball Z",
     "clues": [
@@ -1843,7 +1843,7 @@
   },
   {
     "id": "mr_hankey",
-    "title": "Monsieur Hankey - South Park",
+    "title": "Monsieur Hankey",
     "target": "❄️",
     "hint": "Un 25 décembre à South Park",
     "clues": [
@@ -1915,7 +1915,8 @@
   },
   {
     "id": "red_ribbon",
-    "title": "Ruban Rouge - Dragon Ball",
+    "title": "Ruban Rouge",
+    "displayTitle": "L'armée du Ruban Rouge",
     "target": "🪖",
     "hint": "L'armée du...",
     "clues": [
@@ -1963,7 +1964,8 @@
   },
   {
     "id": "la_vie",
-    "title": "La vie",
+    "title": "Vie",
+    "displayTitle": "Donner la vie",
     "target": "🌱",
     "hint": "Donner la...",
     "clues": [
@@ -2725,10 +2727,9 @@
   {
     "id": "gotham_villains",
     "title": "Le Joker",
-    "target": "🦇",
+    "target": "🐧",
     "hint": "Ils sèment le chaos à Gotham",
     "clues": [
-      "🦇",
       "🐧",
       "🪙",
       "🃏"
@@ -2855,7 +2856,7 @@
     "id": "back_to_the_future",
     "title": "Retour vers le futur",
     "target": "🍌",
-    "hint": "Banane !",
+    "hint": "\"Banane !\"",
     "clues": [
       "🍌",
       "🥼",
@@ -3075,10 +3076,9 @@
   {
     "id": "homme_sphinx",
     "title": "L'Homme",
-    "target": "❓",
+    "target": "👶",
     "hint": "L'Énigme du Sphinx",
     "clues": [
-      "❓",
       "👶",
       "🧍‍♂️",
       "🦯"
@@ -3185,7 +3185,7 @@
 
     const ANSWER_ALIASES = {
       "attrapemoisitupeux": ["catchmeifyoucan"],
-      "bubblebobble": ["bubble bobble"],
+      "bubblebobble": ["bubble bobble", "buble buble", "bubble bubble", "buble boble", "beubeul beubeul", "beubeul bobeul"],
       "caries": ["carie", "carries", "carrie"],
       "cellgames": ["cell"],
       "crashteamracing": ["ctr"],
@@ -3197,19 +3197,25 @@
       "hook": ["peter pan"],
       "inglouriousbasterds": ["inglorious", "inglorious bastards", "inglorious bastard", "inglorious basterd"],
       "kenlesurvivant": ["hokuto no ken"],
-      "lejoker": ["joker", "joker le pingouin", "pingouin", "double face"],
+      "lejoker": ["joker", "le joker", "le pingouin", "pingouin", "double face"],
       "lemondedenemo": ["nemo"],
       "lesimpson": ["les simpsons", "the simpsons", "simpson", "simpsons"],
       "lattaquedestitans": ["snk", "attack on titan", "shingeki no kyojin"],
+      "lhomme": ["homme", "l'homme", "l'être humain", "la vie"],
+      "latourkarin": ["tour karin"],
+      "larmeedurubanrouge": ["ruban rouge", "l'armée du ruban rouge", "l armee du ruban rouge"],
       "magneto": ["magneto"],
       "metalgearsolid": ["mgs"],
+      "monsieurhankey": ["hankey", "monsieur ankey"],
       "monstresetcie": ["monstres & cie", "monster & cie", "monster and compagnie", "monstres and compagnie", "monstres et compagnie"],
       "oliveettom": ["captain tsubasa"],
       "ozaru": ["saiyan gorille", "sangoku gorille"],
       "orangeisthenewblack": ["oitnb", "orange is new black"],
-      "retourverslefutur": ["back to the future"],
+      "donnerlavie": ["vie", "la vie"],
+      "retourverslefutur": ["back to the future", "biff tannen", "biff"],
       "spyrothedragon": ["spyro", "spyro le dragon"],
       "streetfighter": ["street fighter 2", "sf2"],
+      "abidal": ["éric abidal", "eric abidal", "t'es trompé", "tes trompé"],
       "tekkenball": ["tekken 3 ball", "tekken 3"],
       "thering": ["ring", "ringu"],
       "walle": ["wall e", "wall-e"],
@@ -3802,7 +3808,7 @@
           showModal({
             emoji: state.current.clues[0],
             title: "Combo réussi !",
-            answer: state.current.title,
+            answer: state.current.displayTitle || state.current.title,
             scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
           });
         }, 320);
@@ -3820,7 +3826,7 @@
             showModal({
               emoji: "💔",
               title: "Partie terminée",
-              answer: state.current.title,
+              answer: state.current.displayTitle || state.current.title,
               scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
               buttonText: "REJOUER",
               variant: "danger",
@@ -4018,6 +4024,7 @@
   </script>
 </body>
 </html>
+
 
 
 
