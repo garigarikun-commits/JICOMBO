@@ -1,4 +1,4 @@
-const CACHE_NAME = "jicombo-v82";
+const CACHE_NAME = "jicombo-v83";
 const ASSETS = [
   "./",
   "./index.html",
@@ -35,6 +35,7 @@ self.addEventListener("fetch", (event) => {
     }).catch(() => caches.match("./index.html?v=75") || caches.match("./index.html")))
   );
 });
+
 
 
 
