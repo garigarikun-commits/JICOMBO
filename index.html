@@ -874,7 +874,7 @@
       color: #ff8f9d;
       text-shadow: 0 0 14px rgba(255,79,109,.18);
     }
-    .overlay[data-variant="danger"] .modal .btn {
+    .overlay[data-variant="danger"] .modal .btn {`r`n      display: inline-flex;`r`n      align-items: center;`r`n      justify-content: center;`r`n      grid-template-columns: none;`r`n      gap: 0;`r`n      padding: 0 18px;`r`n      text-align: center;
       background: linear-gradient(135deg, #fff0a8 0%, #ffbe73 32%, #ff7f63 100%);
       box-shadow: 0 16px 30px rgba(255,127,99,.22), 0 0 22px rgba(255,190,115,.16);
     }
@@ -952,12 +952,12 @@
       font-size: 1.04em;
       text-shadow: 0 0 14px rgba(254,184,5,.16);
     }
-    .modal .btn {
+    .modal .btn {`r`n      display: inline-flex;`r`n      align-items: center;`r`n      justify-content: center;`r`n      grid-template-columns: none;`r`n      gap: 0;`r`n      padding: 0 18px;`r`n      text-align: center;
       position: relative;
       overflow: hidden;
-      width: min(176px, 100%);
+      width: min(164px, 100%);
       margin-top: 16px;
-      min-height: 60px;
+      min-height: 56px;
       border-radius: 11px;
       color: #3b1608;
       background: linear-gradient(135deg, #fff0a8 0%, #ffd85a 24%, #ffb347 58%, #ff8b3d 100%);
@@ -966,8 +966,8 @@
       font-family: "Poppins", "Segoe UI", sans-serif;
       font-size: 18px;
       font-weight: 980;
-      letter-spacing: .06em;
-      text-transform: none;
+      letter-spacing: .02em;
+      text-transform: uppercase;
       box-shadow: 0 16px 30px rgba(255,139,61,.22), 0 0 22px rgba(255,216,90,.16);
       transition: transform .16s ease, filter .16s ease, box-shadow .16s ease, background-position .24s ease;
     }
@@ -1452,7 +1452,7 @@
       </div>
       <p class="cheat-hint">Entre un code secret...</p>
       <p class="cheat-status" id="cheatStatus"></p>
-      <div class="cheat-actions"><button class="validate-btn" id="cheatSubmit" type="button">VALIDER</button></div>
+      <div class="cheat-actions"><button class="validate-btn" id="cheatSubmit" type="button" disabled>VALIDER</button></div>
     </div>
   </main>
 
@@ -3912,7 +3912,7 @@
 
     if (!window.matchMedia("(max-width: 640px)").matches && !isStandalonePwa) renderHomeExample();
 
-    hideLaunchSplash();
+    hideLaunchSplash();`r`n    syncCheatSubmitState();
 
     homeLogo.addEventListener("click", refreshHome);
     homeLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") refreshHome(); });
@@ -3923,10 +3923,10 @@
     gameLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") goHome(); });
     cheatLogo.addEventListener("click", goHome);
     cheatLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") goHome(); });
-    $("cheatSubmit").addEventListener("click", submitCheat);
-    cheatInput.addEventListener("input", (event) => { event.target.value = event.target.value.toUpperCase().replace(/[^A-Z0-9._-]/g, "").slice(0, 6); });
-    cheatInput.addEventListener("keydown", (event) => { if (event.key === "Enter") submitCheat(); });
-    document.querySelectorAll(".cheat-key").forEach((btn) => btn.addEventListener("click", () => { const key = btn.dataset.key; if (key === "DEL") { cheatInput.value = cheatInput.value.slice(0, -1); return; } if (cheatInput.value.length < 6) cheatInput.value += key; }));
+    cheatSubmit.addEventListener("click", submitCheat);
+    cheatInput.addEventListener("input", (event) => { event.target.value = event.target.value.toUpperCase().replace(/[^A-Z0-9._-]/g, "").slice(0, 6); syncCheatSubmitState(); });
+    cheatInput.addEventListener("keydown", (event) => { if (event.key === "Enter" && !cheatSubmit.disabled) submitCheat(); });
+    document.querySelectorAll(".cheat-key").forEach((btn) => btn.addEventListener("click", () => { const key = btn.dataset.key; if (key === "DEL") { cheatInput.value = cheatInput.value.slice(0, -1); syncCheatSubmitState(); return; } if (cheatInput.value.length < 6) cheatInput.value += key; syncCheatSubmitState(); }));
     answerInput.addEventListener("input", () => {
       const ready = !!answerInput.value.trim();
       const wasReady = answerForm.classList.contains("ready");
@@ -3998,5 +3998,7 @@
   </script>
 </body>
 </html>
+
+
 
 
