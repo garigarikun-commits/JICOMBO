@@ -1,2 +1,4030 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#68152c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Jicombo">
+  <title>Jicombo</title>
+  <link rel="manifest" href="manifest.webmanifest?v=44">
+  <link rel="apple-touch-icon" href="Jicombo-icon.png?v=44">
+  <link rel="apple-touch-icon-precomposed" href="Jicombo-icon.png?v=44">
+  <link rel="icon" href="Jicombo-icon.png?v=44">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --app-height: 100dvh;
+      --wine: #68152c;
+      --plum: #6d1f4f;
+      --berry: #ab1a33;
+      --pink: #f24661;
+      --hot: #d2397f;
+      --sun: #feb805;
+      --cream: #fefcce;
+      --text: rgba(254, 252, 206, .92);
+      --muted: rgba(254, 252, 206, .66);
+      --panel: rgba(31, 7, 26, .58);
+      --stroke: rgba(254, 184, 5, .24);
+      --green: #64f5a7;
+      --red: #ff4f6d;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html {
+      width: 100%;
+      min-height: 100%;
+      height: -webkit-fill-available;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      background-color: #21001c;
+      scrollbar-color: transparent transparent;
+      scroll-behavior: smooth;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      min-width: 100%;
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
+      color: var(--text);
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scrollbar-color: transparent transparent;
+      touch-action: pan-y;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      z-index: 0;
+      isolation: isolate;
+      background: transparent;
+      background-color: #21001c;
+    }
+    #viewport-bg {
+      position: fixed;
+      top: -120px;
+      right: 0;
+      bottom: -120px;
+      left: 0;
+      height: calc(var(--app-height, 100dvh) + 240px);
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(170, 84, 49, 0.94) 0%, rgba(151, 61, 53, 0.88) 26%, rgba(110, 30, 66, 0.70) 52%, rgba(33, 0, 28, 0) 76%),
+        linear-gradient(180deg, #9b4d3d 0%, #7a2840 34%, #52133f 63%, #36032d 82%, #21001c 100%);
+      background-position: center top, center top;
+    }
+    body::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+      background: transparent;
+    }
+    button, input { font: inherit; }
+    main { position: relative; z-index: 0; background: transparent !important; }
+    .app { position: relative; z-index: 0; width: min(100%, 720px); background: transparent !important; }
+    button { cursor: pointer; }
+    body.is-booting {
+      overflow: hidden;
+    }
+    body.is-screen-transitioning .app {
+      pointer-events: none;
+    }
+    .launch-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(56, 14, 38, .34), rgba(20, 3, 16, .58));
+      backdrop-filter: blur(18px) saturate(112%);
+      -webkit-backdrop-filter: blur(18px) saturate(112%);
+      transition: opacity .38s ease, visibility .38s ease;
+    }
+    .launch-splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .launch-splash__inner {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: min(240px, 52vw);
+      height: 44px;
+      animation: splashRise .46s cubic-bezier(.18,.82,.22,1) both;
+    }
+    .launch-splash__glow {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 220px;
+      height: 120px;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(254,184,5,.14) 0%, rgba(242,70,97,.08) 42%, rgba(242,70,97,0) 74%);
+      filter: blur(22px);
+      opacity: .92;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .launch-splash__bar {
+      position: relative;
+      width: min(180px, 42vw);
+      height: 7px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,.08);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), 0 8px 22px rgba(0,0,0,.16);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .launch-splash__bar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, rgba(254,184,5,.14), rgba(254,184,5,.02));
+      opacity: .9;
+    }
+    .launch-splash__bar-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 42%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #fefcce 0%, #ffd766 45%, #feb805 100%);
+      box-shadow: 0 0 16px rgba(254,184,5,.22);
+      animation: splashLoad 1s cubic-bezier(.22,.61,.36,1) infinite;
+      transform-origin: left center;
+    }
+
+    .screen {
+      background: transparent !important;
+      position: relative;
+      z-index: 0;
+      width: min(100%, 440px);
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
+      margin: 0 auto;
+      padding:
+        calc(24px + env(safe-area-inset-top))
+        calc(22px + env(safe-area-inset-right))
+        calc(24px + env(safe-area-inset-bottom))
+        calc(22px + env(safe-area-inset-left));
+      gap: 8px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .screen.active { display: flex; }
+    .screen.entering {
+      animation: screenFadeIn .26s ease both;
+    }
+    .screen.leaving {
+      display: flex;
+      pointer-events: none;
+      animation: screenFadeOut .18s ease both;
+    }
+    .game-screen {
+      background: transparent !important;
+      position: relative;
+      z-index: 0;
+      justify-content: center;
+      gap: 14px;
+    }
+    .game-inner {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: inherit;
+      transition: transform .25s ease, gap .25s ease, padding .25s ease;
+    }
+
+    .home-example {
+      margin: 0 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .02em;
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-weight: 800;
+      font-size: clamp(28px, 7.8vw, 38px);
+      letter-spacing: 0;
+      color: var(--cream);
+      text-shadow: 0 0 24px rgba(254,184,5,.25);
+      white-space: nowrap;
+    }
+    .home-example .floaty-home {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      animation: floaty 2.6s ease-in-out infinite;
+      flex: 0 0 auto;
+    }
+    .home-example .floaty-home:nth-child(2) {
+      animation-delay: .08s;
+    }
+    .home-example .floaty-home:nth-child(3) {
+      animation-delay: .16s;
+    }
+    .home-example .floaty-home:nth-child(4) {
+      animation-delay: .24s;
+    }
+    .home-example .floaty-home:nth-child(5) {
+      animation-delay: .32s;
+    }
+    .home-example .floaty-home:nth-child(6) {
+      animation-delay: .40s;
+    }
+    .home-example .floaty-home:nth-child(7) {
+      animation-delay: .48s;
+    }
+    .home-example .home-emoji {
+      width: 1.12em;
+      font-size: 1.18em;
+      text-align: center;
+    }
+    .home-example .home-op {
+      width: .62em;
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-size: .84em;
+      font-weight: 300;
+      text-align: center;
+      text-shadow: none;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .home-example .home-question {
+      width: 1.02em;
+      font-size: 1.18em;
+      font-weight: 950;
+      color: #e4452f;
+      margin-left: 0;
+      transform: translateY(0);
+    }
+    .logo {
+      display: block;
+      height: auto;
+      user-select: none;
+      filter: drop-shadow(0 8px 20px rgba(39, 7, 24, .28));
+      transition: transform .16s ease, filter .16s ease;
+    }
+    .logo:hover {
+      transform: translateY(-2px) scale(1.02);
+      filter: drop-shadow(0 10px 24px rgba(39, 7, 24, .32)) brightness(1.02);
+    }
+    .home-logo {
+      width: min(360px, 74vw);
+      margin: 0 0 4px;
+    }
+    .game-logo {
+      width: min(280px, 68vw);
+      margin-bottom: 2px;
+      cursor: pointer;
+    }
+    .credits {
+      margin: 10px 0 0;
+      display: grid;
+      gap: 4px;
+      color: rgba(254,252,206,.72);
+      font-size: .95rem;
+      line-height: 1.3;
+      font-weight: 300;
+    }
+    .credits strong { color: rgba(254,252,206,.9); font-weight: 700; text-decoration: none; }
+    .credits a.credit-link { color: rgba(254,252,206,.9); font-weight: 700; text-decoration: underline; }
+    .credits .credit-link { text-decoration: underline; }
+    .actions {
+      width: min(260px, 82vw);
+      margin-top: 10px;
+      display: grid;
+      gap: 12px;
+    }
+    .btn {
+      width: 260px;
+      max-width: 100%;
+      height: 66px;
+      padding: 0 18px;
+      display: inline-grid;
+      grid-template-columns: 24px minmax(0, 1fr) 24px;
+      align-items: center;
+      gap: 10px;
+      border: none;
+      border-radius: 999px;
+      color: #240d1a;
+      background: linear-gradient(135deg, #fefcce 0%, #ffe78b 48%, #feb805 100%);
+      background-size: 135% 100%;
+      background-position: 0% 50%;
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-size: .98rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 20px rgba(0,0,0,.14);
+      transition: transform .14s ease, box-shadow .14s ease, filter .14s ease, opacity .14s ease, background-position .16s ease;
+    }
+    .btn-icon {
+      width: 24px;
+      min-width: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 1.06em;
+      line-height: 1;
+    }
+    .btn-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      width: 100%;
+      text-align: center;
+      grid-column: 2;
+    }
+    .btn::after {
+      content: "";
+      width: 24px;
+      min-width: 24px;
+      height: 1px;
+      grid-column: 3;
+    }
+    .btn:hover, .btn:focus-visible {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 24px rgba(0,0,0,.18);
+      filter: brightness(1.02);
+    }
+    .actions .btn {
+      position: relative;
+      width: 190px;
+      height: 46px;
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      transform-origin: center;
+      will-change: transform, box-shadow, filter;
+      text-align: center;
+      font-size: .96rem;
+    }
+    #home.active .actions .btn {
+      animation: none;
+    }
+    .btn.is-pressed,
+    .btn:active,
+    .validate-btn:active,
+    .cheat-key:active,
+    .modal .btn:active {
+      transform: scale(.975);
+      filter: brightness(.98);
+    }
+    .actions .btn.is-pressed,
+    .actions .btn:active {
+      transform: translateY(2px) scale(.968);
+      filter: brightness(1.04) saturate(1.02);
+      box-shadow: 0 5px 10px rgba(0,0,0,.18), inset 0 1px 0 rgba(254,236,142,.28);
+      background-position: 100% 50%;
+    }
+    .actions .btn.secondary.is-pressed,
+    .actions .btn.secondary:active {
+      color: #ffd86d;
+      border-color: rgba(254,184,5,.5);
+      background: rgba(126,32,59,.24);
+      box-shadow: inset 0 0 0 1px rgba(254,184,5,.18);
+    }
+    .btn.is-pressed.secondary,
+    .btn.secondary:active {
+      box-shadow: inset 0 0 0 1px rgba(254,184,5,.05);
+    }
+    .actions .btn .btn-icon,
+    .actions .btn::after {
+      display: none;
+    }
+    .actions .btn .btn-label {
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+    #playBtn {
+      color: #3b1808;
+      background: linear-gradient(135deg, #fff0a8 0%, #ffd85a 26%, #ffbf2e 100%);
+      background-size: 145% 100%;
+      background-position: 0% 50%;
+      box-shadow: 0 12px 24px rgba(254,184,5,.22), 0 8px 18px rgba(0,0,0,.16);
+    }
+    #playBtn:hover,
+    #playBtn:focus-visible {
+      box-shadow: 0 14px 28px rgba(254,184,5,.26), 0 10px 20px rgba(0,0,0,.2);
+      background-position: 100% 50%;
+    }
+    #speedBtn,
+    #cheatBtn {
+      box-shadow: inset 0 0 0 1px rgba(254,184,5,.05);
+    }
+    #speedBtn:hover,
+    #speedBtn:focus-visible,
+    #cheatBtn:hover,
+    #cheatBtn:focus-visible {
+      box-shadow: inset 0 0 0 1px rgba(254,184,5,.07);
+    }
+    .btn.secondary {
+      width: 260px;
+      max-width: 100%;
+      height: 66px;
+      color: #feb805;
+      background: rgba(104,21,44,.14);
+      border: 2px solid rgba(254,184,5,.24);
+      box-shadow: inset 0 0 0 1px rgba(254,184,5,.05), 0 10px 18px rgba(0,0,0,.12);
+    }
+    .cheat-card {
+      width: min(100%, 360px);
+      padding: 28px 24px;
+      border-radius: 28px;
+      border: 1px solid rgba(254,184,5,.18);
+      background: linear-gradient(180deg, rgba(80,20,44,.78), rgba(30,7,26,.74));
+      box-shadow: 0 24px 56px rgba(0,0,0,.28);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .cheat-title {
+      font-size: 1rem;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+    .cheat-input {
+      width: 100%;
+      padding: 16px;
+      border-radius: 16px;
+      border: 2px solid rgba(254,184,5,.26);
+      background: rgba(19,4,15,.72);
+      color: #feb805;
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: .28em;
+      text-align: center;
+      text-transform: uppercase;
+      outline: none;
+    }
+    .cheat-input:focus {
+      border-color: rgba(254,184,5,.62);
+      box-shadow: 0 0 24px rgba(254,184,5,.14);
+    }
+    .cheat-hint,.cheat-status {
+      min-height: 1.4em;
+      color: var(--muted);
+      font-size: .9rem;
+      margin: 0;
+    }
+    .cheat-status.ok { color: #8ff0a4; }
+    .cheat-status.bad { color: #ff8794; }
+    .cheat-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: -4px;
+    }
+    .cheat-keypad {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      width: 100%;
+      gap: 6px;
+    }
+    .cheat-key {
+      width: auto;
+      height: 38px;
+      border-radius: 9px;
+      border: 1px solid rgba(254,184,5,.18);
+      background: rgba(104,21,44,.18);
+      color: var(--cream);
+      font-weight: 800;
+      font-size: .76rem;
+      letter-spacing: .08em;
+      line-height: 1;
+    }
+    .cheat-key.delete {
+      font-size: 1rem;
+      letter-spacing: 0;
+      font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Sans Symbols", sans-serif;
+    }
+    .cheat-card.unlock { animation: unlockPulse .62s ease both; }
+    .cheat-input.ok {
+      border-color: #52d273;
+      box-shadow: 0 0 26px rgba(82,210,115,.28);
+      color: #9cffb3;
+    }
+    .cheat-input.bad {
+      border-color: #ff4d5e;
+      box-shadow: 0 0 24px rgba(255,77,94,.24);
+      color: #ff9aa5;
+      animation: codeShake .34s ease;
+    }
+    @keyframes codeShake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+    @keyframes unlockPulse {
+      0% { box-shadow: 0 24px 56px rgba(0,0,0,.28); }
+      50% { box-shadow: 0 0 34px rgba(254,184,5,.28), 0 24px 56px rgba(0,0,0,.28); transform: translateY(-2px); }
+      100% { box-shadow: 0 24px 56px rgba(0,0,0,.28); transform: translateY(0); }
+    }
+
+    .level-pill {
+      padding: 8px 14px;
+      border: 1px solid rgba(254,184,5,.24);
+      border-radius: 999px;
+      color: rgba(254,252,206,.82);
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      background: rgba(104,21,44,.14);
+    }
+    .prompt-title {
+      margin: 0 0 -8px;
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: .03em;
+      color: rgba(254,252,206,.82);
+    }
+    .clues {
+      min-height: 164px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      gap: 14px;
+      padding: 8px 0 2px;
+      width: 100%;
+      transition: gap .2s ease;
+    }
+    .clue {
+      display: inline-grid;
+      place-items: center;
+      width: 122px;
+      height: 122px;
+      border-radius: 30px;
+      background: rgba(21, 7, 28, .10);
+      border: 1px solid rgba(254,184,5,.06);
+      box-shadow: inset 0 0 10px rgba(242,70,97,.02), 0 8px 14px rgba(0,0,0,.06);
+      font-size: 84px;
+      animation: floaty 2.6s ease-in-out infinite;
+      flex: 0 0 auto;
+      transition: width .2s ease, height .2s ease, font-size .2s ease, border-radius .2s ease;
+    }
+    .clues.is-four {
+      gap: 10px;
+    }
+    .clues.is-four .clue {
+      width: 106px;
+      height: 106px;
+      font-size: 72px;
+      border-radius: 26px;
+    }
+    .clue:nth-child(2) { animation-delay: .18s; }
+    .clue:nth-child(3) { animation-delay: .34s; }
+    .clue:nth-child(4) { animation-delay: .5s; }
+    .clue.clue-enter {
+      animation: clueReveal .38s cubic-bezier(.2,.8,.2,1) both, floaty 2.6s ease-in-out infinite;
+      animation-delay: var(--clue-delay, 0s), calc(.32s + var(--float-delay, 0s));
+    }
+    .game-inner.puzzle-enter .level-pill,
+    .game-inner.puzzle-enter .prompt-title,
+    .game-inner.puzzle-enter .hint,
+    .game-inner.puzzle-enter .answer-form,
+    .game-inner.puzzle-enter .hearts,
+    .game-inner.puzzle-enter .message {
+      animation: puzzleFade .3s ease both;
+    }
+    .game-inner.puzzle-enter .prompt-title { animation-delay: .03s; }
+    .game-inner.puzzle-enter .hint { animation-delay: .06s; }
+    .game-inner.puzzle-enter .answer-form { animation-delay: .1s; }
+    .game-inner.puzzle-enter .hearts { animation-delay: .12s; }
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-10px) rotate(1deg); }
+    }
+    .hint {
+      min-height: 24px;
+      width: min(340px, 100%);
+      margin: -2px auto 0;
+      color: var(--muted);
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.32;
+      letter-spacing: .02em;
+      text-align: center;
+    }
+    .hint.is-long {
+      max-width: 36ch;
+      font-size: 13px;
+      line-height: 1.22;
+      letter-spacing: .01em;
+    }
+    .hint-line {
+      display: block;
+    }
+    .hint.is-long .hint-line {
+      white-space: nowrap;
+    }
+    .answer-form {
+      width: min(340px, 100%);
+      display: grid;
+      justify-items: center;
+      gap: 14px;
+      margin-top: 2px;
+    }
+    .answer-form.ready .validate-btn:not(:disabled) {
+      animation: none;
+      background-position: 42% 50%;
+      box-shadow: 0 14px 28px rgba(254,184,5,.24), 0 10px 20px rgba(0,0,0,.18);
+    }
+    .answer-form.ready .validate-btn:not(:disabled).wake {
+      animation: validateWake .24s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .answer-input-wrap {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 18px;
+    }
+    .answer-input-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: 17px;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 18%, rgba(254,252,206,.14) 48%, rgba(255,255,255,0) 76%);
+      opacity: 0;
+      transform: translateX(-18%);
+      transition: opacity .22s ease, transform .32s ease;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    .answer-input-wrap.is-focused::after {
+      opacity: .88;
+      transform: translateX(8%);
+    }
+    .answer-input-wrap.success-flash::after {
+      opacity: .92;
+      background: linear-gradient(120deg, rgba(100,245,167,0) 10%, rgba(100,245,167,.22) 38%, rgba(170,255,208,.44) 50%, rgba(100,245,167,.18) 62%, rgba(100,245,167,0) 88%);
+      background-size: 190% 100%;
+      animation: successBorderSweep .48s ease both;
+      transform: translateX(0);
+    }
+    .answer-input {
+      width: 100%;
+      height: 58px;
+      border-radius: 18px;
+      border: 2px solid rgba(254,184,5,.34);
+      outline: none;
+      background: rgba(4, 1, 8, .46);
+      color: var(--cream);
+      text-align: center;
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      padding: 0 18px;
+      box-shadow: 0 0 0 rgba(254,184,5,0), inset 0 0 18px rgba(0,0,0,.22);
+      transition: border-color .16s ease, box-shadow .18s ease, transform .18s ease, background .18s ease;
+    }
+    .answer-input:focus {
+      border-color: var(--sun);
+      background: rgba(22, 6, 18, .58);
+      box-shadow: 0 0 26px rgba(254,184,5,.22), 0 0 0 3px rgba(254,184,5,.08), inset 0 0 18px rgba(0,0,0,.22);
+      transform: translateY(-1px);
+    }
+    .answer-input.correct {
+      border-color: var(--green);
+      box-shadow: inset 0 0 0 1px rgba(100,245,167,.24), inset 0 0 22px rgba(22, 62, 40, .22);
+      background: rgba(14, 35, 22, .48);
+    }
+    .answer-input.wrong { border-color: var(--red); box-shadow: 0 0 28px rgba(255,79,109,.28); }
+    .validate-btn {
+      width: 136px;
+      height: 42px;
+      padding: 0;
+      border: none;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-size: .98rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #3b1808;
+      background: linear-gradient(135deg, #fff0a8 0%, #ffd85a 26%, #ffbf2e 100%);
+      background-size: 145% 100%;
+      background-position: 0% 50%;
+      box-shadow: 0 10px 22px rgba(0,0,0,.14);
+      transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease, filter .16s ease, background-position .22s ease;
+      will-change: transform, box-shadow;
+    }
+    .validate-btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 24%, rgba(255,255,255,.18) 50%, rgba(255,255,255,0) 76%);
+      transform: translateX(-140%);
+      transition: transform .28s ease;
+      pointer-events: none;
+    }
+    .validate-btn:not(:disabled) {
+      box-shadow: 0 12px 24px rgba(254,184,5,.22), 0 8px 18px rgba(0,0,0,.16);
+    }
+    .validate-btn:hover:not(:disabled), .validate-btn:focus-visible:not(:disabled) {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 14px 28px rgba(254,184,5,.26), 0 10px 20px rgba(0,0,0,.2);
+      filter: brightness(1.015);
+      background-position: 100% 50%;
+    }
+    .validate-btn:hover:not(:disabled)::after, .validate-btn:focus-visible:not(:disabled)::after,
+    .validate-btn.wake:not(:disabled)::after {
+      transform: translateX(130%);
+    }
+    .validate-btn:disabled {
+      opacity: .34;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+    .shake { animation: shake .36s ease; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+    .hearts {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      min-height: 30px;
+      font-size: 22px;
+      filter: drop-shadow(0 5px 9px rgba(0,0,0,.26));
+      transition: transform .22s ease, filter .22s ease;
+      will-change: transform;
+    }
+    .hearts.hearts-loss {
+      animation: heartsLossSweep .44s cubic-bezier(.2,.8,.2,1);
+    }
+    .hearts.hearts-gain {
+      animation: heartsGainLift .44s cubic-bezier(.2,.8,.2,1);
+    }
+    .heart {
+      display: inline-grid;
+      place-items: center;
+      min-width: 1.1em;
+      transform-origin: center;
+      transition: transform .18s ease, opacity .18s ease, filter .18s ease;
+    }
+    .heart.live {
+      opacity: 1;
+      transform: scale(1);
+      filter: drop-shadow(0 0 10px rgba(242,70,97,.18));
+    }
+    .heart.empty {
+      opacity: .76;
+      transform: scale(.88);
+      filter: saturate(.82) brightness(.9);
+    }
+    .heart.gain {
+      animation: heartGain .44s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .message {
+      min-height: 38px;
+      width: min(320px, 100%);
+      padding: 0 6px;
+      color: rgba(254,252,206,.78);
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.34;
+      letter-spacing: .01em;
+      text-align: center;
+      text-wrap: balance;
+    }
+    .message.good {
+      color: var(--green);
+      animation: messageLift .26s ease both;
+    }
+    .message.bad {
+      color: var(--red);
+      animation: messageLift .26s ease both;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 22px;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(254,184,5,.12), rgba(254,184,5,0) 36%),
+        rgba(4,1,8,.78);
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+    .overlay.active { display: grid; animation: overlayFade .26s ease both; }
+    .overlay.closing { display: grid; animation: overlayFadeOut .2s ease both; }
+    .overlay[data-variant="danger"] {
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,79,109,.16), rgba(255,79,109,0) 38%),
+        rgba(10,1,8,.82);
+    }
+    .overlay[data-variant="danger"] .modal {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0) 18%),
+        linear-gradient(155deg, rgba(90,18,40,.98), rgba(34,7,18,.98) 72%);
+      border: 1px solid rgba(255,79,109,.24);
+      box-shadow:
+        0 26px 72px rgba(0,0,0,.42),
+        inset 0 1px 0 rgba(255,255,255,.06),
+        inset 0 0 34px rgba(255,79,109,.08);
+    }
+    .overlay[data-variant="danger"] .modal::before {
+      background: radial-gradient(circle, rgba(255,79,109,.22), rgba(255,79,109,0) 72%);
+    }
+    .overlay[data-variant="danger"] .modal .answer {
+      color: #ff8f9d;
+      text-shadow: 0 0 14px rgba(255,79,109,.18);
+    }
+    .overlay[data-variant="danger"] .modal .btn {`r`n      display: inline-flex;`r`n      align-items: center;`r`n      justify-content: center;`r`n      grid-template-columns: none;`r`n      gap: 0;`r`n      padding: 0 16px;`r`n      text-align: center;
+      background: linear-gradient(135deg, #fff0a8 0%, #ffbe73 32%, #ff7f63 100%);
+      box-shadow: 0 16px 30px rgba(255,127,99,.22), 0 0 22px rgba(255,190,115,.16);
+    }
+    .modal {
+      position: relative;
+      overflow: hidden;
+      width: min(312px, 84vw);
+      padding: 22px 22px 20px;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0) 18%),
+        linear-gradient(155deg, rgba(82,18,52,.98), rgba(28,7,24,.98) 72%);
+      border: 1px solid rgba(254,184,5,.24);
+      box-shadow:
+        0 26px 72px rgba(0,0,0,.42),
+        inset 0 1px 0 rgba(255,255,255,.06),
+        inset 0 0 34px rgba(242,70,97,.07);
+      text-align: center;
+      animation: modalPop .34s cubic-bezier(.18,.88,.24,1) both;
+      transform-origin: center 82%;
+    }
+    .modal::before {
+      content: "";
+      position: absolute;
+      top: -56px;
+      left: 50%;
+      width: 176px;
+      height: 112px;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(254,184,5,.22), rgba(254,184,5,0) 72%);
+      filter: blur(2px);
+      pointer-events: none;
+    }
+    .modal::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.025);
+    }
+    .modal-emoji {
+      margin: 0 auto 10px;
+      display: block;
+      font-size: 58px;
+      animation: modalFloat 4.4s ease-in-out infinite;
+      line-height: 1;
+      background: none;
+      border: none;
+      box-shadow: none;
+      width: auto;
+      height: auto;
+      will-change: transform;
+    }
+    .modal h2 {
+      margin: 0 0 8px;
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-size: 22px;
+      line-height: 1.08;
+      color: var(--cream);
+      text-shadow: 0 4px 18px rgba(0,0,0,.16);
+    }
+    .modal p {
+      margin: 4px 0;
+      color: rgba(254,252,206,.78);
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.28;
+    }
+    .modal .answer {
+      display: inline;
+      margin-top: 0;
+      color: var(--sun);
+      font-weight: 980;
+      font-size: 1.04em;
+      text-shadow: 0 0 14px rgba(254,184,5,.16);
+    }
+    .modal .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      grid-template-columns: none;
+      gap: 0;
+      padding: 0 16px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      width: min(156px, 100%);
+      margin-top: 16px;
+      min-height: 54px;
+      border-radius: 11px;
+      color: #3b1608;
+      background: linear-gradient(135deg, #fff0a8 0%, #ffd85a 24%, #ffb347 58%, #ff8b3d 100%);
+      background-size: 140% 100%;
+      background-position: 0% 50%;
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-size: 17px;
+      font-weight: 980;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      box-shadow: 0 16px 30px rgba(255,139,61,.22), 0 0 22px rgba(255,216,90,.16);
+      transition: transform .16s ease, filter .16s ease, box-shadow .16s ease, background-position .24s ease;
+    }
+    .modal .btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 22%, rgba(255,255,255,.2) 48%, rgba(255,255,255,0) 74%);
+      transform: translateX(-130%);
+      transition: transform .34s ease;
+      pointer-events: none;
+    }
+    .modal .btn:hover, .modal .btn:focus-visible {
+      transform: translateY(-1px) scale(1.01);
+      filter: brightness(1.02);
+      box-shadow: 0 18px 34px rgba(255,139,61,.28), 0 0 26px rgba(255,216,90,.2);
+      background-position: 100% 50%;
+    }
+    .modal .btn:hover::after, .modal .btn:focus-visible::after {
+      transform: translateX(130%);
+    }
+    #levelOverlay .modal {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0) 18%),
+        linear-gradient(155deg, rgba(88,24,62,.98), rgba(28,8,28,.98) 72%);
+    }
+    @keyframes overlayFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes overlayFadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+    @keyframes modalPop {
+      0% { opacity: 0; transform: translateY(18px) scale(.935); filter: blur(4px); }
+      58% { opacity: 1; transform: translateY(-3px) scale(1.018); filter: blur(0); }
+      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+    @keyframes modalClose {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(8px) scale(.985); }
+    }
+    @keyframes screenFadeIn {
+      from { opacity: 0; transform: translateY(10px) scale(.992); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes screenFadeOut {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(8px) scale(.992); }
+    }
+    @keyframes splashRise {
+      from { opacity: 0; transform: translateY(8px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes splashLoad {
+      0% { transform: translateX(-120%) scaleX(.55); opacity: .72; }
+      55% { transform: translateX(58%) scaleX(1); opacity: 1; }
+      100% { transform: translateX(180%) scaleX(.72); opacity: .78; }
+    }
+    @keyframes homeButtonBreath {
+
+      0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 12px 26px rgba(242,70,97,.12), 0 0 16px rgba(254,184,5,.10); }
+      50% { transform: translateY(-1px) scale(1.01); box-shadow: 0 15px 30px rgba(242,70,97,.16), 0 0 18px rgba(254,184,5,.12); }
+    }
+    @keyframes clueReveal {
+      from { opacity: 0; transform: translateY(12px) scale(.9); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes puzzleFade {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes validateWake {
+      0% { transform: translateY(3px) scale(.94); box-shadow: 0 6px 12px rgba(0,0,0,.1); }
+      62% { transform: translateY(-1px) scale(1.03); box-shadow: 0 16px 30px rgba(254,184,5,.28), 0 10px 18px rgba(0,0,0,.18); }
+      100% { transform: translateY(0) scale(1); box-shadow: 0 14px 28px rgba(254,184,5,.24), 0 10px 20px rgba(0,0,0,.18); }
+    }
+    @keyframes heartGain {
+      0% { transform: scale(.72) translateY(8px); opacity: .48; filter: drop-shadow(0 0 0 rgba(242,70,97,0)); }
+      38% { transform: scale(1.28) translateY(-4px); opacity: 1; filter: drop-shadow(0 0 18px rgba(242,70,97,.38)); }
+      68% { transform: scale(.94) translateY(1px); opacity: 1; filter: drop-shadow(0 0 12px rgba(242,70,97,.22)); }
+      100% { transform: scale(1) translateY(0); opacity: 1; filter: drop-shadow(0 0 10px rgba(242,70,97,.18)); }
+    }
+    @keyframes heartLoss {
+      0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; filter: drop-shadow(0 0 10px rgba(242,70,97,.18)); }
+      26% { transform: translateY(1px) scale(.9) rotate(-12deg); opacity: .96; filter: drop-shadow(0 0 16px rgba(255,79,109,.24)); }
+      54% { transform: translateY(5px) scale(.76) rotate(10deg); opacity: .76; filter: drop-shadow(0 0 10px rgba(255,79,109,.14)); }
+      100% { transform: translateY(2px) scale(.88) rotate(0deg); opacity: .58; filter: drop-shadow(0 0 0 rgba(255,79,109,0)); }
+    }
+    @keyframes heartsLossSweep {
+      0% { transform: translateX(0); filter: drop-shadow(0 5px 9px rgba(0,0,0,.26)); }
+      32% { transform: translateX(-4px); filter: drop-shadow(0 8px 14px rgba(0,0,0,.28)); }
+      64% { transform: translateX(3px); filter: drop-shadow(0 6px 12px rgba(0,0,0,.24)); }
+      100% { transform: translateX(0); filter: drop-shadow(0 5px 9px rgba(0,0,0,.26)); }
+    }
+    @keyframes heartsGainLift {
+      0% { transform: translateY(0); }
+      40% { transform: translateY(-2px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes messageLift {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes successBorderSweep {
+      0% { background-position: 140% 50%; }
+      100% { background-position: -40% 50%; }
+    }
+    .confetti-piece {
+      position: fixed;
+      top: -20px;
+      pointer-events: none;
+      z-index: 200;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      animation: confettiFall linear forwards;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+
+    @media (min-width: 641px) {
+      body {
+        padding: 20px;
+      }
+      .screen {
+      background: transparent !important;
+        min-height: calc(100vh - 40px);
+        min-height: calc(100dvh - 40px);
+      }
+      #home.screen.active,
+      #cheat.screen.active,
+      #game.screen.active {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .screen {
+      background: transparent !important;
+        width: min(100%, 420px);
+        padding:
+          calc(18px + env(safe-area-inset-top))
+          calc(18px + env(safe-area-inset-right))
+          calc(18px + env(safe-area-inset-bottom))
+          calc(18px + env(safe-area-inset-left));
+        justify-content: center;
+      }
+      .home-example {
+        margin-bottom: 14px;
+        gap: .12em;
+        font-size: clamp(22px, 7vw, 30px);
+      }
+      .home-example .home-emoji {
+        width: auto;
+        min-width: 1em;
+      }
+      .home-example .home-op {
+        width: auto;
+        min-width: .52em;
+        margin: 0 .02em;
+      }
+      .home-example .home-question {
+        width: auto;
+        min-width: .52em;
+        margin-left: .02em;
+      }
+      .home-logo {
+        width: min(304px, 71vw);
+      }
+      .game-logo {
+        width: min(248px, 66vw);
+      }
+      .credits {
+        font-size: 14px;
+        gap: 2px;
+      }
+      .actions {
+        width: min(190px, 64vw);
+        gap: 10px;
+      }
+      .btn,
+      .btn.secondary {
+        width: 190px;
+        height: 46px;
+        font-size: .96rem;
+      }
+      .game-screen {
+      background: transparent !important;
+      position: relative;
+      z-index: 0;
+        justify-content: center;
+        gap: 10px;
+      }
+      .prompt-title {
+        margin-bottom: -6px;
+      }
+      .hint {
+        margin-top: -1px;
+        font-size: 13px;
+        line-height: 1.28;
+      }
+      .hint.is-long {
+        max-width: 33ch;
+        font-size: 12.5px;
+      }
+      .clues {
+        min-height: 132px;
+        gap: 8px;
+        padding-top: 4px;
+      }
+      .clues.is-four {
+        gap: 6px;
+      }
+      .clue {
+        width: 92px;
+        height: 92px;
+        font-size: 60px;
+        border-radius: 22px;
+      }
+      .clues.is-four .clue {
+        width: 76px;
+        height: 76px;
+        font-size: 48px;
+        border-radius: 18px;
+      }
+      .answer-form {
+        width: min(312px, 100%);
+        gap: 12px;
+      }
+      .answer-input-wrap {
+        width: 100%;
+      }
+      .answer-input {
+        height: 54px;
+        font-size: 17px;
+        padding-right: 18px;
+      }
+      .validate-btn {
+        width: 126px;
+        height: 40px;
+      }
+      .hearts {
+        font-size: 20px;
+        gap: 7px;
+      }
+      .message {
+        width: min(300px, 100%);
+        min-height: 42px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 640px) and (display-mode: standalone) {
+      body.standalone-pwa {
+        padding: 14px;
+      }
+      body.standalone-pwa .app {
+        width: min(100%, 720px);
+      }
+      body.standalone-pwa #home.screen,
+      body.standalone-pwa #cheat.screen {
+        width: 100%;
+        min-height: calc(var(--app-height, 100dvh) - 28px);
+        padding: 0;
+        justify-content: center;
+        gap: 8px;
+      }
+      body.standalone-pwa #game.screen {
+        width: 100%;
+        min-height: calc(var(--app-height, 100dvh) - 28px);
+        padding:
+          calc(10px + env(safe-area-inset-top))
+          0
+          calc(18px + env(safe-area-inset-bottom))
+          0;
+        justify-content: center;
+        gap: 8px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+      body.standalone-pwa .game-inner {
+        flex: 1 1 auto;
+        min-height: 0;
+        width: 100%;
+        justify-content: center;
+      }
+      body.standalone-pwa .home-example {
+        margin-bottom: 2px;
+        gap: .11em;
+        font-size: clamp(20px, 6.4vw, 28px);
+      }
+      body.standalone-pwa .home-example .home-emoji {
+        width: auto;
+        min-width: 1em;
+      }
+      body.standalone-pwa .home-example .home-op {
+        width: auto;
+        min-width: .5em;
+        margin: 0 .02em;
+      }
+      body.standalone-pwa .home-example .home-question {
+        width: auto;
+        min-width: .5em;
+        margin-left: .02em;
+      }
+      body.standalone-pwa .home-logo {
+        width: min(274px, 66vw);
+        margin-bottom: 0;
+      }
+      body.standalone-pwa .game-logo {
+        width: min(224px, 60vw);
+        margin-bottom: 0;
+      }
+      body.standalone-pwa .credits {
+        margin-top: 2px;
+        gap: 1px;
+        font-size: 13px;
+      }
+      body.standalone-pwa .actions {
+        width: min(182px, 58vw);
+        margin-top: 6px;
+        gap: 10px;
+      }
+      body.standalone-pwa .btn,
+      body.standalone-pwa .btn.secondary {
+        width: 182px;
+        height: 44px;
+        font-size: .98rem;
+      }
+      body.standalone-pwa .actions .btn.is-pressed,
+      body.standalone-pwa .actions .btn:active {
+        transform: translateY(3px) scale(.958);
+        box-shadow: 0 4px 8px rgba(0,0,0,.18), inset 0 1px 0 rgba(254,236,142,.28);
+      }
+      body.standalone-pwa .actions .btn.secondary.is-pressed,
+      body.standalone-pwa .actions .btn.secondary:active {
+        color: #ffd86d;
+        border-color: rgba(254,184,5,.54);
+        background: rgba(126,32,59,.26);
+        box-shadow: inset 0 0 0 1px rgba(254,184,5,.2), 0 4px 8px rgba(0,0,0,.18);
+      }
+      body.standalone-pwa .actions .btn.secondary.is-pressed,
+      body.standalone-pwa .actions .btn.secondary:active {
+        color: #fff2c3;
+        border-color: rgba(255,240,178,.52);
+        background: rgba(136,36,64,.34);
+      }
+      body.standalone-pwa .prompt-title {
+        margin-bottom: -4px;
+      }
+      body.standalone-pwa .hint {
+        margin-top: 0;
+        font-size: 13px;
+        line-height: 1.26;
+      }
+      body.standalone-pwa .hint.is-long {
+        max-width: 31ch;
+        font-size: 12.5px;
+      }
+      body.standalone-pwa .clues {
+        min-height: 118px;
+        padding-top: 2px;
+      }
+      body.standalone-pwa .clues.is-four {
+        gap: 5px;
+      }
+      body.standalone-pwa .clue {
+        width: 86px;
+        height: 86px;
+        font-size: 56px;
+      }
+      body.standalone-pwa .clues.is-four .clue {
+        width: 72px;
+        height: 72px;
+        font-size: 44px;
+        border-radius: 18px;
+      }
+      body.standalone-pwa.keyboard-open .game-screen {
+        gap: 6px;
+        padding-top: calc(12px + env(safe-area-inset-top));
+        padding-bottom: calc(4px + env(safe-area-inset-bottom));
+      }
+      body.standalone-pwa.keyboard-open .game-inner {
+        flex: 1 1 auto;
+        transform: translateY(68px);
+      }
+      body.standalone-pwa.keyboard-open .answer-form {
+        gap: 10px;
+      }
+      body.standalone-pwa.keyboard-open .message {
+        min-height: 46px;
+      }
+    }
+
+    @media (max-width: 390px) {
+
+      .screen {
+      background: transparent !important;
+        padding:
+          calc(16px + env(safe-area-inset-top))
+          calc(16px + env(safe-area-inset-right))
+          calc(16px + env(safe-area-inset-bottom))
+          calc(16px + env(safe-area-inset-left));
+      }
+      .home-logo {
+        width: min(286px, 68vw);
+      }
+      .game-logo {
+        width: min(232px, 64vw);
+      }
+      .clues {
+        gap: 7px;
+      }
+      .clues.is-four {
+        gap: 5px;
+      }
+      .clue {
+        width: 84px;
+        height: 84px;
+        font-size: 54px;
+        border-radius: 20px;
+      }
+      .clues.is-four .clue {
+        width: 68px;
+        height: 68px;
+        font-size: 41px;
+        border-radius: 17px;
+      }
+      .home-example {
+        gap: .1em;
+        font-size: 24px;
+      }
+      .credits {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="launchSplash" class="launch-splash" aria-hidden="true">
+    <div class="launch-splash__inner">
+      <div class="launch-splash__glow"></div>
+      <div class="launch-splash__bar" aria-hidden="true"><div class="launch-splash__bar-fill"></div></div>
+    </div>
+  </div>
+  <div id="viewport-bg" aria-hidden="true">
+    <span class="aurora-orb orb-a"></span>
+    <span class="aurora-orb orb-b"></span>
+    <span class="aurora-orb orb-c"></span>
+    <span class="aurora-orb orb-d"></span>
+  </div>
+  <div class="app">
+  <main id="home" class="screen active" aria-label="Accueil Jicombo">
+    <div id="homeExample" class="home-example" aria-hidden="true"><span class="home-emoji floaty-home">🐀</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">👨🏼‍🍳</span><span class="home-op floaty-home">+</span><span class="home-emoji floaty-home">🍝</span><span class="home-op floaty-home">=</span><span class="home-op home-question floaty-home">?</span></div>
+    <img id="homeLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="Jicombo" role="button" tabindex="0">
+    <div class="credits">
+      <div>D&rsquo;apr&egrave;s le jeu original de <a class="credit-link" href="https://axopatrick.github.io/comboji/" target="_blank" rel="noopener noreferrer">Patrick Baud</a></div>
+      <div>Spin-off non officiel par <strong>Emmanuel Galey</strong></div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="playBtn" type="button"><span class="btn-label">Jouer</span></button>
+      <button class="btn secondary" id="speedBtn" type="button"><span class="btn-label">Speedrun</span></button>
+      <button class="btn secondary" id="cheatBtn" type="button"><span class="btn-label">Cheat Code</span></button>
+    </div>
+  </main>
+
+  <main id="cheat" class="screen" aria-label="Cheat code Jicombo">
+    <img id="cheatLogo" class="logo home-logo" src="Assets/Jicombo-logo.png" alt="Retour accueil Jicombo" role="button" tabindex="0">
+    <div class="cheat-card">
+      <div class="cheat-title">Cheat Code</div>
+      <input class="cheat-input" id="cheatInput" type="text" maxlength="6" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="------">
+      <div class="cheat-keypad" aria-label="Clavier cheat code">
+        <button class="cheat-key" type="button" data-key="1">1</button><button class="cheat-key" type="button" data-key="2">2</button><button class="cheat-key" type="button" data-key="3">3</button><button class="cheat-key" type="button" data-key="4">4</button><button class="cheat-key" type="button" data-key="5">5</button><button class="cheat-key" type="button" data-key="6">6</button><button class="cheat-key" type="button" data-key="7">7</button><button class="cheat-key" type="button" data-key="8">8</button><button class="cheat-key" type="button" data-key="9">9</button><button class="cheat-key" type="button" data-key="0">0</button>
+        <button class="cheat-key" type="button" data-key="A">A</button><button class="cheat-key" type="button" data-key="Z">Z</button><button class="cheat-key" type="button" data-key="E">E</button><button class="cheat-key" type="button" data-key="R">R</button><button class="cheat-key" type="button" data-key="T">T</button><button class="cheat-key" type="button" data-key="Y">Y</button><button class="cheat-key" type="button" data-key="U">U</button><button class="cheat-key" type="button" data-key="I">I</button><button class="cheat-key" type="button" data-key="O">O</button><button class="cheat-key" type="button" data-key="P">P</button>
+        <button class="cheat-key" type="button" data-key="Q">Q</button><button class="cheat-key" type="button" data-key="S">S</button><button class="cheat-key" type="button" data-key="D">D</button><button class="cheat-key" type="button" data-key="F">F</button><button class="cheat-key" type="button" data-key="G">G</button><button class="cheat-key" type="button" data-key="H">H</button><button class="cheat-key" type="button" data-key="J">J</button><button class="cheat-key" type="button" data-key="K">K</button><button class="cheat-key" type="button" data-key="L">L</button><button class="cheat-key" type="button" data-key="-">-</button>
+        <button class="cheat-key" type="button" data-key="W">W</button><button class="cheat-key" type="button" data-key="X">X</button><button class="cheat-key" type="button" data-key="C">C</button><button class="cheat-key" type="button" data-key="V">V</button><button class="cheat-key" type="button" data-key="B">B</button><button class="cheat-key" type="button" data-key="N">N</button><button class="cheat-key" type="button" data-key="M">M</button><button class="cheat-key" type="button" data-key=".">.</button><button class="cheat-key" type="button" data-key="_">_</button><button class="cheat-key delete" type="button" data-key="DEL" aria-label="Effacer le dernier caract&egrave;re">&#9003;</button>
+      </div>
+      <p class="cheat-hint">Entre un code secret...</p>
+      <p class="cheat-status" id="cheatStatus"></p>
+      <div class="cheat-actions"><button class="validate-btn" id="cheatSubmit" type="button" disabled>VALIDER</button></div>
+    </div>
+  </main>
+
+  <main id="game" class="screen game-screen" aria-label="Partie Jicombo">
+    <div id="gameInner" class="game-inner">
+      <img id="gameLogo" class="logo game-logo" src="Assets/Jicombo-logo.png" alt="Retour accueil Jicombo" role="button" tabindex="0">
+      <div id="levelPill" class="level-pill">Niveau 1</div>
+      <p class="prompt-title">Trouve la r&eacute;ponse !</p>
+      <div id="hint" class="hint"></div>
+      <div id="clues" class="clues" aria-label="Emojis indices"></div>
+      <form id="answerForm" class="answer-form" autocomplete="off">
+        <div class="answer-input-wrap">
+          <input id="answerInput" class="answer-input" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="Ta r&eacute;ponse...">
+        </div>
+        <button id="validateBtn" class="validate-btn" type="submit" disabled>VALIDER</button>
+      </form>
+      <div id="hearts" class="hearts" aria-label="Vies"></div>
+      <div id="message" class="message" aria-live="polite"></div>
+    </div>
+  </main>
+
+  <div id="modalOverlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div id="modalEmoji" class="modal-emoji">&#x1F3C6;</div>
+      <h2 id="modalTitle">Combo r&eacute;ussi !</h2>
+      <p id="modalAnswerLine">R&eacute;ponse : <span id="modalAnswer" class="answer"></span></p>
+      <p id="modalScore">Score : 0 point</p>
+      <button id="continueBtn" class="btn" type="button">CONTINUER</button>
+    </div>
+  </div>
+
+  <div id="levelOverlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="levelModalTitle">
+    <div class="modal">
+      <div id="levelModalEmoji" class="modal-emoji">&#x1F31F;</div>
+      <h2 id="levelModalTitle">Niveau 2 d&eacute;bloqu&eacute; !</h2>
+      <p id="levelModalSubtitle" class="modal-score">De nouvelles &eacute;nigmes arrivent...</p>
+      <button id="levelContinueBtn" class="btn" type="button">CONTINUER</button>
+    </div>
+  </div>
+
+  <script>
+    const RAW_PUZZLES = [
+  {
+    "id": "twister",
+    "title": "Twister",
+    "target": "🐄",
+    "hint": "Film catastrophe",
+    "clues": [
+      "🐄",
+      "🌪️",
+      "🏚️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "save_willy",
+    "title": "Sauvez Willy",
+    "target": "👅",
+    "hint": "Orque",
+    "clues": [
+      "👅",
+      "🧒🏻",
+      "🌊"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "alien",
+    "title": "Alien",
+    "target": "🐣",
+    "hint": "Chestburster",
+    "clues": [
+      "🐣",
+      "🫃🏻",
+      "🩸"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kill_bill",
+    "title": "Kill Bill",
+    "target": "🐍",
+    "hint": "Black Mamba",
+    "clues": [
+      "🐍",
+      "👰🏼",
+      "🔪"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "silence_of_the_lambs",
+    "title": "Le silence des agneaux",
+    "target": "🫁",
+    "hint": "Hannibal",
+    "clues": [
+      "🫁",
+      "🤫",
+      "🐑"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "matrix",
+    "title": "Matrix",
+    "target": "🕶️",
+    "hint": "Neo",
+    "clues": [
+      "🕶️",
+      "💊",
+      "🟩"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "mars_attacks",
+    "title": "Mars Attacks!",
+    "target": "👽",
+    "hint": "Fak Fak Fak !",
+    "clues": [
+      "👽",
+      "🔊",
+      "🤯"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "god_of_war",
+    "title": "God of War",
+    "target": "⛓️",
+    "hint": "Sparte",
+    "clues": [
+      "⛓️",
+      "🏛️",
+      "🩸"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "sonic",
+    "title": "Sonic",
+    "target": "🌀",
+    "hint": "C'est plus fort que toi !",
+    "clues": [
+      "🌀",
+      "🦔",
+      "💨"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "tekken_ball",
+    "title": "Tekken Ball",
+    "target": "🏖️",
+    "hint": "Mini-jeu de la licence Tekken",
+    "clues": [
+      "🏖️",
+      "🦖",
+      "🏐"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "yoshi",
+    "title": "Yoshi",
+    "target": "🍉",
+    "hint": "La monture de Mario",
+    "clues": [
+      "🍉",
+      "🦖",
+      "🥚"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "tombi",
+    "title": "Tombi!",
+    "target": "🕹️",
+    "hint": "La malédiction du vilain cochon",
+    "clues": [
+      "🕹️",
+      "👦🏻",
+      "🐖"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "mario_galaxy",
+    "title": "Mario Galaxy",
+    "target": "🌌",
+    "hint": "Quand Isaac Newton rencontre Mario",
+    "clues": [
+      "🌌",
+      "👨🏻",
+      "🪐"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "ffx",
+    "title": "Blitzball",
+    "target": "🥅",
+    "hint": "Sport majeur sur Spira",
+    "clues": [
+      "🥅",
+      "⚽",
+      "🌊"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "metal_gear_solid",
+    "title": "Metal Gear Solid",
+    "target": "🐍",
+    "hint": "Solid Snake",
+    "clues": [
+      "🐍",
+      "📦",
+      "❗️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "spyro",
+    "title": "Spyro the Dragon",
+    "target": "🕹️",
+    "hint": "Petit dragon violet",
+    "clues": [
+      "🕹️",
+      "🐲",
+      "💎"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "ape_escape",
+    "title": "Ape Escape",
+    "target": "🕹️",
+    "hint": "Chasse aux singes",
+    "clues": [
+      "🕹️",
+      "🐒",
+      "🥅"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "the_sims",
+    "title": "Les Sims",
+    "target": "🌳",
+    "hint": "Simulation de vie",
+    "clues": [
+      "🌳",
+      "🧍🏻‍♂️",
+      "🏠"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "project_zero",
+    "title": "Project Zero",
+    "target": "🪦",
+    "hint": "Tes munitions sont des pellicules",
+    "clues": [
+      "🪦",
+      "👻",
+      "📷"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kingdom_hearts",
+    "title": "Kingdom Hearts",
+    "target": "🐭",
+    "hint": "Disney rencontre Square Enix",
+    "clues": [
+      "🐭",
+      "🔑",
+      "❤️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "bubble_bobble",
+    "title": "Bubble Bobble",
+    "target": "🕹️",
+    "hint": "Des bulles comme seule arme",
+    "clues": [
+      "🕹️",
+      "🐲",
+      "🫧"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "aerith",
+    "title": "Aerith - Final Fantasy VII",
+    "target": "⛪",
+    "hint": "Mort tragique du jeu vidéo",
+    "clues": [
+      "⛪",
+      "💐",
+      "👧🏻"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "rocket_league",
+    "title": "Rocket League",
+    "target": "🥅",
+    "hint": "Flip Reset",
+    "clues": [
+      "🥅",
+      "🚗",
+      "⚽"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "street_fighter",
+    "title": "Street Fighter",
+    "target": "🥋",
+    "hint": "Hadouken",
+    "clues": [
+      "🥋",
+      "🫸",
+      "🔵"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "prince_of_persia",
+    "title": "Prince of Persia",
+    "target": "🗡️",
+    "hint": "Prince qui refuse le présent",
+    "clues": [
+      "🗡️",
+      "⏳",
+      "↩️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kakashi_book",
+    "title": "Kakashi - Naruto",
+    "target": "📖",
+    "hint": "1000 Ans de Souffrances",
+    "clues": [
+      "📖",
+      "🍑",
+      "🙏🏼"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "karin_tower",
+    "title": "Tour Karin - Dragon Ball Z",
+    "target": "🐱",
+    "hint": "Dragon Ball Z",
+    "clues": [
+      "🐱",
+      "🫘",
+      "🗼"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "ozaru",
+    "title": "Ozaru",
+    "target": "🦍",
+    "hint": "Une nuit pas comme les autres",
+    "clues": [
+      "🦍",
+      "🌕",
+      "🐒"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "mr_hankey",
+    "title": "Monsieur Hankey - South Park",
+    "target": "❄️",
+    "hint": "Un 25 décembre à South Park",
+    "clues": [
+      "❄️",
+      "💩",
+      "🎄"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "madara",
+    "title": "Madara",
+    "target": "🩸",
+    "hint": "Tsukuyomi",
+    "clues": [
+      "🩸",
+      "🌕",
+      "👁️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "naruto",
+    "title": "Naruto",
+    "target": "🍥",
+    "hint": "Konoha",
+    "clues": [
+      "🍥",
+      "👦🏼",
+      "🌀"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kyubi",
+    "title": "Kyubi - Naruto",
+    "target": "🌀",
+    "hint": "Ce que Naruto renferme",
+    "clues": [
+      "🌀",
+      "🦊",
+      "9️⃣"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kangoo_juniors",
+    "title": "Kangoo Juniors",
+    "target": "📺",
+    "hint": "Le matin sur TF1",
+    "clues": [
+      "📺",
+      "🦘",
+      "🏀"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "chicken_run",
+    "title": "Chicken Run",
+    "target": "🥚",
+    "hint": "Aardman Animations",
+    "clues": [
+      "🥚",
+      "🐔",
+      "🏃‍♂️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "red_ribbon",
+    "title": "Ruban Rouge - Dragon Ball",
+    "target": "🪖",
+    "hint": "L'armée du...",
+    "clues": [
+      "🪖",
+      "🎀",
+      "®️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "cowboy_bebop",
+    "title": "Cowboy Bebop",
+    "target": "🎷",
+    "hint": "Spike Spiegel",
+    "clues": [
+      "🎷",
+      "🚬",
+      "🤠"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "gto",
+    "title": "GTO",
+    "target": "🚬",
+    "hint": "22 ans, célibataire",
+    "clues": [
+      "🚬",
+      "👨🏼‍🏫",
+      "🏍️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "pain_noir",
+    "title": "Famine",
+    "target": "🐀",
+    "hint": "Une période de guerre entraîne une période de...",
+    "clues": [
+      "🐀",
+      "🍞",
+      "⚫"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "la_vie",
+    "title": "La vie",
+    "target": "🌱",
+    "hint": "Donner la...",
+    "clues": [
+      "🌱",
+      "🌧️",
+      "☀️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "reveil",
+    "title": "Réveil",
+    "target": "⏰",
+    "hint": "Matin",
+    "clues": [
+      "⏰",
+      "🐓",
+      "🌅"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "fish_and_chips",
+    "title": "Fish & Chips",
+    "target": "💂‍♀️",
+    "hint": "Plat anglais",
+    "clues": [
+      "💂‍♀️",
+      "🐟",
+      "🍟"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "aimant",
+    "title": "Magnéto",
+    "target": "🧲",
+    "hint": "Super-vilain",
+    "clues": [
+      "🧲",
+      "⚙️",
+      "🔩"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "crash_team_racing",
+    "title": "Crash Team Racing",
+    "target": "🏆",
+    "hint": "Pyramide Papu",
+    "clues": [
+      "🏆",
+      "🏎️",
+      "🏁"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "phoenix_wright",
+    "title": "Phoenix Wright",
+    "target": "🫵🏻",
+    "hint": "Objection !",
+    "clues": [
+      "🫵🏻",
+      "⚖️",
+      "👨🏻‍⚖️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kirby",
+    "title": "Kirby",
+    "target": "⭐",
+    "hint": "Il devient ce qu’il mange",
+    "clues": [
+      "⭐",
+      "😮",
+      "💨"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "celeste",
+    "title": "Celeste",
+    "target": "⛰️",
+    "hint": "Aide Madeleine à survivre à ses démons intérieurs",
+    "clues": [
+      "⛰️",
+      "👩‍🦰",
+      "🍓"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "up",
+    "title": "Là-haut",
+    "target": "🎈",
+    "hint": "Tenir une promesse à sa défunte épouse",
+    "clues": [
+      "🎈",
+      "👴🏻",
+      "🏠"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kung_fu_panda",
+    "title": "Kung Fu Panda",
+    "target": "🎋",
+    "hint": "Un guerrier improbable venu de Chine",
+    "clues": [
+      "🎋",
+      "🐼",
+      "🥋"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "caries",
+    "title": "Caries",
+    "target": "🍬",
+    "hint": "Trop de sucre...",
+    "clues": [
+      "🍬",
+      "🦷",
+      "😖"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "ratatouille",
+    "title": "Ratatouille",
+    "target": "🐀",
+    "hint": "Le seul chef qui tient dans une toque",
+    "clues": [
+      "🐀",
+      "👨🏼‍🍳",
+      "🍝"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "taco_bell",
+    "title": "Taco Bell",
+    "target": "🌶️",
+    "hint": "Fast-food spécialisé dans le Tex-Mex",
+    "clues": [
+      "🌶️",
+      "🌮",
+      "🔔"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "shrek",
+    "title": "Shrek",
+    "target": "📖",
+    "hint": "Il était une fois dans un royaume fort fort lointain...",
+    "clues": [
+      "📖",
+      "🧌",
+      "🐴"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "cast_away",
+    "title": "Seul au monde",
+    "target": "🏝️",
+    "hint": "Un homme survit seul sur une île après un crash",
+    "clues": [
+      "🏝️",
+      "🧔🏻‍♂️",
+      "🏐"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "little_mermaid",
+    "title": "La petite sirène",
+    "target": "🐚",
+    "hint": "Rêve de devenir humaine par amour",
+    "clues": [
+      "🐚",
+      "🤏",
+      "🧜🏻‍♀️"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "malcolm",
+    "title": "Dewey",
+    "target": "👦🏼",
+    "hint": "Toi tu vies, toi tu vies, toi tu crèves...",
+    "clues": [
+      "👦🏼",
+      "💀",
+      "🪖"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "ken_le_survivant",
+    "title": "Ken le Survivant",
+    "target": "🔪",
+    "hint": "L'école du Hokuto de cuisine",
+    "clues": [
+      "🔪",
+      "👊",
+      "💥"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "yannick",
+    "title": "Yannick",
+    "target": "🎭",
+    "hint": "Un spectateur interrompt la pièce",
+    "clues": [
+      "🎭",
+      "🔫",
+      "👨🏻"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "kill_bill",
+    "title": "Kill Bill",
+    "target": "👰🏼",
+    "hint": "Vernita Green",
+    "clues": [
+      "👰🏼",
+      "👧🏾",
+      "🥣",
+      "🔪"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "famille_belier",
+    "title": "La Famille Bélier",
+    "target": "🔇",
+    "hint": "Signe de Feu",
+    "clues": [
+      "🔇",
+      "👂",
+      "👨‍👩‍👧",
+      "♈"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "alice",
+    "title": "Alice au pays des Merveilles",
+    "target": "🐇",
+    "hint": "En retard",
+    "clues": [
+      "🐇",
+      "🐛",
+      "🚬",
+      "🔠"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "hook",
+    "title": "Hook",
+    "target": "🧚",
+    "hint": "Les Enfants Perdus",
+    "clues": [
+      "🧚",
+      "🪝",
+      "🐊",
+      "⏰"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "the_ring",
+    "title": "The Ring",
+    "target": "📺",
+    "hint": "Sadako",
+    "clues": [
+      "📺",
+      "📼",
+      "👧🏻",
+      "🕳️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "harry_potter",
+    "title": "Harry Potter",
+    "target": "🧙‍♂️",
+    "hint": "10 points pour Gryffondor !",
+    "clues": [
+      "🧙‍♂️",
+      "⚡",
+      "👦🏻",
+      "🦉"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "crash_bandicoot",
+    "title": "Crash Bandicoot",
+    "target": "🎭",
+    "hint": "Uka Uka",
+    "clues": [
+      "🎭",
+      "🦊",
+      "🍎",
+      "💎"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "god_of_war",
+    "title": "God of War",
+    "target": "🩸",
+    "hint": "Fantôme de Sparte",
+    "clues": [
+      "🩸",
+      "🌊",
+      "🔱",
+      "⛓️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "mario_galaxy",
+    "title": "Mario Galaxy",
+    "target": "☄️",
+    "hint": "Quand Isaac Newton rencontre Mario",
+    "clues": [
+      "☄️",
+      "👨🏻",
+      "🪐",
+      "🌌"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "street_fighter",
+    "title": "Street Fighter",
+    "target": "💥",
+    "hint": "Hadouken",
+    "clues": [
+      "💥",
+      "🥋",
+      "🫸",
+      "🔵"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "gta",
+    "title": "GTA",
+    "target": "🚔",
+    "hint": "Rockstar",
+    "clues": [
+      "🚔",
+      "🔫",
+      "🔞",
+      "💉"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "rayman",
+    "title": "Rayman",
+    "target": "🟣",
+    "hint": "Un héros dont les membres flottent",
+    "clues": [
+      "🟣",
+      "🦟",
+      "👟",
+      "🤜"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "resident_evil",
+    "title": "Resident Evil",
+    "target": "☂️",
+    "hint": "Umbrella Corporation",
+    "clues": [
+      "☂️",
+      "🧟‍♂️",
+      "🧪",
+      "🩸"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "tomb_raider",
+    "title": "Tomb Raider",
+    "target": "🧭",
+    "hint": "Lara Croft",
+    "clues": [
+      "🧭",
+      "👩🏻",
+      "🏛️",
+      "💎"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "oddworld_abe",
+    "title": "Oddworld : L'Odyssée d'Abe",
+    "target": "🗣️",
+    "hint": "Suis-moi !",
+    "clues": [
+      "🗣️",
+      "👽",
+      "🧵",
+      "👄"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "heart_of_darkness",
+    "title": "Heart of Darkness",
+    "target": "🐶",
+    "hint": "Éric Chahi (1998)",
+    "clues": [
+      "🐶",
+      "👦🏻",
+      "🔫",
+      "⚡"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "worms",
+    "title": "Worms",
+    "target": "🪖",
+    "hint": "Vers de guerre",
+    "clues": [
+      "🪖",
+      "🪱",
+      "💣",
+      "💥"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "dino_crisis",
+    "title": "Dino Crisis",
+    "target": "🦖",
+    "hint": "Quand Jurassic Park rencontre Capcom",
+    "clues": [
+      "🦖",
+      "🔬",
+      "🔫",
+      "😱"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "shadow_of_the_colossus",
+    "title": "Shadow of the Colossus",
+    "target": "🐎",
+    "hint": "Suivre la lumière (Jeu vidéo)",
+    "clues": [
+      "🐎",
+      "🗿",
+      "🧗‍♂️",
+      "⚔️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "maman",
+    "title": "Maman",
+    "target": "🌙",
+    "hint": "A peur de rouler la nuit...",
+    "clues": [
+      "🌙",
+      "😱",
+      "🌃",
+      "🚗"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "hitman",
+    "title": "Hitman",
+    "target": "🕴️",
+    "hint": "Agent 47",
+    "clues": [
+      "🕴️",
+      "🎯",
+      "🔫",
+      "🩸"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "fusion_dbz",
+    "title": "Fusion",
+    "target": "👂",
+    "hint": "Potara",
+    "clues": [
+      "👂",
+      "👉",
+      "👈",
+      "🧑‍🤝‍🧑"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "cell",
+    "title": "Cell games",
+    "target": "🥼",
+    "hint": "\"Tuer\" est autorisé dans ce tournoi",
+    "clues": [
+      "🥼",
+      "🦗",
+      "🧬",
+      "🏟️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "one_piece",
+    "title": "One Piece",
+    "target": "☀️",
+    "hint": "Nika",
+    "clues": [
+      "☀️",
+      "🏴‍☠️",
+      "👒",
+      "🍖"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "kakashi_mask",
+    "title": "Kakashi - Naruto",
+    "target": "🐶",
+    "hint": "Kakashi",
+    "clues": [
+      "🐶",
+      "👁️",
+      "📖",
+      "😷"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "dumbo",
+    "title": "Dumbo",
+    "target": "🎪",
+    "hint": "Disney",
+    "clues": [
+      "🎪",
+      "🐘",
+      "🪽",
+      "👂"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "lion_king",
+    "title": "Le Roi Lion",
+    "target": "👑",
+    "hint": "Longue vie au roi !",
+    "clues": [
+      "👑",
+      "🦁",
+      "🌅",
+      "🐗"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "death_note",
+    "title": "Death Note",
+    "target": "📓",
+    "hint": "Kira",
+    "clues": [
+      "📓",
+      "☠️",
+      "🍎",
+      "✍️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "attaque_des_titans",
+    "title": "L'Attaque des Titans",
+    "target": "🪽",
+    "hint": "Sasageyo!",
+    "clues": [
+      "🪽",
+      "🔰",
+      "⚔️",
+      "🧱"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "hunter_x_hunter",
+    "title": "Hunter x Hunter",
+    "target": "🕸️",
+    "hint": "Brigade Fantôme",
+    "clues": [
+      "🕸️",
+      "🕷️",
+      "🩸",
+      "🃏"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "samurai_champloo",
+    "title": "Samurai Champloo",
+    "target": "🌻",
+    "hint": "Nujabes",
+    "clues": [
+      "🌻",
+      "🗡️",
+      "⛩️",
+      "🎶"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "akira",
+    "title": "Akira",
+    "target": "🏍️",
+    "hint": "Tetsuo's Nightmare",
+    "clues": [
+      "🏍️",
+      "🚗",
+      "🐇",
+      "🧸"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "naruto",
+    "title": "Naruto",
+    "target": "🍥",
+    "hint": "Konoha",
+    "clues": [
+      "🍥",
+      "👦🏼",
+      "🌀",
+      "🍃"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "abidal",
+    "title": "Abidal",
+    "target": "😬",
+    "hint": "Le mec il a paaaaaas",
+    "clues": [
+      "😬",
+      "🙂‍↔️",
+      "⛔",
+      "✖️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "paper_mario",
+    "title": "Paper Mario",
+    "target": "🔨",
+    "hint": "Un plombier... mais en papier",
+    "clues": [
+      "🔨",
+      "📜",
+      "⭐",
+      "🪙"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "alex_kidd",
+    "title": "Alex Kidd",
+    "target": "🏍️",
+    "hint": "Sega Master System",
+    "clues": [
+      "🏍️",
+      "✊",
+      "✋",
+      "✌️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "sexy_jutsu",
+    "title": "Sexy Jutsu",
+    "target": "💋",
+    "hint": "Technique ninja olé olé",
+    "clues": [
+      "💋",
+      "🪵",
+      "☁️",
+      "🔞"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "koh_lanta",
+    "title": "Koh-Lanta",
+    "target": "🥥",
+    "hint": "La sentence est irrévocable",
+    "clues": [
+      "🥥",
+      "🗿",
+      "⛺",
+      "🔥"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "pulp_fiction",
+    "title": "Pulp Fiction",
+    "target": "🥤",
+    "hint": "Vincent Vega",
+    "clues": [
+      "🥤",
+      "🤵🏻",
+      "🤵🏾",
+      "🔫"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "inglourious_basterds",
+    "title": "Inglourious Basterds",
+    "target": "🥛",
+    "hint": "Monsieur LaPadite",
+    "clues": [
+      "🥛",
+      "🪖",
+      "🔯",
+      "🦅"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "eyes_wide_shut",
+    "title": "Eyes Wide Shut",
+    "target": "🎭",
+    "hint": "Cérémonie secrète",
+    "clues": [
+      "🎭",
+      "🤫",
+      "👥",
+      "🔞"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "gotham_villains",
+    "title": "Le Joker",
+    "target": "🦇",
+    "hint": "Ils sèment le chaos à Gotham",
+    "clues": [
+      "🦇",
+      "🐧",
+      "🪙",
+      "🃏"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "wall_e",
+    "title": "Wall-E",
+    "target": "🪐",
+    "hint": "Le petit robot de Pixar",
+    "clues": [
+      "🪐",
+      "🤖",
+      "🌱",
+      "👞"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "happy_tree_friends",
+    "title": "Happy Tree Friends",
+    "target": "🩷",
+    "hint": "Mignon mais gore",
+    "clues": [
+      "🩷",
+      "🦌",
+      "🥄",
+      "🦵"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "osaka",
+    "title": "Osaka",
+    "target": "🏯",
+    "hint": "La rivale de Tokyo",
+    "clues": [
+      "🏯",
+      "🏃‍♂️",
+      "🐙",
+      "👣"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "fight_club",
+    "title": "Fight Club",
+    "target": "🧼",
+    "hint": "On n’en parle pas...",
+    "clues": [
+      "🧼",
+      "👨🏻‍🤝‍👨🏼",
+      "👊",
+      "💥"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "finding_nemo",
+    "title": "Le monde de Nemo",
+    "target": "🤡",
+    "hint": "Un père traverse l’océan pour retrouver son fils",
+    "clues": [
+      "🤡",
+      "🪸",
+      "🦈",
+      "🐠"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "tarte_aux_paramites",
+    "title": "Tarte aux paramites",
+    "target": "👽",
+    "hint": "RuptureFarms",
+    "clues": [
+      "👽",
+      "🥧",
+      "🫳"
+    ],
+    "difficulty": "easy"
+  },
+  {
+    "id": "orange_is_the_new_black",
+    "title": "Orange Is the New Black",
+    "target": "⛓️",
+    "hint": "La vie carcérale au féminin",
+    "clues": [
+      "⛓️",
+      "⚫",
+      "🍊",
+      "👮"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "squid_game",
+    "title": "Squid Game",
+    "target": "🦑",
+    "hint": "Tout commence par une invitation",
+    "clues": [
+      "🦑",
+      "🎲",
+      "💰",
+      "⚰️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "monsters_inc",
+    "title": "Monstres et Cie",
+    "target": "👹",
+    "hint": "Leur métier c’est de faire peur aux enfants",
+    "clues": [
+      "👹",
+      "🚪",
+      "😱",
+      "🔋"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "back_to_the_future",
+    "title": "Retour vers le futur",
+    "target": "🍌",
+    "hint": "Banane !",
+    "clues": [
+      "🍌",
+      "🥼",
+      "🧑🏻",
+      "🚗"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "pere_noel_est_une_ordure",
+    "title": "Le Père Noël est une ordure",
+    "target": "🗑️",
+    "hint": "Un classique de la comédie française",
+    "clues": [
+      "🗑️",
+      "📞",
+      "🎅",
+      "🎁"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "million_dollar_baby",
+    "title": "Million Dollar Baby",
+    "target": "🥊",
+    "hint": "Boxeuse prête à tout pour réussir",
+    "clues": [
+      "🥊",
+      "💵",
+      "👧🏻",
+      "🏥"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "inside_out",
+    "title": "Vice-versa",
+    "target": "😄",
+    "hint": "Des émotions prennent le contrôle d’une petite fille",
+    "clues": [
+      "😄",
+      "😡",
+      "🤢",
+      "😢"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "catch_me_if_you_can",
+    "title": "Attrape-moi si tu peux",
+    "target": "💼",
+    "hint": "Un escroc change d’identité et fuit les autorités",
+    "clues": [
+      "💼",
+      "🏃‍♂️",
+      "✈️",
+      "👨🏻‍✈️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "ice_age",
+    "title": "L'âge de glace",
+    "target": "🌰",
+    "hint": "Des animaux préhistoriques dans le froid",
+    "clues": [
+      "🌰",
+      "🧊",
+      "🦣",
+      "🐿️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "home_alone",
+    "title": "Maman j’ai raté l’avion",
+    "target": "🎁",
+    "hint": "Oublié chez lui à Noël",
+    "clues": [
+      "🎁",
+      "👦🏼",
+      "🏠",
+      "🎄"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "cuphead",
+    "title": "Cuphead",
+    "target": "☕",
+    "hint": "Un contrat... avec le diable",
+    "clues": [
+      "☕",
+      "😈",
+      "🎲",
+      "👉"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "rubber",
+    "title": "Rubber",
+    "target": "🏜️",
+    "hint": "Pneu tueur et télépathe",
+    "clues": [
+      "🏜️",
+      "🛞",
+      "〰️",
+      "🤯"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "the_simpsons",
+    "title": "Les Simpson",
+    "target": "🍩",
+    "hint": "Springfield",
+    "clues": [
+      "🍩",
+      "🏡",
+      "🛋️",
+      "📺"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "rick_and_morty",
+    "title": "Rick and Morty",
+    "target": "🧪",
+    "hint": "Ils voyagent entre les dimensions",
+    "clues": [
+      "🧪",
+      "🥼",
+      "🌀",
+      "🔫"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "severance",
+    "title": "Severance",
+    "target": "🌐",
+    "hint": "Lumon",
+    "clues": [
+      "🌐",
+      "👔",
+      "🛗",
+      "🖥️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "buffy",
+    "title": "Buffy",
+    "target": "👱🏻‍♀️",
+    "hint": "Elle chasse les vampires",
+    "clues": [
+      "👱🏻‍♀️",
+      "🧛‍♂️",
+      "🗡️",
+      "⚰️"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "cites_dor",
+    "title": "Les Mystérieuses Cités d'Or",
+    "target": "🌄",
+    "hint": "À la recherche des cités perdues",
+    "clues": [
+      "🌄",
+      "🪙",
+      "🏺",
+      "🦅"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "olive_et_tom",
+    "title": "Olive et Tom",
+    "target": "⚽",
+    "hint": "New Team",
+    "clues": [
+      "⚽",
+      "🎌",
+      "🥅",
+      "🇳"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "prison_break",
+    "title": "Prison Break",
+    "target": "⛓️",
+    "hint": "Scofield",
+    "clues": [
+      "⛓️",
+      "🏃🏻",
+      "🔓",
+      "🪡"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "mutafukaz",
+    "title": "Mutafukaz",
+    "target": "🪳",
+    "hint": "Angelino et Vinz",
+    "clues": [
+      "🪳",
+      "⚫",
+      "💀",
+      "🔥"
+    ],
+    "difficulty": "medium"
+  },
+  {
+    "id": "homme_sphinx",
+    "title": "L'Homme",
+    "target": "❓",
+    "hint": "L'Énigme du Sphinx",
+    "clues": [
+      "❓",
+      "👶",
+      "🧍‍♂️",
+      "🦯"
+    ],
+    "difficulty": "medium"
+  }
+];
+    const MAX_LIVES = 3;
+    const CACHE_VERSION = "75";
+
+    const state = {
+      deck: [],
+      index: 0,
+      lives: MAX_LIVES,
+      score: 0,
+      speedrun: false,
+      startTime: 0,
+      current: null,
+      checkpointUsed: false,
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const isStandalonePwa = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+    if (isStandalonePwa) document.body.classList.add("standalone-pwa");
+    document.body.classList.add("is-booting");
+    const viewportBg = $("viewport-bg");
+    const home = $("home");
+    const game = $("game");
+    const cheat = $("cheat");
+    const homeLogo = $("homeLogo");
+    const gameLogo = $("gameLogo");
+    const cheatLogo = $("cheatLogo");
+    const gameInner = $("gameInner");
+    const launchSplash = $("launchSplash");
+    const playBtn = $("playBtn");
+    const speedBtn = $("speedBtn");
+    const cheatBtn = $("cheatBtn");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const canHover = window.matchMedia("(hover: hover)").matches && window.matchMedia("(pointer: fine)").matches;
+    const homeExample = $("homeExample");
+    const clues = $("clues");
+    const hint = $("hint");
+    const answerForm = $("answerForm");
+    const answerInput = $("answerInput");
+    const hearts = $("hearts");
+    const message = $("message");
+    const levelPill = $("levelPill");
+    const overlay = $("modalOverlay");
+    const levelOverlay = $("levelOverlay");
+    const modalEmoji = $("modalEmoji");
+    const modalTitle = $("modalTitle");
+    const modalAnswer = $("modalAnswer");
+    const modalAnswerLine = $("modalAnswerLine");
+    const modalScore = $("modalScore");
+    const continueBtn = $("continueBtn");
+    const answerInputWrap = document.querySelector(".answer-input-wrap");
+    const levelModalEmoji = $("levelModalEmoji");
+    const levelModalTitle = $("levelModalTitle");
+    const levelModalSubtitle = $("levelModalSubtitle");
+    const levelContinueBtn = $("levelContinueBtn");
+
+    function keyboardLikelyOpen() {
+      return !!(window.visualViewport && Math.round((window.innerHeight || 0) - window.visualViewport.height) > 120);
+    }
+
+    function updateViewportMetrics(force = false) {
+      if (!isStandalonePwa) return;
+      const visualHeight = window.visualViewport ? window.visualViewport.height : 0;
+      const height = Math.max(Math.round(visualHeight || 0), Math.round(window.innerHeight || 0));
+      if (!height) return;
+      const keyboardOpen = document.activeElement === answerInput && keyboardLikelyOpen();
+      if (keyboardOpen && !force) return;
+      document.documentElement.style.setProperty("--app-height", `${height}px`);
+      if (viewportBg) {
+        viewportBg.style.willChange = "transform";
+        void viewportBg.offsetHeight;
+        viewportBg.style.transform = "translateZ(0)";
+      }
+    }
+
+    function syncViewportOnLaunch(force = false) {
+      if (!isStandalonePwa) return;
+      updateViewportMetrics(force);
+      requestAnimationFrame(() => {
+        updateViewportMetrics(force);
+        setTimeout(() => updateViewportMetrics(force), 50);
+        setTimeout(() => updateViewportMetrics(force), 150);
+        setTimeout(() => updateViewportMetrics(force), 300);
+      });
+    }
+    function dismissAnswerKeyboard(forceSync = false) {
+      if (document.activeElement === answerInput) answerInput.blur();
+      document.body.classList.remove("keyboard-open");
+      if (forceSync && isStandalonePwa) syncViewportOnLaunch(true);
+    }
+    const validateBtn = $("validateBtn");
+    const cheatInput = $("cheatInput");
+    const cheatStatus = $("cheatStatus");
+    const cheatSubmit = $("cheatSubmit");
+
+    const STOP_WORDS = new Set([
+      "a", "au", "aux", "de", "des", "du", "en", "et", "la", "le", "les", "l", "un", "une", "the", "of", "and"
+    ]);
+
+    const ANSWER_ALIASES = {
+      "attrapemoisitupeux": ["catchmeifyoucan"],
+      "bubblebobble": ["bubble bobble"],
+      "caries": ["carie", "carries", "carrie"],
+      "cellgames": ["cell"],
+      "crashteamracing": ["ctr"],
+      "dewey": ["malcolm"],
+      "finalfantasyx": ["ffx", "ff10", "final fantasy 10"],
+      "godofwar": ["kratos"],
+      "grandtheftauto": ["gta"],
+      "gto": ["onizuka", "eikichi onizuka"],
+      "hook": ["peter pan"],
+      "inglouriousbasterds": ["inglorious", "inglorious bastards", "inglorious bastard", "inglorious basterd"],
+      "kenlesurvivant": ["hokuto no ken"],
+      "lejoker": ["joker", "joker le pingouin", "pingouin", "double face"],
+      "lemondedenemo": ["nemo"],
+      "lesimpson": ["les simpsons", "the simpsons", "simpson", "simpsons"],
+      "lattaquedestitans": ["snk", "attack on titan", "shingeki no kyojin"],
+      "magneto": ["magneto"],
+      "metalgearsolid": ["mgs"],
+      "monstresetcie": ["monstres & cie", "monster & cie", "monster and compagnie", "monstres and compagnie", "monstres et compagnie"],
+      "oliveettom": ["captain tsubasa"],
+      "ozaru": ["saiyan gorille", "sangoku gorille"],
+      "orangeisthenewblack": ["oitnb", "orange is new black"],
+      "retourverslefutur": ["back to the future"],
+      "spyrothedragon": ["spyro", "spyro le dragon"],
+      "streetfighter": ["street fighter 2", "sf2"],
+      "tekkenball": ["tekken 3 ball", "tekken 3"],
+      "thering": ["ring", "ringu"],
+      "walle": ["wall e", "wall-e"],
+    };
+
+    function looseText(value) {
+      return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/&/g, " et ")
+        .replace(/\u0153/g, "oe")
+        .replace(/\u00e6/g, "ae")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
+    }
+
+    function normalize(value) {
+      return looseText(value).replace(/\s+/g, "");
+    }
+
+    function importantWords(value) {
+      return looseText(value)
+        .split(/\s+/)
+        .filter((word) => word && !STOP_WORDS.has(word));
+    }
+
+    function editDistance(a, b) {
+      if (a === b) return 0;
+      if (!a || !b) return Math.max(a.length, b.length);
+      const previous = Array.from({ length: b.length + 1 }, (_, index) => index);
+      const current = new Array(b.length + 1);
+      for (let i = 1; i <= a.length; i++) {
+        current[0] = i;
+        for (let j = 1; j <= b.length; j++) {
+          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+          current[j] = Math.min(current[j - 1] + 1, previous[j] + 1, previous[j - 1] + cost);
+        }
+        previous.splice(0, previous.length, ...current);
+      }
+      return previous[b.length];
+    }
+
+    function typoLimit(length) {
+      if (length <= 5) return 0;
+      if (length <= 9) return 1;
+      if (length <= 16) return 2;
+      return 3;
+    }
+
+    function closeEnough(input, expected) {
+      const distance = editDistance(input, expected);
+      return distance <= typoLimit(Math.max(input.length, expected.length));
+    }
+
+    function candidateAnswers(title) {
+      const key = normalize(title);
+      const words = importantWords(title);
+      const candidates = new Set([key, normalize(words.join(" "))]);
+      const aliases = ANSWER_ALIASES[key] || [];
+      for (const alias of aliases) candidates.add(normalize(alias));
+
+      const primaryFragment = String(title || "")
+        .split(/\(|\)|\-|:|–|—/)
+        .map((part) => part.trim())
+        .filter(Boolean)[0];
+      if (primaryFragment) {
+        candidates.add(normalize(primaryFragment));
+        const fragmentWords = importantWords(primaryFragment);
+        if (fragmentWords.length) candidates.add(normalize(fragmentWords.join(" ")));
+      }
+
+      if (words.length > 1) candidates.add(normalize(words.slice(0, 2).join(" ")));
+      if (words.length > 2) candidates.add(normalize(words.slice(-2).join(" ")));
+      return [...candidates].filter(Boolean);
+    }
+
+    function hasEnoughKeywords(inputWords, expectedWords) {
+      if (expectedWords.length < 2) return false;
+      const matched = expectedWords.filter((word) => inputWords.some((input) => input === word || closeEnough(input, word)));
+      const required = expectedWords.length <= 2 ? expectedWords.length : Math.ceil(expectedWords.length * 0.66);
+      return matched.length >= required;
+    }
+
+    function isAcceptedAnswer(input, puzzle) {
+      const typed = normalize(input);
+      if (!typed) return false;
+      const candidates = candidateAnswers(puzzle.title);
+      if (candidates.some((candidate) => typed === candidate || closeEnough(typed, candidate))) return true;
+      return hasEnoughKeywords(importantWords(input), importantWords(puzzle.title));
+    }
+
+    function shuffle(items) {
+      const copy = [...items];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function uniqueDeck() {
+      const seen = new Set();
+      const bySize = { 3: [], 4: [] };
+      for (const puzzle of shuffle(RAW_PUZZLES)) {
+        const key = normalize(puzzle.title);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        const size = puzzle.clues.length === 4 ? 4 : 3;
+        bySize[size].push(puzzle);
+      }
+      return [...bySize[3], ...bySize[4]];
+    }
+
+    function renderHomeExample() {
+      if (!homeExample) return;
+      const candidates = uniqueDeck().filter((puzzle) => puzzle.clues.length === 3);
+      const puzzle = candidates[Math.floor(Math.random() * candidates.length)];
+      if (!puzzle) return;
+
+      homeExample.innerHTML = "";
+      puzzle.clues.slice(0, 3).forEach((emoji, index) => {
+        const emojiSpan = document.createElement("span");
+        emojiSpan.className = "home-emoji floaty-home";
+        emojiSpan.textContent = emoji;
+        homeExample.appendChild(emojiSpan);
+
+        if (index < 2) {
+          const plusSpan = document.createElement("span");
+          plusSpan.className = "home-op floaty-home";
+          plusSpan.textContent = "+";
+          homeExample.appendChild(plusSpan);
+        }
+      });
+
+      const equalSpan = document.createElement("span");
+      equalSpan.className = "home-op floaty-home";
+      equalSpan.textContent = "=";
+      homeExample.appendChild(equalSpan);
+
+      const questionSpan = document.createElement("span");
+      questionSpan.className = "home-op home-question floaty-home";
+      questionSpan.textContent = "?";
+      homeExample.appendChild(questionSpan);
+    }
+    function currentLevelLabel(index, puzzle) {
+      const firstHardIndex = state.deck.findIndex((item) => item.clues.length === 4);
+      const safeHardIndex = firstHardIndex === -1 ? state.deck.length : firstHardIndex;
+      const blockIndex = puzzle.clues.length === 4 ? index - safeHardIndex : index;
+      const baseLevel = puzzle.clues.length === 4 ? Math.ceil(safeHardIndex / 20) + 1 : 1;
+      return baseLevel + Math.floor(Math.max(0, blockIndex) / 20);
+    }
+
+    function levelBreaks(deck = state.deck) {
+      const firstHardIndex = deck.findIndex((item) => item.clues.length === 4);
+      const safeHardIndex = firstHardIndex === -1 ? deck.length : firstHardIndex;
+      const breaks = [];
+      for (let index = 20; index < safeHardIndex; index += 20) breaks.push(index);
+      if (safeHardIndex > 0 && safeHardIndex < deck.length) breaks.push(safeHardIndex);
+      for (let index = safeHardIndex + 20; index < deck.length; index += 20) breaks.push(index);
+      return breaks;
+    }
+
+    function levelSubtitle(levelNumber, deck = state.deck) {
+      const firstHardIndex = deck.findIndex((item) => item.clues.length === 4);
+      if (firstHardIndex !== -1) {
+        const firstHardLevel = currentLevelLabel(firstHardIndex, deck[firstHardIndex]);
+        if (levelNumber === firstHardLevel) return "On va ajouter une case...";
+      }
+      return "De nouvelles énigmes arrivent...";
+    }
+
+    function tone(type) {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type === "good" ? "triangle" : "sawtooth";
+        osc.frequency.value = type === "good" ? 620 : 120;
+        gain.gain.setValueAtTime(0.001, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.08, ctx.currentTime + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (type === "good" ? 0.18 : 0.24));
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + (type === "good" ? 0.19 : 0.25));
+      } catch (_) {}
+    }
+
+    function vibrate(pattern) {
+      if (navigator.vibrate) navigator.vibrate(pattern);
+    }
+    function playToneSequence(notes, type = "sine", duration = 0.28, step = 110, volume = 0.18) {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        notes.forEach((freq, index) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + index * (step / 1000));
+          gain.gain.setValueAtTime(0.001, ctx.currentTime + index * (step / 1000));
+          gain.gain.exponentialRampToValueAtTime(volume, ctx.currentTime + index * (step / 1000) + 0.01);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + index * (step / 1000) + duration);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + index * (step / 1000));
+          osc.stop(ctx.currentTime + index * (step / 1000) + duration);
+        });
+      } catch (_) {}
+    }
+
+    function uiMenuSound(kind = "tap") {
+      if (kind === "hover") {
+        playToneSequence([523, 587], "sine", 0.085, 68, 0.026);
+        return;
+      }
+      if (kind === "play") {
+        playToneSequence([262, 294, 330], "triangle", 0.17, 68, 0.056);
+        return;
+      }
+      if (kind === "speed") {
+        playToneSequence([330, 370, 440], "triangle", 0.16, 62, 0.052);
+        return;
+      }
+      if (kind === "cheat") {
+        playToneSequence([392, 440, 523], "triangle", 0.16, 60, 0.05);
+        return;
+      }
+      playToneSequence([294, 330, 392], "sine", 0.09, 66, 0.03);
+    }
+
+    function uiGameSound(kind = "tap") {
+      if (kind === "input") {
+        playToneSequence([392, 466], "sine", 0.08, 54, 0.022);
+        return;
+      }
+      if (kind === "continue") {
+        playToneSequence([392], "sine", 0.065, 50, 0.018);
+        return;
+      }
+      if (kind === "submit") {
+        return;
+      }
+      playToneSequence([392], "sine", 0.08, 56, 0.02);
+    }
+
+
+    function gameOverSound() {
+      playToneSequence([392, 330, 262, 196, 147, 131], "triangle", 0.3, 118, 0.072);
+    }
+    function soundWin() {
+      playToneSequence([523, 659, 784, 1047], "sine", 0.28, 110, 0.22);
+    }
+
+    function spawnConfetti() {
+      const colors = ["#fefcce", "#feec67", "#feb805", "#f24661", "#d2397f", "#ffffff"];
+      for (let i = 0; i < 80; i++) {
+        const el = document.createElement("div");
+        el.className = "confetti-piece";
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.animationDuration = 1.5 + Math.random() * 2 + "s";
+        el.style.animationDelay = Math.random() * 0.45 + "s";
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 4000);
+      }
+    }
+
+    const soundUnlock = () => [392, 523, 659, 988].forEach((f, i) => setTimeout(() => tone("good") || 0, 0));
+    function unlockSound() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        [392,523,659,988].forEach((f,i)=>{
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "triangle";
+          osc.frequency.value = f;
+          gain.gain.setValueAtTime(0.001, ctx.currentTime + i * 0.095);
+          gain.gain.exponentialRampToValueAtTime(0.06, ctx.currentTime + i * 0.095 + 0.01);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.095 + 0.22);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + i * 0.095);
+          osc.stop(ctx.currentTime + i * 0.095 + 0.22);
+        });
+      } catch (_) {}
+    }
+    function deniedSound() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        [160,120].forEach((f,i)=>{
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sawtooth";
+          osc.frequency.value = f;
+          gain.gain.setValueAtTime(0.001, ctx.currentTime + i * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.08, ctx.currentTime + i * 0.08 + 0.01);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.08 + 0.18);
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + i * 0.08);
+          osc.stop(ctx.currentTime + i * 0.08 + 0.18);
+        });
+      } catch (_) {}
+    }
+
+    function hideLaunchSplash() {
+      if (!launchSplash || launchSplash.classList.contains("hidden")) return;
+      const delay = prefersReducedMotion ? 90 : 360;
+      window.setTimeout(() => {
+        launchSplash.classList.add("hidden");
+        document.body.classList.remove("is-booting");
+      }, delay);
+    }
+
+    let activeScreen = "home";
+    let screenTransitionTimer = 0;
+    let lastHoverToneAt = 0;
+
+    function pressFeedback(element) {
+      if (!element) return;
+      element.classList.remove("is-pressed");
+      void element.offsetWidth;
+      element.classList.add("is-pressed");
+      window.setTimeout(() => element.classList.remove("is-pressed"), 170);
+    }
+
+    function transitionToScreen(target, afterChange = () => {}) {
+      const current = activeScreen;
+      if (target === current) {
+        setScreen(target);
+        afterChange();
+        return;
+      }
+      const screens = { home, game, cheat };
+      const currentEl = screens[current];
+      const nextEl = screens[target];
+      const finish = () => {
+        setScreen(target);
+        activeScreen = target;
+        if (!prefersReducedMotion && nextEl) {
+          nextEl.classList.add("entering");
+          requestAnimationFrame(() => nextEl.classList.remove("entering"));
+        }
+        document.body.classList.remove("is-screen-transitioning");
+        afterChange();
+      };
+
+      clearTimeout(screenTransitionTimer);
+      if (prefersReducedMotion || !currentEl || !nextEl) {
+        finish();
+        return;
+      }
+
+      document.body.classList.add("is-screen-transitioning");
+      currentEl.classList.add("leaving");
+      screenTransitionTimer = window.setTimeout(() => {
+        currentEl.classList.remove("active", "leaving");
+        finish();
+      }, 170);
+    }
+
+    function bindHomeAction(button, soundKind, action) {
+      if (!button) return;
+      if (canHover) {
+        button.addEventListener("pointerenter", () => {
+          const now = Date.now();
+          if (now - lastHoverToneAt < 90) return;
+          lastHoverToneAt = now;
+          uiMenuSound("hover");
+        });
+      }
+      button.addEventListener("click", () => {
+        pressFeedback(button);
+        uiMenuSound(soundKind);
+        vibrate(soundKind === "play" ? [12, 18, 12] : 12);
+        window.setTimeout(action, prefersReducedMotion ? 0 : 48);
+      });
+    }
+
+    function setScreen(target) {
+      home.classList.toggle("active", target === "home");
+      game.classList.toggle("active", target === "game");
+      cheat.classList.toggle("active", target === "cheat");
+      overlay.classList.remove("active");
+      levelOverlay.classList.remove("active");
+      if (target === "home" || target === "cheat") window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderHearts(previousLives = state.lives) {
+      const safePreviousLives = Math.max(0, Math.min(MAX_LIVES, previousLives));
+      const gainedLife = state.lives > safePreviousLives && safePreviousLives < MAX_LIVES;
+      const lostLife = state.lives < safePreviousLives;
+      hearts.innerHTML = "";
+      hearts.classList.remove("hearts-loss", "hearts-gain");
+      void hearts.offsetWidth;
+      if (lostLife) {
+        hearts.classList.add("hearts-loss");
+      } else if (gainedLife) {
+        hearts.classList.add("hearts-gain");
+      }
+      for (let i = 0; i < MAX_LIVES; i++) {
+        const span = document.createElement("span");
+        const isLive = i < state.lives;
+        span.className = `heart ${isLive ? "live" : "empty"}`;
+        if (gainedLife && isLive && i === state.lives - 1) span.classList.add("gain");
+        span.textContent = isLive ? "❤️" : "🖤";
+        hearts.appendChild(span);
+      }
+      window.setTimeout(() => hearts.classList.remove("hearts-loss", "hearts-gain"), 460);
+    }
+    function splitLongHint(text) {
+      const value = String(text || "").trim();
+      const words = value.split(/\s+/).filter(Boolean);
+      if (value.length < 46 || words.length < 6) return null;
+
+      let bestLines = null;
+      let bestScore = Infinity;
+
+      for (let index = 2; index <= words.length - 2; index += 1) {
+        const firstLine = words.slice(0, index).join(" ");
+        const secondLine = words.slice(index).join(" ");
+        const secondWords = words.length - index;
+        if (secondWords < 2) continue;
+
+        const score = Math.abs(firstLine.length - secondLine.length) + Math.abs(secondWords - 3) * 6;
+        if (score < bestScore) {
+          bestScore = score;
+          bestLines = [firstLine, secondLine];
+        }
+      }
+
+      return bestLines;
+    }
+
+    function renderHint(text) {
+      const hintText = String(text || "").trim();
+      const lines = splitLongHint(hintText);
+      hint.classList.toggle("is-long", !!lines);
+      hint.innerHTML = "";
+
+      if (!lines) {
+        hint.textContent = "Indice : " + hintText;
+        return;
+      }
+
+      const firstLine = document.createElement("span");
+      firstLine.className = "hint-line";
+      firstLine.textContent = "Indice : " + lines[0];
+      const secondLine = document.createElement("span");
+      secondLine.className = "hint-line";
+      secondLine.textContent = lines[1];
+      hint.append(firstLine, secondLine);
+    }
+
+    function renderPuzzle() {
+      state.current = state.deck[state.index];
+      if (!state.current) return endGame(true);
+      const level = currentLevelLabel(state.index, state.current);
+      levelPill.textContent = `NIVEAU ${level}`;
+      clues.innerHTML = "";
+      clues.classList.toggle("is-four", state.current.clues.length === 4);
+      if (gameInner) {
+        gameInner.classList.remove("puzzle-enter");
+        void gameInner.offsetWidth;
+        gameInner.classList.add("puzzle-enter");
+        window.setTimeout(() => gameInner.classList.remove("puzzle-enter"), 420);
+      }
+      state.current.clues.forEach((emoji, index) => {
+        const span = document.createElement("span");
+        span.className = "clue clue-enter";
+        span.textContent = emoji;
+        span.style.setProperty("--clue-delay", `${index * 0.06}s`);
+        span.style.setProperty("--float-delay", `${index * 0.16}s`);
+        clues.appendChild(span);
+      });
+      renderHint(state.current.hint);
+      answerInput.value = "";
+      answerInput.classList.remove("correct", "wrong", "shake");
+      if (answerInputWrap) answerInputWrap.classList.remove("success-flash");
+      message.textContent = "";
+      message.className = "message";
+      validateBtn.disabled = true;
+      answerForm.classList.remove("ready");
+      renderHearts(state.lives);
+      if (!window.matchMedia("(max-width: 640px)").matches && !isStandalonePwa) {
+        setTimeout(() => answerInput.focus({ preventScroll: true }), 80);
+      }
+    }
+
+    function wakeValidateButton() {
+      if (!validateBtn || validateBtn.disabled) return;
+      validateBtn.classList.remove("wake");
+      void validateBtn.offsetWidth;
+      validateBtn.classList.add("wake");
+      window.setTimeout(() => validateBtn.classList.remove("wake"), 240);
+    }
+
+    function startGame(speedrun = false, startIndex = 0, deck = null) {
+      state.deck = deck || uniqueDeck();
+      state.index = startIndex;
+      state.lives = MAX_LIVES;
+      state.score = startIndex;
+      state.speedrun = speedrun;
+      state.startTime = Date.now();
+      transitionToScreen("game", () => {
+        overlay.classList.remove("active");
+        levelOverlay.classList.remove("active");
+        renderPuzzle();
+      });
+    }
+
+    function showModal({ emoji, title, answer, scoreText, buttonText = "CONTINUER", variant = "default" }) {
+      dismissAnswerKeyboard();
+      answerInput.classList.remove("correct");
+      if (answerInputWrap) answerInputWrap.classList.remove("success-flash");
+      overlay.classList.remove("closing");
+      if (variant === "default") overlay.removeAttribute("data-variant");
+      else overlay.setAttribute("data-variant", variant);
+      modalEmoji.textContent = emoji;
+      modalTitle.textContent = title;
+      modalAnswerLine.style.display = answer ? "block" : "none";
+      modalAnswer.textContent = answer || "";
+      modalScore.textContent = scoreText;
+      continueBtn.textContent = buttonText;
+      overlay.classList.add("active");
+      continueBtn.focus({ preventScroll: true });
+    }
+
+    function showLevelModal(levelNumber) {
+      dismissAnswerKeyboard();
+      levelModalEmoji.textContent = state.deck[state.index]?.clues.length === 4 ? "🧩" : "✨";
+      levelModalTitle.textContent = `Niveau ${levelNumber} débloqué !`;
+      levelModalSubtitle.textContent = levelSubtitle(levelNumber);
+      levelOverlay.classList.remove("closing");
+      levelOverlay.classList.add("active");
+      vibrate([18, 26, 18]);
+      levelContinueBtn.focus({ preventScroll: true });
+    }
+
+    function closeRewardOverlay(targetOverlay, callback) {
+      if (!targetOverlay.classList.contains("active")) {
+        callback();
+        return;
+      }
+      const modal = targetOverlay.querySelector(".modal");
+      targetOverlay.classList.remove("active");
+      targetOverlay.classList.add("active", "closing");
+      if (modal) {
+        modal.style.animation = "modalClose .18s ease both";
+      }
+      window.setTimeout(() => {
+        targetOverlay.classList.remove("active", "closing");
+        if (modal) modal.style.animation = "";
+        callback();
+      }, 180);
+    }
+
+    function validateAnswer(event) {
+      event.preventDefault();
+      if (!state.current) return;
+      const typed = answerInput.value.trim();
+      if (!typed) return;
+      const isGood = isAcceptedAnswer(typed, state.current);
+      const previousLives = state.lives;
+      answerInput.classList.remove("correct", "wrong", "shake");
+      void answerInput.offsetWidth;
+      if (isGood) {
+        state.score += 1;
+        state.lives = Math.min(MAX_LIVES, previousLives + 1);
+        answerInput.classList.add("correct");
+        if (answerInputWrap) {
+          answerInputWrap.classList.remove("success-flash");
+          void answerInputWrap.offsetWidth;
+          answerInputWrap.classList.add("success-flash");
+        }
+        message.textContent = "";
+        message.className = "message";
+        soundWin();
+        spawnConfetti();
+        vibrate([24, 18, 24]);
+        renderHearts(previousLives);
+        window.setTimeout(() => {
+          showModal({
+            emoji: state.current.clues[0],
+            title: "Combo réussi !",
+            answer: state.current.title,
+            scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
+          });
+        }, 320);
+      } else {
+        state.lives = Math.max(0, previousLives - 1);
+        answerInput.classList.add("wrong", "shake");
+        message.textContent = state.lives > 0 ? `Rat\u00e9 ! Il te reste ${state.lives} ${state.lives > 1 ? "essais" : "essai"}.` : "Perdu...";
+        message.className = "message bad";
+        tone("bad");
+        vibrate([70]);
+        renderHearts(previousLives);
+        if (state.lives <= 0) {
+          gameOverSound();
+          window.setTimeout(() => {
+            showModal({
+              emoji: "💔",
+              title: "Partie terminée",
+              answer: state.current.title,
+              scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
+              buttonText: "REJOUER",
+              variant: "danger",
+            });
+          }, 560);
+        }
+      }
+    }
+
+    function nextPuzzle() {
+      answerInput.classList.remove("correct");
+      if (answerInputWrap) answerInputWrap.classList.remove("success-flash");
+      const proceed = () => {
+        if (state.lives <= 0) return startGame(state.speedrun);
+        state.index += 1;
+        if (state.index >= state.deck.length) return endGame();
+        if (levelBreaks(state.deck).includes(state.index)) {
+          showLevelModal(currentLevelLabel(state.index, state.deck[state.index]));
+          return;
+        }
+        renderPuzzle();
+      };
+      if (overlay.classList.contains("active")) {
+        closeRewardOverlay(overlay, proceed);
+        return;
+      }
+      if (levelOverlay.classList.contains("active")) {
+        closeRewardOverlay(levelOverlay, proceed);
+        return;
+      }
+      proceed();
+    }
+
+    function endGame() {
+      const elapsed = Math.round((Date.now() - state.startTime) / 1000);
+      const timeText = state.speedrun ? ` \u00b7 Temps : ${elapsed}s` : "";
+      vibrate([22, 26, 38]);
+      showModal({
+        emoji: "🏆",
+        title: "Jicombo terminé !",
+        answer: "",
+        scoreText: `Score : ${state.score}/${state.deck.length}${timeText}`,
+        buttonText: "REJOUER",
+        variant: "default",
+      });
+      state.lives = 0;
+    }
+
+    function showCheat() {
+      transitionToScreen("cheat", () => {
+        cheatStatus.textContent = "";
+        cheatStatus.className = "cheat-status";
+        cheatInput.value = "";
+        cheatInput.className = "cheat-input";
+        document.querySelector(".cheat-card").classList.remove("unlock");
+        cheatSubmit.disabled = true;
+        setTimeout(() => cheatInput.focus({ preventScroll: true }), 80);
+      });
+    }
+
+    function goHome() {
+      dismissAnswerKeyboard();
+      overlay.classList.remove("active");
+      levelOverlay.classList.remove("active");
+      transitionToScreen("home", () => {
+        message.textContent = "";
+      });
+    }
+
+    function refreshHome() {
+      window.location.href = window.location.pathname + window.location.search;
+    }
+
+    function submitCheat() {
+      const code = cheatInput.value.trim().toUpperCase();
+      cheatInput.value = code;
+      cheatStatus.className = "cheat-status";
+      cheatInput.className = "cheat-input";
+      const card = document.querySelector(".cheat-card");
+      void cheatInput.offsetWidth;
+      if (code === "FAKFAK") {
+        cheatStatus.textContent = "Checkpoint d\u00e9bloqu\u00e9 ! \u{1F513}";
+        cheatStatus.classList.add("ok");
+        cheatInput.classList.add("ok");
+        card.classList.remove("unlock");
+        void card.offsetWidth;
+        card.classList.add("unlock");
+        vibrate([30,35,45]);
+        unlockSound();
+        const run = uniqueDeck();
+        const start = run.findIndex((p) => p.clues.length === 4);
+        setTimeout(() => startGame(false, Math.max(0, start), run), 900);
+        return;
+      }
+      cheatStatus.textContent = code.length ? "Code inconnu" : "Entre un code secret...";
+      cheatStatus.classList.add("bad");
+      cheatInput.classList.add("bad");
+      vibrate(70);
+      deniedSound();
+    }
+
+    if (!window.matchMedia("(max-width: 640px)").matches && !isStandalonePwa) renderHomeExample();
+
+    hideLaunchSplash();
+
+    homeLogo.addEventListener("click", refreshHome);
+    homeLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") refreshHome(); });
+    bindHomeAction(playBtn, "play", () => startGame(false));
+    bindHomeAction(speedBtn, "speed", () => startGame(true));
+    bindHomeAction(cheatBtn, "cheat", showCheat);
+    gameLogo.addEventListener("click", () => {
+      uiGameSound("tap");
+      goHome();
+    });
+    gameLogo.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        uiGameSound("tap");
+        goHome();
+      }
+    });
+    cheatLogo.addEventListener("click", goHome);
+    cheatLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") goHome(); });
+    cheatSubmit.addEventListener("click", submitCheat);
+    cheatInput.addEventListener("input", (event) => { event.target.value = event.target.value.toUpperCase().replace(/[^A-Z0-9._-]/g, "").slice(0, 6); cheatSubmit.disabled = !event.target.value.trim(); });
+    cheatInput.addEventListener("keydown", (event) => { if (event.key === "Enter" && !cheatSubmit.disabled) submitCheat(); });
+    document.querySelectorAll(".cheat-key").forEach((btn) => btn.addEventListener("click", () => { const key = btn.dataset.key; if (key === "DEL") { cheatInput.value = cheatInput.value.slice(0, -1); cheatSubmit.disabled = !cheatInput.value.trim(); return; } if (cheatInput.value.length < 6) cheatInput.value += key; cheatSubmit.disabled = !cheatInput.value.trim(); }));
+    answerInput.addEventListener("input", () => {
+      const ready = !!answerInput.value.trim();
+      const wasReady = answerForm.classList.contains("ready");
+      validateBtn.disabled = !ready;
+      answerForm.classList.toggle("ready", ready);
+      if (ready && !wasReady) wakeValidateButton();
+    });
+    answerInput.addEventListener("focus", () => {
+      document.body.classList.add("keyboard-open");
+      if (answerInputWrap) answerInputWrap.classList.add("is-focused");
+      uiGameSound("input");
+    });
+    answerInput.addEventListener("blur", () => {
+      if (answerInputWrap) answerInputWrap.classList.remove("is-focused");
+      setTimeout(() => {
+        if (document.activeElement !== answerInput) document.body.classList.remove("keyboard-open");
+        if (isStandalonePwa) syncViewportOnLaunch(true);
+      }, 20);
+    });
+    answerInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        dismissAnswerKeyboard(true);
+      }
+    });
+    validateBtn.addEventListener("pointerdown", () => {
+      if (!validateBtn.disabled) pressFeedback(validateBtn);
+    });
+    answerForm.addEventListener("submit", (event) => {
+      validateAnswer(event);
+    });
+    continueBtn.addEventListener("click", () => {
+      uiGameSound("continue");
+      pressFeedback(continueBtn);
+      overlay.removeAttribute("data-variant");
+      nextPuzzle();
+    });
+    levelContinueBtn.addEventListener("click", () => {
+      uiGameSound("continue");
+      pressFeedback(levelContinueBtn);
+      closeRewardOverlay(levelOverlay, () => {
+        renderPuzzle();
+      });
+    });
+    document.addEventListener("pointerdown", (event) => {
+      if (!game.classList.contains("active")) return;
+      if (overlay.classList.contains("active") || levelOverlay.classList.contains("active")) return;
+      if (document.activeElement !== answerInput) return;
+      if (answerForm.contains(event.target)) return;
+      dismissAnswerKeyboard(true);
+    });
+
+    if (isStandalonePwa) {
+      window.addEventListener("load", syncViewportOnLaunch);
+      window.addEventListener("resize", syncViewportOnLaunch);
+      window.addEventListener("orientationchange", syncViewportOnLaunch);
+      window.addEventListener("pageshow", syncViewportOnLaunch);
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", syncViewportOnLaunch);
+      }
+      syncViewportOnLaunch();
+    }
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register(`sw.js?v=${CACHE_VERSION}`).catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
 
 
