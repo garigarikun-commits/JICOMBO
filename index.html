@@ -3931,8 +3931,16 @@
     bindHomeAction(playBtn, "play", () => startGame(false));
     bindHomeAction(speedBtn, "speed", () => startGame(true));
     bindHomeAction(cheatBtn, "cheat", showCheat);
-    gameLogo.addEventListener("click", goHome);
-    gameLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") goHome(); });
+    gameLogo.addEventListener("click", () => {
+      uiGameSound("tap");
+      goHome();
+    });
+    gameLogo.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        uiGameSound("tap");
+        goHome();
+      }
+    });
     cheatLogo.addEventListener("click", goHome);
     cheatLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") goHome(); });
     cheatSubmit.addEventListener("click", submitCheat);
@@ -4010,6 +4018,7 @@
   </script>
 </body>
 </html>
+
 
 
 
