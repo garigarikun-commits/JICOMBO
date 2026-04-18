@@ -1452,7 +1452,7 @@
       </div>
       <p class="cheat-hint">Entre un code secret...</p>
       <p class="cheat-status" id="cheatStatus"></p>
-      <div class="cheat-actions"><button class="btn" id="cheatSubmit" type="button">Valider</button></div>
+      <div class="cheat-actions"><button class="validate-btn" id="cheatSubmit" type="button">VALIDER</button></div>
     </div>
   </main>
 
@@ -1467,7 +1467,7 @@
         <div class="answer-input-wrap">
           <input id="answerInput" class="answer-input" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="Ta r&eacute;ponse...">
         </div>
-        <button id="validateBtn" class="validate-btn" type="submit" disabled>Valider</button>
+        <button id="validateBtn" class="validate-btn" type="submit" disabled>VALIDER</button>
       </form>
       <div id="hearts" class="hearts" aria-label="Vies"></div>
       <div id="message" class="message" aria-live="polite"></div>
@@ -1480,7 +1480,7 @@
       <h2 id="modalTitle">Combo r&eacute;ussi !</h2>
       <p id="modalAnswerLine">R&eacute;ponse : <span id="modalAnswer" class="answer"></span></p>
       <p id="modalScore">Score : 0 point</p>
-      <button id="continueBtn" class="btn" type="button">Continuer</button>
+      <button id="continueBtn" class="btn" type="button">CONTINUER</button>
     </div>
   </div>
 
@@ -1489,7 +1489,7 @@
       <div id="levelModalEmoji" class="modal-emoji">&#x1F31F;</div>
       <h2 id="levelModalTitle">Niveau 2 d&eacute;bloqu&eacute; !</h2>
       <p id="levelModalSubtitle" class="modal-score">De nouvelles &eacute;nigmes arrivent...</p>
-      <button id="levelContinueBtn" class="btn" type="button">Continuer</button>
+      <button id="levelContinueBtn" class="btn" type="button">CONTINUER</button>
     </div>
   </div>
 
@@ -3717,7 +3717,7 @@
       });
     }
 
-    function showModal({ emoji, title, answer, scoreText, buttonText = "Continuer", variant = "default" }) {
+    function showModal({ emoji, title, answer, scoreText, buttonText = "CONTINUER", variant = "default" }) {
       dismissAnswerKeyboard();
       answerInput.classList.remove("correct");
       if (answerInputWrap) answerInputWrap.classList.remove("success-flash");
@@ -3998,3 +3998,5 @@
   </script>
 </body>
 </html>
+
+
