@@ -3728,7 +3728,8 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "78";
+    const CACHE_VERSION = "79";
+    const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
       deck: [],
@@ -3743,8 +3744,17 @@
 
     const $ = (id) => document.getElementById(id);
     const isStandalonePwa = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+    const skipLaunchSplashOnce = (() => {
+      try {
+        if (sessionStorage.getItem(SKIP_SPLASH_ONCE_KEY) === "1") {
+          sessionStorage.removeItem(SKIP_SPLASH_ONCE_KEY);
+          return true;
+        }
+      } catch (_) {}
+      return false;
+    })();
     if (isStandalonePwa) document.body.classList.add("standalone-pwa");
-    document.body.classList.add("is-booting");
+    if (!skipLaunchSplashOnce) document.body.classList.add("is-booting");
     const viewportBg = $("viewport-bg");
     const home = $("home");
     const game = $("game");
@@ -3754,6 +3764,7 @@
     const cheatLogo = $("cheatLogo");
     const gameInner = $("gameInner");
     const launchSplash = $("launchSplash");
+    if (skipLaunchSplashOnce && launchSplash) launchSplash.classList.add("hidden");
     const playBtn = $("playBtn");
     const speedBtn = $("speedBtn");
     const cheatBtn = $("cheatBtn");
@@ -4597,6 +4608,9 @@
     }
 
     function refreshHome() {
+      try {
+        sessionStorage.setItem(SKIP_SPLASH_ONCE_KEY, "1");
+      } catch (_) {}
       window.location.href = window.location.pathname + window.location.search;
     }
 
