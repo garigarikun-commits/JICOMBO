@@ -442,10 +442,10 @@ Réponse : Rotten
 Indice : Buuut…BORDURE !!!
 Réponse : Auriol
 
-- Melodica
-🎶 🪈 🟠
+- Fl?te irlandaise
+?? ?? ????
 Indice : Instrument digne d’un Zadiste
-Réponse : Melodica
+R?ponse : Fl?te irlandaise
 
 - Entre ciment et belle étoile
 🙍🏼 🙍🏻 🙍🏿
