@@ -508,9 +508,10 @@
       box-shadow: 0 0 24px rgba(254,184,5,.14);
     }
     .cheat-hint,.cheat-status {
-      min-height: 1.4em;
+      min-height: 1.18em;
       color: var(--muted);
       font-size: .9rem;
+      line-height: 1.2;
       margin: 0;
     }
     .cheat-status.ok { color: #8ff0a4; }
@@ -520,7 +521,7 @@
       gap: 10px;
       flex-wrap: wrap;
       justify-content: center;
-      margin-top: -4px;
+      margin-top: -10px;
     }
     .cheat-keypad {
       display: grid;
@@ -3798,7 +3799,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "82";
+    const CACHE_VERSION = "83";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
