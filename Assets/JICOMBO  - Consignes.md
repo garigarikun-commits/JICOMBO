@@ -442,10 +442,10 @@ Réponse : Rotten
 Indice : Buuut…BORDURE !!!
 Réponse : Auriol
 
-- Fl?te irlandaise
-?? ?? ????
+- Flûte irlandaise
+🎶 ☘️ 🇮🇪
 Indice : Instrument digne d’un Zadiste
-R?ponse : Fl?te irlandaise
+Réponse : Flûte irlandaise
 
 - Entre ciment et belle étoile
 🙍🏼 🙍🏻 🙍🏿
