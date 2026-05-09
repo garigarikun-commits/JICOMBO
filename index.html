@@ -3890,7 +3890,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "93";
+    const CACHE_VERSION = "94";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
@@ -4263,6 +4263,7 @@
       homeExample.appendChild(questionSpan);
     }
     function currentLevelLabel(index, puzzle) {
+      if (state.isBirthdayDlc) return puzzle.clues.length === 4 ? 1 : 2;
       const firstThreeIndex = state.deck.findIndex((item) => item.clues.length === 3);
       const safeThreeIndex = firstThreeIndex === -1 ? state.deck.length : firstThreeIndex;
       const blockIndex = puzzle.clues.length === 3 ? index - safeThreeIndex : index;
@@ -4273,6 +4274,7 @@
     function levelBreaks(deck = state.deck) {
       const firstThreeIndex = deck.findIndex((item) => item.clues.length === 3);
       const safeThreeIndex = firstThreeIndex === -1 ? deck.length : firstThreeIndex;
+      if (state.isBirthdayDlc) return safeThreeIndex > 0 && safeThreeIndex < deck.length ? [safeThreeIndex] : [];
       const breaks = [];
       for (let index = 20; index < safeThreeIndex; index += 20) breaks.push(index);
       if (safeThreeIndex > 0 && safeThreeIndex < deck.length) breaks.push(safeThreeIndex);
@@ -4286,7 +4288,7 @@
         const firstThreeLevel = currentLevelLabel(firstThreeIndex, deck[firstThreeIndex]);
         if (levelNumber === firstThreeLevel) return "On va retirer une case...";
       }
-      return "De nouvelles énigmes arrivent...";
+      return state.isBirthdayDlc ? "Encore quelques \u00e9nigmes surprises..." : "De nouvelles \u00e9nigmes arrivent...";
     }
 
     function tone(type) {
