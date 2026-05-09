@@ -435,10 +435,39 @@
     #cheatBtn {
       box-shadow: inset 0 0 0 1px rgba(254,184,5,.05);
     }
+    #dlcBtn {
+      color: #fff6d6;
+      background: linear-gradient(135deg, rgba(254,184,5,.24) 0%, rgba(210,57,127,.28) 100%);
+      border-color: rgba(254,236,103,.42);
+      box-shadow: inset 0 0 0 1px rgba(254,236,103,.1), 0 10px 22px rgba(210,57,127,.18);
+      overflow: visible;
+    }
+    #dlcBtn .btn-label {
+      letter-spacing: .04em;
+      font-size: .92em;
+    }
+    #dlcBtn .btn-badge {
+      position: absolute;
+      top: -8px;
+      right: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #fff8cf 0%, #ffd45d 100%);
+      color: #672138;
+      font-size: .56rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      line-height: 1;
+      box-shadow: 0 6px 14px rgba(0,0,0,.16);
+      animation: dlcBadgePulse 1.9s ease-in-out infinite;
+      pointer-events: none;
+    }
     #speedBtn:hover,
     #speedBtn:focus-visible,
     #cheatBtn:hover,
-    #cheatBtn:focus-visible {
+    #cheatBtn:focus-visible,
+    #dlcBtn:hover,
+    #dlcBtn:focus-visible {
       box-shadow: inset 0 0 0 1px rgba(254,184,5,.07);
     }
     .btn.secondary {
@@ -585,6 +614,10 @@
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    @keyframes dlcBadgePulse {
+      0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 6px 14px rgba(0,0,0,.16); }
+      50% { transform: translateY(-1px) scale(1.05); box-shadow: 0 10px 18px rgba(254,184,5,.18); }
+    }
 
     .level-pill {
       padding: 8px 14px;
@@ -677,6 +710,7 @@
     .game-inner.puzzle-enter .level-pill,
     .game-inner.puzzle-enter .prompt-title,
     .game-inner.puzzle-enter .hint,
+    .game-inner.puzzle-enter .puzzle-credit,
     .game-inner.puzzle-enter .answer-form,
     .game-inner.puzzle-enter .hearts,
     .game-inner.puzzle-enter .message {
@@ -684,6 +718,7 @@
     }
     .game-inner.puzzle-enter .prompt-title { animation-delay: .03s; }
     .game-inner.puzzle-enter .hint { animation-delay: .06s; }
+    .game-inner.puzzle-enter .puzzle-credit { animation-delay: .08s; }
     .game-inner.puzzle-enter .answer-form { animation-delay: .1s; }
     .game-inner.puzzle-enter .hearts { animation-delay: .12s; }
     @keyframes floaty {
@@ -712,6 +747,17 @@
     }
     .hint.is-long .hint-line {
       white-space: nowrap;
+    }
+    .puzzle-credit {
+      min-height: 16px;
+      width: min(320px, 100%);
+      margin: -2px auto 2px;
+      color: rgba(254,236,206,.68);
+      font-size: 11px;
+      line-height: 1.2;
+      letter-spacing: .04em;
+      text-align: center;
+      text-wrap: balance;
     }
     .answer-form {
       width: min(340px, 100%);
@@ -1258,6 +1304,10 @@
         font-size: 13px;
         line-height: 1.28;
       }
+      .puzzle-credit {
+        font-size: 10.5px;
+        width: min(300px, 100%);
+      }
       .hint.is-long {
         max-width: 33ch;
         font-size: 12.5px;
@@ -1419,6 +1469,10 @@
         font-size: 13px;
         line-height: 1.26;
       }
+      body.standalone-pwa .puzzle-credit {
+        width: min(292px, 100%);
+        font-size: 10.5px;
+      }
       body.standalone-pwa .hint.is-long {
         max-width: 31ch;
         font-size: 12.5px;
@@ -1525,6 +1579,7 @@
     </div>
     <div class="actions">
       <button class="btn" id="playBtn" type="button"><span class="btn-label">Jouer</span></button>
+      <button class="btn secondary" id="dlcBtn" type="button"><span class="btn-label">Birthday Cake</span><span class="btn-badge">New</span></button>
       <button class="btn secondary" id="speedBtn" type="button"><span class="btn-label">Speedrun</span></button>
       <button class="btn secondary" id="cheatBtn" type="button"><span class="btn-label">Cheat Code</span></button>
     </div>
@@ -1556,6 +1611,7 @@
       </div>
       <p class="prompt-title">Trouve la r&eacute;ponse !</p>
       <div id="hint" class="hint"></div>
+      <div id="puzzleCredit" class="puzzle-credit" hidden></div>
       <div id="clues" class="clues" aria-label="Emojis indices"></div>
       <form id="answerForm" class="answer-form" autocomplete="off">
         <div class="answer-input-wrap">
@@ -3802,7 +3858,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "86";
+    const CACHE_VERSION = "87";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
@@ -3814,7 +3870,68 @@
       startTime: 0,
       current: null,
       checkpointUsed: false,
+      isBirthdayDlc: false,
     };
+
+    const BIRTHDAY_DLC_BLUEPRINT = [
+      { key: "leparrain", contributor: "Maman" },
+      { key: "oxmopuccino", contributor: "Maman" },
+      { key: "carlossantana", contributor: "Maman" },
+      { key: "charlesaznavour", contributor: "Maman" },
+      { key: "lelivredelajungle", contributor: "Maman" },
+      { key: "bernardwerber", contributor: "Manu" },
+      { key: "eyeswideshut", contributor: "Manu" },
+      { key: "maman", contributor: "Manu" },
+      { key: "micmaths", contributor: "Manu" },
+      { key: "tarteauxparamites", contributor: "Manu" },
+      { key: "lamazone", contributor: "Manu" },
+      { key: "kemar", contributor: "Manu" },
+      { key: "shapez", contributor: "Manu" },
+      { key: "moshimoshi", contributor: "Manu" },
+      { key: "docgyneco", contributor: "Manu" },
+      { key: "alien", contributor: "Manu" },
+      { key: "1erimpact", contributor: "Manu" },
+      { key: "roosterfighter", contributor: "Manu" },
+      { key: "tonyhawk", contributor: "Manu" },
+      { key: "akagi", contributor: "Manu" },
+      { key: "coachanzai", contributor: "Manu" },
+      { key: "jeanlouissan", contributor: "Manu" },
+      { key: "furax", contributor: "Manu" },
+      { key: "magneto", contributor: "Manu" },
+      { key: "elleestlalajoue", contributor: "Manu" },
+      { key: "trancetto", contributor: "Drigo" },
+      { key: "china", contributor: "Drigo" },
+      { key: "crapaud", contributor: "Drigo" },
+      { key: "rotten", contributor: "Drigo" },
+      { key: "auriol", contributor: "Drigo" },
+      { key: "fluteirlandaise", contributor: "Drigo" },
+      { key: "entrecimentetbelleetoile", contributor: "Drigo" },
+      { key: "real", contributor: "Drigo" },
+      { key: "ballz", contributor: "Drigo" },
+      { key: "tamoil", contributor: "Drigo" },
+      { key: "preaurose", contributor: "Drigo" },
+      { key: "lacoccinelle", contributor: "Drigo" },
+      { key: "carolineskala", contributor: "Drigo" },
+      { key: "getbackers", contributor: "Drigo" },
+      { key: "cococurry", contributor: "Shéshé" },
+      { key: "okinawa", contributor: "Shéshé" },
+      { key: "arigatogozaimasu", contributor: "Shéshé" },
+      { key: "jaimetrooooop", contributor: "Shéshé" },
+      { key: "julien", contributor: "Shéshé" },
+      { key: "khaleesi", contributor: "Shéshé" },
+      { key: "booba", contributor: "Shéshé" },
+      { key: "bingo", contributor: "Salma" },
+      { key: "bref", contributor: "Sandra" },
+      { key: "campinglayole", contributor: "Sandra" },
+      { key: "jalousie", contributor: "Sandra" },
+      { key: "cousins", contributor: "Sandra" },
+      { key: "titanic", contributor: "Sandra" },
+      { key: "jul", contributor: "Liam" },
+      { key: "sangoku", contributor: "Liam" },
+      { key: "mario", contributor: "Liam" },
+      { key: "kylianmbappe", contributor: "Liam" },
+      { key: "sonic", contributor: "Liam" },
+    ];
 
     const $ = (id) => document.getElementById(id);
     const isStandalonePwa = window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
@@ -3840,6 +3957,7 @@
     const launchSplash = $("launchSplash");
     if (skipLaunchSplashOnce && launchSplash) launchSplash.classList.add("hidden");
     const playBtn = $("playBtn");
+    const dlcBtn = $("dlcBtn");
     const speedBtn = $("speedBtn");
     const cheatBtn = $("cheatBtn");
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -3847,6 +3965,7 @@
     const homeExample = $("homeExample");
     const clues = $("clues");
     const hint = $("hint");
+    const puzzleCredit = $("puzzleCredit");
     const answerForm = $("answerForm");
     const answerInput = $("answerInput");
     const hearts = $("hearts");
@@ -4048,17 +4167,40 @@
       return copy;
     }
 
-    function uniqueDeck() {
-      const seen = new Set();
+    function orderDeckByEmojiCount(puzzles) {
       const bySize = { 3: [], 4: [] };
-      for (const puzzle of shuffle(RAW_PUZZLES)) {
-        const key = normalize(puzzle.title);
-        if (seen.has(key)) continue;
-        seen.add(key);
+      for (const puzzle of puzzles) {
         const size = puzzle.clues.length === 4 ? 4 : 3;
         bySize[size].push(puzzle);
       }
       return [...bySize[4], ...bySize[3]];
+    }
+
+    function uniqueDeck() {
+      const seen = new Set();
+      const selected = [];
+      for (const puzzle of shuffle(RAW_PUZZLES)) {
+        const key = normalize(puzzle.title);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        selected.push(puzzle);
+      }
+      return orderDeckByEmojiCount(selected);
+    }
+
+    function birthdayDlcDeck() {
+      const byTitle = new Map();
+      for (const puzzle of RAW_PUZZLES) {
+        const key = normalize(puzzle.title);
+        if (!byTitle.has(key)) byTitle.set(key, puzzle);
+      }
+      const selected = [];
+      for (const entry of BIRTHDAY_DLC_BLUEPRINT) {
+        const source = byTitle.get(entry.key);
+        if (!source) continue;
+        selected.push({ ...source, contributor: entry.contributor, isBirthdayDlc: true });
+      }
+      return orderDeckByEmojiCount(selected);
     }
 
     function renderHomeExample() {
@@ -4167,6 +4309,10 @@
       }
       if (kind === "play") {
         playToneSequence([262, 294, 330], "triangle", 0.17, 68, 0.056);
+        return;
+      }
+      if (kind === "dlc") {
+        playToneSequence([349, 440, 523], "triangle", 0.17, 66, 0.056);
         return;
       }
       if (kind === "speed") {
@@ -4526,6 +4672,11 @@
         clues.appendChild(span);
       });
       renderHint(state.current.hint);
+      if (puzzleCredit) {
+        const contributorText = state.current.contributor ? `Proposée par ${state.current.contributor}` : "";
+        puzzleCredit.textContent = contributorText;
+        puzzleCredit.hidden = !contributorText;
+      }
       answerInput.value = "";
       answerInput.classList.remove("correct", "wrong", "shake");
       if (answerInputWrap) answerInputWrap.classList.remove("success-flash");
@@ -4548,13 +4699,14 @@
       window.setTimeout(() => validateBtn.classList.remove("wake"), 240);
     }
 
-    function startGame(speedrun = false, startIndex = 0, deck = null) {
+    function startGame(speedrun = false, startIndex = 0, deck = null, options = {}) {
       clearPendingUiTimers();
       state.deck = deck || uniqueDeck();
       state.index = startIndex;
       state.lives = MAX_LIVES;
       state.score = startIndex;
       state.speedrun = speedrun;
+      state.isBirthdayDlc = !!options.isBirthdayDlc;
       state.startTime = Date.now();
       speedrun ? startSpeedrunChrono() : stopSpeedrunChrono();
       transitionToScreen("game", () => {
@@ -4708,6 +4860,12 @@
       state.lives = 0;
     }
 
+    function showBirthdayDlc() {
+      const deck = birthdayDlcDeck();
+      if (!deck.length) return;
+      startGame(false, 0, deck, { isBirthdayDlc: true });
+    }
+
     function showCheat() {
       stopSpeedrunChrono();
       transitionToScreen("cheat", () => {
@@ -4795,6 +4953,7 @@
     homeLogo.addEventListener("click", refreshHome);
     homeLogo.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") refreshHome(); });
     bindHomeAction(playBtn, "play", () => startGame(false));
+    bindHomeAction(dlcBtn, "dlc", showBirthdayDlc);
     bindHomeAction(speedBtn, "speed", () => startGame(true));
     bindHomeAction(cheatBtn, "cheat", showCheat);
     gameLogo.addEventListener("click", () => {
