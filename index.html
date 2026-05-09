@@ -895,8 +895,12 @@
         inset 0 1px 0 rgba(255,255,255,.06),
         inset 0 0 34px rgba(242,70,97,.07);
       text-align: center;
-      animation: modalPop .34s cubic-bezier(.18,.88,.24,1) both;
+      translate: 0 0;
+      animation:
+        modalPop .34s cubic-bezier(.18,.88,.24,1) both,
+        modalCardFloat 6.2s ease-in-out .38s infinite;
       transform-origin: center 82%;
+      will-change: transform, translate;
     }
     .modal::before {
       content: "";
@@ -1018,6 +1022,10 @@
       0% { opacity: 0; transform: translateY(18px) scale(.935); filter: blur(4px); }
       58% { opacity: 1; transform: translateY(-3px) scale(1.018); filter: blur(0); }
       100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+    @keyframes modalCardFloat {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 -7px; }
     }
     @keyframes modalClose {
       from { opacity: 1; transform: translateY(0) scale(1); }
@@ -3720,7 +3728,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "77";
+    const CACHE_VERSION = "78";
 
     const state = {
       deck: [],
