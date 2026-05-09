@@ -3720,7 +3720,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "75";
+    const CACHE_VERSION = "76";
 
     const state = {
       deck: [],
@@ -4027,9 +4027,8 @@
 
     function tone(type) {
       try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
-        const ctx = new AudioContext();
+        const ctx = getSharedAudioContext();
+        if (!ctx) return;
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = type === "good" ? "triangle" : "sawtooth";
@@ -4049,9 +4048,8 @@
     }
     function playToneSequence(notes, type = "sine", duration = 0.28, step = 110, volume = 0.18) {
       try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
-        const ctx = new AudioContext();
+        const ctx = getSharedAudioContext();
+        if (!ctx) return;
         notes.forEach((freq, index) => {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
@@ -4127,42 +4125,10 @@
 
     const soundUnlock = () => [392, 523, 659, 988].forEach((f, i) => setTimeout(() => tone("good") || 0, 0));
     function unlockSound() {
-      try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
-        const ctx = new AudioContext();
-        [392,523,659,988].forEach((f,i)=>{
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = "triangle";
-          osc.frequency.value = f;
-          gain.gain.setValueAtTime(0.001, ctx.currentTime + i * 0.095);
-          gain.gain.exponentialRampToValueAtTime(0.06, ctx.currentTime + i * 0.095 + 0.01);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.095 + 0.22);
-          osc.connect(gain); gain.connect(ctx.destination);
-          osc.start(ctx.currentTime + i * 0.095);
-          osc.stop(ctx.currentTime + i * 0.095 + 0.22);
-        });
-      } catch (_) {}
+      playToneSequence([392, 523, 659, 988], "triangle", 0.22, 95, 0.06);
     }
     function deniedSound() {
-      try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
-        const ctx = new AudioContext();
-        [160,120].forEach((f,i)=>{
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = "sawtooth";
-          osc.frequency.value = f;
-          gain.gain.setValueAtTime(0.001, ctx.currentTime + i * 0.08);
-          gain.gain.exponentialRampToValueAtTime(0.08, ctx.currentTime + i * 0.08 + 0.01);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.08 + 0.18);
-          osc.connect(gain); gain.connect(ctx.destination);
-          osc.start(ctx.currentTime + i * 0.08);
-          osc.stop(ctx.currentTime + i * 0.08 + 0.18);
-        });
-      } catch (_) {}
+      playToneSequence([160, 120], "sawtooth", 0.18, 80, 0.08);
     }
 
     function hideLaunchSplash() {
@@ -4177,6 +4143,92 @@
     let activeScreen = "home";
     let screenTransitionTimer = 0;
     let lastHoverToneAt = 0;
+    let audioCtx = null;
+    let rewardModalTimer = 0;
+    let gameOverModalTimer = 0;
+    let deferredOverlayAction = null;
+    let appWasHidden = false;
+    let soundResumeBlockedUntil = 0;
+
+    function clearPendingUiTimers(options = {}) {
+      const { clearDeferred = true } = options;
+      if (rewardModalTimer) {
+        window.clearTimeout(rewardModalTimer);
+        rewardModalTimer = 0;
+      }
+      if (gameOverModalTimer) {
+        window.clearTimeout(gameOverModalTimer);
+        gameOverModalTimer = 0;
+      }
+      if (clearDeferred) deferredOverlayAction = null;
+    }
+
+    function canPlayUiSound() {
+      return !document.hidden && Date.now() >= soundResumeBlockedUntil;
+    }
+
+    function primeAudioContext() {
+      try {
+        if (document.hidden) return null;
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return null;
+        if (!audioCtx || audioCtx.state === "closed") audioCtx = new AudioContext();
+        if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+        return audioCtx;
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function getSharedAudioContext() {
+      if (!canPlayUiSound()) return null;
+      const ctx = primeAudioContext();
+      if (!ctx || ctx.state !== "running") return null;
+      return ctx;
+    }
+
+    function scheduleRewardModal(action, delay = 0) {
+      if (rewardModalTimer) window.clearTimeout(rewardModalTimer);
+      rewardModalTimer = window.setTimeout(() => {
+        rewardModalTimer = 0;
+        if (document.hidden) {
+          deferredOverlayAction = action;
+          return;
+        }
+        action();
+      }, delay);
+    }
+
+    function scheduleGameOverModal(action, delay = 0) {
+      if (gameOverModalTimer) window.clearTimeout(gameOverModalTimer);
+      gameOverModalTimer = window.setTimeout(() => {
+        gameOverModalTimer = 0;
+        if (document.hidden) {
+          deferredOverlayAction = action;
+          return;
+        }
+        action();
+      }, delay);
+    }
+
+    function handleAppHiddenState() {
+      appWasHidden = true;
+      soundResumeBlockedUntil = Date.now() + 240;
+      if (audioCtx && audioCtx.state === "running") audioCtx.suspend().catch(() => {});
+    }
+
+    function handleAppVisibleState() {
+      if (!appWasHidden) return;
+      appWasHidden = false;
+      soundResumeBlockedUntil = Date.now() + 220;
+      primeAudioContext();
+      if (!deferredOverlayAction) return;
+      const pendingAction = deferredOverlayAction;
+      deferredOverlayAction = null;
+      window.setTimeout(() => {
+        if (!document.hidden) pendingAction();
+      }, 140);
+    }
 
     function pressFeedback(element) {
       if (!element) return;
@@ -4315,6 +4367,7 @@
     }
 
     function renderPuzzle() {
+      clearPendingUiTimers();
       state.current = state.deck[state.index];
       if (!state.current) return endGame(true);
       const level = currentLevelLabel(state.index, state.current);
@@ -4358,6 +4411,7 @@
     }
 
     function startGame(speedrun = false, startIndex = 0, deck = null) {
+      clearPendingUiTimers();
       state.deck = deck || uniqueDeck();
       state.index = startIndex;
       state.lives = MAX_LIVES;
@@ -4441,10 +4495,10 @@
         spawnConfetti();
         vibrate([24, 18, 24]);
         renderHearts(previousLives);
-        window.setTimeout(() => {
+        scheduleRewardModal(() => {
           showModal({
             emoji: state.current.clues[0],
-            title: "Combo réussi !",
+            title: "Combo r?ussi !",
             answer: state.current.displayTitle || state.current.title,
             scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
           });
@@ -4459,10 +4513,10 @@
         renderHearts(previousLives);
         if (state.lives <= 0) {
           gameOverSound();
-          window.setTimeout(() => {
+          scheduleGameOverModal(() => {
             showModal({
-              emoji: "💔",
-              title: "Partie terminée",
+              emoji: "??",
+              title: "Partie termin?e",
               answer: state.current.displayTitle || state.current.title,
               scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
               buttonText: "REJOUER",
@@ -4525,6 +4579,7 @@
     }
 
     function goHome() {
+      clearPendingUiTimers();
       dismissAnswerKeyboard();
       overlay.classList.remove("active");
       levelOverlay.classList.remove("active");
@@ -4566,6 +4621,18 @@
     }
 
     if (!window.matchMedia("(max-width: 640px)").matches && !isStandalonePwa) renderHomeExample();
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        handleAppHiddenState();
+        return;
+      }
+      handleAppVisibleState();
+    });
+    window.addEventListener("pagehide", handleAppHiddenState);
+    window.addEventListener("pointerdown", primeAudioContext, { passive: true });
+    window.addEventListener("keydown", primeAudioContext);
+    window.addEventListener("touchstart", primeAudioContext, { passive: true });
 
     hideLaunchSplash();
 
