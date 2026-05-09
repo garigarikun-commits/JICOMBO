@@ -3890,7 +3890,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "94";
+    const CACHE_VERSION = "95";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
@@ -4886,8 +4886,10 @@
       const timeText = speedrunTimeText();
       vibrate([22, 26, 38]);
       showModal({
-        emoji: "🏆",
-        title: "Jicombo terminé !",
+        emoji: state.isBirthdayDlc ? "🎂" : "🏆",
+        title: state.isBirthdayDlc
+          ? "Jicombo (DLC : Birthday Cake) terminé !"
+          : "Jicombo terminé !",
         answer: "",
         scoreText: `Score : ${state.score}/${state.deck.length}${timeText}`,
         buttonText: "REJOUER",
