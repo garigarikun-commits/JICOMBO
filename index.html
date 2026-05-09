@@ -3890,7 +3890,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "90";
+    const CACHE_VERSION = "91";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
@@ -4825,7 +4825,7 @@
         scheduleRewardModal(() => {
           showModal({
             emoji: state.current.clues[0],
-            title: "Combo r?ussi !",
+            title: "Combo r\u00e9ussi !",
             answer: state.current.displayTitle || state.current.title,
             scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
           });
@@ -4844,8 +4844,8 @@
           gameOverSound();
           scheduleGameOverModal(() => {
             showModal({
-              emoji: "??",
-              title: "Partie termin?e",
+              emoji: "\ud83d\udc94",
+              title: "Partie termin\u00e9e",
               answer: state.current.displayTitle || state.current.title,
               scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}${speedrunTimeText()}`,
               buttonText: "REJOUER",
