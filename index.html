@@ -3890,7 +3890,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "91";
+    const CACHE_VERSION = "92";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
@@ -3912,16 +3912,12 @@
       { key: "charlesaznavour", contributor: "Maman" },
       { key: "lelivredelajungle", contributor: "Maman" },
       { key: "bernardwerber", contributor: "Manu" },
-      { key: "eyeswideshut", contributor: "Manu" },
-      { key: "maman", contributor: "Manu" },
       { key: "micmaths", contributor: "Manu" },
-      { key: "tarteauxparamites", contributor: "Manu" },
       { key: "lamazone", contributor: "Manu" },
       { key: "kemar", contributor: "Manu" },
       { key: "shapez", contributor: "Manu" },
       { key: "moshimoshi", contributor: "Manu" },
       { key: "docgyneco", contributor: "Manu" },
-      { key: "alien", contributor: "Manu" },
       { key: "1erimpact", contributor: "Manu" },
       { key: "roosterfighter", contributor: "Manu" },
       { key: "tonyhawk", contributor: "Manu" },
@@ -3929,7 +3925,6 @@
       { key: "coachanzai", contributor: "Manu" },
       { key: "jeanlouissan", contributor: "Manu" },
       { key: "furax", contributor: "Manu" },
-      { key: "magneto", contributor: "Manu" },
       { key: "elleestlalajoue", contributor: "Manu" },
       { key: "trancetto", contributor: "Drigo" },
       { key: "china", contributor: "Drigo" },
@@ -3962,7 +3957,6 @@
       { key: "sangoku", contributor: "Liam" },
       { key: "mario", contributor: "Liam" },
       { key: "kylianmbappe", contributor: "Liam" },
-      { key: "sonic", contributor: "Liam" },
     ];
 
     const $ = (id) => document.getElementById(id);
@@ -4232,7 +4226,7 @@
         if (!source) continue;
         selected.push({ ...source, contributor: entry.contributor, isBirthdayDlc: true });
       }
-      return orderDeckByEmojiCount(selected);
+      return shuffle(selected);
     }
 
     function renderHomeExample() {
@@ -4860,7 +4854,9 @@
       answerInput.classList.remove("correct");
       if (answerInputWrap) answerInputWrap.classList.remove("success-flash");
       const proceed = () => {
-        if (state.lives <= 0) return startGame(state.speedrun);
+        if (state.lives <= 0) return state.isBirthdayDlc
+          ? startGame(false, 0, birthdayDlcDeck(), { isBirthdayDlc: true })
+          : startGame(state.speedrun);
         state.index += 1;
         if (state.index >= state.deck.length) return endGame();
         if (levelBreaks(state.deck).includes(state.index)) {
