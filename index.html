@@ -516,12 +516,15 @@
     }
     .cheat-status.ok { color: #8ff0a4; }
     .cheat-status.bad { color: #ff8794; }
+    .cheat-status:not(:empty) {
+      margin-bottom: 6px;
+    }
     .cheat-actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
       justify-content: center;
-      margin-top: -10px;
+      margin-top: -8px;
     }
     .cheat-keypad {
       display: grid;
@@ -3799,7 +3802,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "83";
+    const CACHE_VERSION = "84";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
