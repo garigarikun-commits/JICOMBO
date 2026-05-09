@@ -922,12 +922,12 @@
         inset 0 1px 0 rgba(255,255,255,.06),
         inset 0 0 34px rgba(242,70,97,.07);
       text-align: center;
-      translate: 0 0;
-      animation:
-        modalPop .34s cubic-bezier(.18,.88,.24,1) both,
-        modalCardFloat 6.2s ease-in-out .38s infinite;
+      animation: modalPop .34s cubic-bezier(.18,.88,.24,1) both;
       transform-origin: center 82%;
-      will-change: transform, translate;
+      will-change: transform;
+    }
+    .modal.is-floating {
+      animation: modalCardFloat 4.9s ease-in-out infinite;
     }
     .modal::before {
       content: "";
@@ -1051,8 +1051,8 @@
       100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
     }
     @keyframes modalCardFloat {
-      0%, 100% { translate: 0 0; }
-      50% { translate: 0 -7px; }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-11px); }
     }
     @keyframes modalClose {
       from { opacity: 1; transform: translateY(0) scale(1); }
@@ -3758,7 +3758,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "81";
+    const CACHE_VERSION = "82";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
@@ -4520,6 +4520,12 @@
       answerInput.classList.remove("correct");
       if (answerInputWrap) answerInputWrap.classList.remove("success-flash");
       overlay.classList.remove("closing");
+      const modal = overlay.querySelector(".modal");
+      window.clearTimeout(rewardModalFloatTimer);
+      if (modal) {
+        modal.classList.remove("is-floating");
+        modal.style.animation = "";
+      }
       if (variant === "default") overlay.removeAttribute("data-variant");
       else overlay.setAttribute("data-variant", variant);
       modalEmoji.textContent = emoji;
@@ -4529,6 +4535,7 @@
       modalScore.textContent = scoreText;
       continueBtn.textContent = buttonText;
       overlay.classList.add("active");
+      armRewardModalFloat(overlay);
       continueBtn.focus({ preventScroll: true });
     }
 
@@ -4537,10 +4544,28 @@
       levelModalEmoji.textContent = state.deck[state.index]?.clues.length === 4 ? "🧩" : "✨";
       levelModalTitle.textContent = `Niveau ${levelNumber} débloqué !`;
       levelModalSubtitle.textContent = levelSubtitle(levelNumber);
+      const modal = levelOverlay.querySelector(".modal");
+      window.clearTimeout(rewardModalFloatTimer);
+      if (modal) {
+        modal.classList.remove("is-floating");
+        modal.style.animation = "";
+      }
       levelOverlay.classList.remove("closing");
       levelOverlay.classList.add("active");
+      armRewardModalFloat(levelOverlay);
       vibrate([18, 26, 18]);
       levelContinueBtn.focus({ preventScroll: true });
+    }
+
+    function armRewardModalFloat(targetOverlay) {
+      const modal = targetOverlay.querySelector(".modal");
+      window.clearTimeout(rewardModalFloatTimer);
+      if (!modal) return;
+      modal.classList.remove("is-floating");
+      rewardModalFloatTimer = window.setTimeout(() => {
+        if (!targetOverlay.classList.contains("active")) return;
+        modal.classList.add("is-floating");
+      }, 360);
     }
 
     function closeRewardOverlay(targetOverlay, callback) {
@@ -4588,7 +4613,7 @@
         scheduleRewardModal(() => {
           showModal({
             emoji: state.current.clues[0],
-            title: "Combo r?ussi !",
+            title: "Combo réussi !",
             answer: state.current.displayTitle || state.current.title,
             scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
           });
@@ -4607,8 +4632,8 @@
           gameOverSound();
           scheduleGameOverModal(() => {
             showModal({
-              emoji: "??",
-              title: "Partie termin?e",
+              emoji: "💔",
+              title: "Partie terminée",
               answer: state.current.displayTitle || state.current.title,
               scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}${speedrunTimeText()}`,
               buttonText: "REJOUER",
