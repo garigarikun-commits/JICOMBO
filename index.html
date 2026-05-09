@@ -451,8 +451,8 @@
       box-shadow: inset 0 0 0 1px rgba(254,184,5,.05), 0 10px 18px rgba(0,0,0,.12);
     }
     .cheat-card {
-      width: min(100%, 360px);
-      padding: 28px 24px;
+      width: min(100%, 348px);
+      padding: 26px 22px 24px;
       border-radius: 28px;
       border: 1px solid rgba(254,184,5,.18);
       background: linear-gradient(180deg, rgba(80,20,44,.78), rgba(30,7,26,.74));
@@ -460,8 +460,29 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
+      gap: 15px;
     }
+    #cheat.screen.cheat-enter #cheatLogo {
+      animation: cheatLogoIn .34s cubic-bezier(.2,.9,.24,1) both;
+    }
+    #cheat.screen.cheat-enter .cheat-card {
+      animation: cheatCardIn .42s cubic-bezier(.18,.88,.24,1) .04s both;
+    }
+    #cheat.screen.cheat-enter .cheat-title,
+    #cheat.screen.cheat-enter .cheat-input,
+    #cheat.screen.cheat-enter .cheat-keypad,
+    #cheat.screen.cheat-enter .cheat-hint,
+    #cheat.screen.cheat-enter .cheat-status,
+    #cheat.screen.cheat-enter .cheat-actions {
+      opacity: 0;
+      animation: cheatItemIn .34s ease both;
+    }
+    #cheat.screen.cheat-enter .cheat-title { animation-delay: .12s; }
+    #cheat.screen.cheat-enter .cheat-input { animation-delay: .17s; }
+    #cheat.screen.cheat-enter .cheat-keypad { animation-delay: .22s; }
+    #cheat.screen.cheat-enter .cheat-hint,
+    #cheat.screen.cheat-enter .cheat-status,
+    #cheat.screen.cheat-enter .cheat-actions { animation-delay: .27s; }
     .cheat-title {
       font-size: 1rem;
       letter-spacing: .24em;
@@ -547,6 +568,18 @@
       0% { box-shadow: 0 24px 56px rgba(0,0,0,.28); }
       50% { box-shadow: 0 0 34px rgba(254,184,5,.28), 0 24px 56px rgba(0,0,0,.28); transform: translateY(-2px); }
       100% { box-shadow: 0 24px 56px rgba(0,0,0,.28); transform: translateY(0); }
+    }
+    @keyframes cheatLogoIn {
+      from { opacity: 0; transform: translateY(10px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes cheatCardIn {
+      from { opacity: 0; transform: translateY(14px) scale(.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes cheatItemIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .level-pill {
@@ -1283,9 +1316,16 @@
       body.standalone-pwa #cheat.screen {
         width: 100%;
         min-height: calc(var(--app-height, 100dvh) - 28px);
-        padding: 0;
+        padding:
+          calc(12px + env(safe-area-inset-top))
+          calc(14px + env(safe-area-inset-right))
+          calc(18px + env(safe-area-inset-bottom))
+          calc(14px + env(safe-area-inset-left));
         justify-content: center;
-        gap: 8px;
+        gap: 12px;
+      }
+      body.standalone-pwa .cheat-card {
+        width: min(100%, 340px);
       }
       body.standalone-pwa #game.screen {
         width: 100%;
@@ -3758,7 +3798,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "81";
+    const CACHE_VERSION = "82";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
@@ -4196,6 +4236,7 @@
     let audioCtx = null;
     let rewardModalTimer = 0;
     let gameOverModalTimer = 0;
+    let cheatEnterTimer = 0;
     let chronoInterval = 0;
     let deferredOverlayAction = null;
     let appWasHidden = false;
@@ -4210,6 +4251,10 @@
       if (gameOverModalTimer) {
         window.clearTimeout(gameOverModalTimer);
         gameOverModalTimer = 0;
+      }
+      if (cheatEnterTimer) {
+        window.clearTimeout(cheatEnterTimer);
+        cheatEnterTimer = 0;
       }
       if (clearDeferred) deferredOverlayAction = null;
     }
@@ -4668,6 +4713,15 @@
         cheatInput.className = "cheat-input";
         document.querySelector(".cheat-card").classList.remove("unlock");
         cheatSubmit.disabled = true;
+        cheat.classList.remove("cheat-enter");
+        void cheat.offsetWidth;
+        if (!prefersReducedMotion) {
+          cheat.classList.add("cheat-enter");
+          cheatEnterTimer = window.setTimeout(() => {
+            cheat.classList.remove("cheat-enter");
+            cheatEnterTimer = 0;
+          }, 720);
+        }
         setTimeout(() => cheatInput.focus({ preventScroll: true }), 80);
       });
     }
