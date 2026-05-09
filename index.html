@@ -3720,7 +3720,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "76";
+    const CACHE_VERSION = "77";
 
     const state = {
       deck: [],
@@ -4183,7 +4183,7 @@
     function getSharedAudioContext() {
       if (!canPlayUiSound()) return null;
       const ctx = primeAudioContext();
-      if (!ctx || ctx.state !== "running") return null;
+      if (!ctx) return null;
       return ctx;
     }
 
