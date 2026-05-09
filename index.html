@@ -758,6 +758,11 @@
     .hint-line {
       display: block;
     }
+    .hint-label {
+      font-weight: 600;
+      color: rgba(254,246,216,.88);
+      letter-spacing: .01em;
+    }
     .hint.is-long .hint-line {
       white-space: nowrap;
     }
@@ -3885,7 +3890,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "89";
+    const CACHE_VERSION = "90";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
@@ -4662,14 +4667,16 @@
       hint.classList.toggle("is-long", !!lines);
       hint.innerHTML = "";
 
+      const label = '<span class="hint-label">Indice :</span> ';
+
       if (!lines) {
-        hint.textContent = "Indice : " + hintText;
+        hint.innerHTML = label + hintText;
         return;
       }
 
       const firstLine = document.createElement("span");
       firstLine.className = "hint-line";
-      firstLine.textContent = "Indice : " + lines[0];
+      firstLine.innerHTML = label + lines[0];
       const secondLine = document.createElement("span");
       secondLine.className = "hint-line";
       secondLine.textContent = lines[1];
