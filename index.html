@@ -561,6 +561,33 @@
       text-transform: uppercase;
       background: rgba(104,21,44,.14);
     }
+    .game-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .chrono-display {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      min-width: 96px;
+      padding: 8px 12px;
+      border: 1px solid rgba(254,184,5,.22);
+      border-radius: 999px;
+      background: rgba(104,21,44,.18);
+      color: rgba(254,252,206,.92);
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+      white-space: nowrap;
+    }
+    .chrono-display.active {
+      display: inline-flex;
+    }
     .prompt-title {
       margin: 0 0 -8px;
       font-family: "Poppins", "Segoe UI", sans-serif;
@@ -1479,7 +1506,10 @@
   <main id="game" class="screen game-screen" aria-label="Partie Jicombo">
     <div id="gameInner" class="game-inner">
       <img id="gameLogo" class="logo game-logo" src="Assets/Jicombo-logo.png" alt="Retour accueil Jicombo" role="button" tabindex="0">
-      <div id="levelPill" class="level-pill">Niveau 1</div>
+      <div class="game-meta">
+        <div id="levelPill" class="level-pill">Niveau 1</div>
+        <div id="chronoDisplay" class="chrono-display" aria-live="polite">&#9201;&#65039; 00:00</div>
+      </div>
       <p class="prompt-title">Trouve la r&eacute;ponse !</p>
       <div id="hint" class="hint"></div>
       <div id="clues" class="clues" aria-label="Emojis indices"></div>
@@ -3728,7 +3758,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "79";
+    const CACHE_VERSION = "81";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
@@ -3778,6 +3808,7 @@
     const hearts = $("hearts");
     const message = $("message");
     const levelPill = $("levelPill");
+    const chronoDisplay = $("chronoDisplay");
     const overlay = $("modalOverlay");
     const levelOverlay = $("levelOverlay");
     const modalEmoji = $("modalEmoji");
@@ -4165,6 +4196,7 @@
     let audioCtx = null;
     let rewardModalTimer = 0;
     let gameOverModalTimer = 0;
+    let chronoInterval = 0;
     let deferredOverlayAction = null;
     let appWasHidden = false;
     let soundResumeBlockedUntil = 0;
@@ -4241,12 +4273,49 @@
       appWasHidden = false;
       soundResumeBlockedUntil = Date.now() + 220;
       primeAudioContext();
+      if (state.speedrun && chronoInterval) updateChronoDisplay();
       if (!deferredOverlayAction) return;
       const pendingAction = deferredOverlayAction;
       deferredOverlayAction = null;
       window.setTimeout(() => {
         if (!document.hidden) pendingAction();
       }, 140);
+    }
+
+    function formatElapsedTime(totalSeconds) {
+      const safeSeconds = Math.max(0, Math.floor(totalSeconds));
+      const minutes = Math.floor(safeSeconds / 60);
+      const seconds = safeSeconds % 60;
+      return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    }
+
+    function getElapsedSeconds() {
+      return Math.max(0, Math.round((Date.now() - state.startTime) / 1000));
+    }
+
+    function updateChronoDisplay() {
+      if (!chronoDisplay) return;
+      chronoDisplay.textContent = `⏱️ ${formatElapsedTime(getElapsedSeconds())}`;
+    }
+
+    function stopSpeedrunChrono(hide = true) {
+      if (chronoInterval) {
+        window.clearInterval(chronoInterval);
+        chronoInterval = 0;
+      }
+      if (chronoDisplay && hide) chronoDisplay.classList.remove("active");
+    }
+
+    function startSpeedrunChrono() {
+      if (!chronoDisplay) return;
+      stopSpeedrunChrono(false);
+      chronoDisplay.classList.add("active");
+      updateChronoDisplay();
+      chronoInterval = window.setInterval(updateChronoDisplay, 250);
+    }
+
+    function speedrunTimeText() {
+      return state.speedrun ? ` · Temps : ${formatElapsedTime(getElapsedSeconds())}` : "";
     }
 
     function pressFeedback(element) {
@@ -4413,6 +4482,7 @@
       if (answerInputWrap) answerInputWrap.classList.remove("success-flash");
       message.textContent = "";
       message.className = "message";
+      if (state.speedrun) updateChronoDisplay();
       validateBtn.disabled = true;
       answerForm.classList.remove("ready");
       renderHearts(state.lives);
@@ -4437,6 +4507,7 @@
       state.score = startIndex;
       state.speedrun = speedrun;
       state.startTime = Date.now();
+      speedrun ? startSpeedrunChrono() : stopSpeedrunChrono();
       transitionToScreen("game", () => {
         overlay.classList.remove("active");
         levelOverlay.classList.remove("active");
@@ -4531,13 +4602,15 @@
         vibrate([70]);
         renderHearts(previousLives);
         if (state.lives <= 0) {
+          stopSpeedrunChrono(false);
+          updateChronoDisplay();
           gameOverSound();
           scheduleGameOverModal(() => {
             showModal({
               emoji: "??",
               title: "Partie termin?e",
               answer: state.current.displayTitle || state.current.title,
-              scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}`,
+              scoreText: `Score : ${state.score} ${state.score > 1 ? "points" : "point"}${speedrunTimeText()}`,
               buttonText: "REJOUER",
               variant: "danger",
             });
@@ -4571,8 +4644,9 @@
     }
 
     function endGame() {
-      const elapsed = Math.round((Date.now() - state.startTime) / 1000);
-      const timeText = state.speedrun ? ` \u00b7 Temps : ${elapsed}s` : "";
+      stopSpeedrunChrono(false);
+      updateChronoDisplay();
+      const timeText = speedrunTimeText();
       vibrate([22, 26, 38]);
       showModal({
         emoji: "🏆",
@@ -4586,6 +4660,7 @@
     }
 
     function showCheat() {
+      stopSpeedrunChrono();
       transitionToScreen("cheat", () => {
         cheatStatus.textContent = "";
         cheatStatus.className = "cheat-status";
@@ -4599,6 +4674,7 @@
 
     function goHome() {
       clearPendingUiTimers();
+      stopSpeedrunChrono();
       dismissAnswerKeyboard();
       overlay.classList.remove("active");
       levelOverlay.classList.remove("active");
