@@ -3802,7 +3802,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "84";
+    const CACHE_VERSION = "85";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
@@ -4058,7 +4058,7 @@
         const size = puzzle.clues.length === 4 ? 4 : 3;
         bySize[size].push(puzzle);
       }
-      return [...bySize[3], ...bySize[4]];
+      return [...bySize[4], ...bySize[3]];
     }
 
     function renderHomeExample() {
@@ -4093,28 +4093,28 @@
       homeExample.appendChild(questionSpan);
     }
     function currentLevelLabel(index, puzzle) {
-      const firstHardIndex = state.deck.findIndex((item) => item.clues.length === 4);
-      const safeHardIndex = firstHardIndex === -1 ? state.deck.length : firstHardIndex;
-      const blockIndex = puzzle.clues.length === 4 ? index - safeHardIndex : index;
-      const baseLevel = puzzle.clues.length === 4 ? Math.ceil(safeHardIndex / 20) + 1 : 1;
+      const firstThreeIndex = state.deck.findIndex((item) => item.clues.length === 3);
+      const safeThreeIndex = firstThreeIndex === -1 ? state.deck.length : firstThreeIndex;
+      const blockIndex = puzzle.clues.length === 3 ? index - safeThreeIndex : index;
+      const baseLevel = puzzle.clues.length === 3 ? Math.ceil(safeThreeIndex / 20) + 1 : 1;
       return baseLevel + Math.floor(Math.max(0, blockIndex) / 20);
     }
 
     function levelBreaks(deck = state.deck) {
-      const firstHardIndex = deck.findIndex((item) => item.clues.length === 4);
-      const safeHardIndex = firstHardIndex === -1 ? deck.length : firstHardIndex;
+      const firstThreeIndex = deck.findIndex((item) => item.clues.length === 3);
+      const safeThreeIndex = firstThreeIndex === -1 ? deck.length : firstThreeIndex;
       const breaks = [];
-      for (let index = 20; index < safeHardIndex; index += 20) breaks.push(index);
-      if (safeHardIndex > 0 && safeHardIndex < deck.length) breaks.push(safeHardIndex);
-      for (let index = safeHardIndex + 20; index < deck.length; index += 20) breaks.push(index);
+      for (let index = 20; index < safeThreeIndex; index += 20) breaks.push(index);
+      if (safeThreeIndex > 0 && safeThreeIndex < deck.length) breaks.push(safeThreeIndex);
+      for (let index = safeThreeIndex + 20; index < deck.length; index += 20) breaks.push(index);
       return breaks;
     }
 
     function levelSubtitle(levelNumber, deck = state.deck) {
-      const firstHardIndex = deck.findIndex((item) => item.clues.length === 4);
-      if (firstHardIndex !== -1) {
-        const firstHardLevel = currentLevelLabel(firstHardIndex, deck[firstHardIndex]);
-        if (levelNumber === firstHardLevel) return "On va ajouter une case...";
+      const firstThreeIndex = deck.findIndex((item) => item.clues.length === 3);
+      if (firstThreeIndex !== -1) {
+        const firstThreeLevel = currentLevelLabel(firstThreeIndex, deck[firstThreeIndex]);
+        if (levelNumber === firstThreeLevel) return "On va retirer une case...";
       }
       return "De nouvelles énigmes arrivent...";
     }
@@ -4583,7 +4583,7 @@
 
     function showLevelModal(levelNumber) {
       dismissAnswerKeyboard();
-      levelModalEmoji.textContent = state.deck[state.index]?.clues.length === 4 ? "🧩" : "✨";
+      levelModalEmoji.textContent = state.deck[state.index]?.clues.length === 3 ? "🧩" : "✨";
       levelModalTitle.textContent = `Niveau ${levelNumber} débloqué !`;
       levelModalSubtitle.textContent = levelSubtitle(levelNumber);
       levelOverlay.classList.remove("closing");
@@ -4765,7 +4765,7 @@
         vibrate([30,35,45]);
         unlockSound();
         const run = uniqueDeck();
-        const start = run.findIndex((p) => p.clues.length === 4);
+        const start = run.findIndex((p) => p.clues.length === 3);
         setTimeout(() => startGame(false, Math.max(0, start), run), 900);
         return;
       }
