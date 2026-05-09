@@ -3890,7 +3890,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "92";
+    const CACHE_VERSION = "93";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
@@ -4226,7 +4226,9 @@
         if (!source) continue;
         selected.push({ ...source, contributor: entry.contributor, isBirthdayDlc: true });
       }
-      return shuffle(selected);
+      const fourEmoji = selected.filter((puzzle) => puzzle.clues.length === 4);
+      const threeEmoji = selected.filter((puzzle) => puzzle.clues.length === 3);
+      return [...shuffle(fourEmoji), ...shuffle(threeEmoji)];
     }
 
     function renderHomeExample() {
