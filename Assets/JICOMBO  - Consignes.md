@@ -906,7 +906,7 @@ Réponse : Caroline Skala
 
 - Get Backers
 🙍🏼‍♂️ 🙍🏻‍♂️ ⚡️ 🕶️
-Indice : Mugenjô
+Indice : Shinjuku
 Réponse : Get Backers
 
 - Bingo
