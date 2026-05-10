@@ -1,943 +1,924 @@
-Création d'un jeu vidéo
+Cr?ation d'un jeu vid?o
 
 NOM : JICOMBO
+
 (Chemin en local : C:\Users\emman\Desktop\Studio Hana-Bi\Projets\COMBOJI\JICOMBO)
 
 Suite non officielle du jeu "Comboji".
-Spin-off basé sur le jeu original de Patrick Baud : https://axopatrick.github.io/comboji/
 
-Le principe de JICOMBO : deviner la réponse à l'écrit à partir de 3 ou 4 emojis.
+Spin-off bas? sur le jeu original de Patrick Baud : https://axopatrick.github.io/comboji/
 
-Liste actuelle des énigmes (source de vérité : index.html du jeu)
-Mise à jour du document : 2026-05-09
+Le principe de JICOMBO : deviner la r?ponse ? l'?crit ? partir de 3 ou 4 emojis.
+
+Liste actuelle des ?nigmes (source de v?rit? : index.html du jeu)
+Mise ? jour du document : 2026-05-10
 
 3 emojis
 
 - Twister
 🐄 🌪️ 🏚️
 Indice : Film catastrophe
-Réponse : Twister
+R?ponse : Twister
 
 - Sauvez Willy
 👅 🧒🏻 🌊
 Indice : Orque
-Réponse : Sauvez Willy
+R?ponse : Sauvez Willy
 
 - Alien
 🐣 🫃🏻 🩸
 Indice : Chestburster
-Réponse : Alien
+R?ponse : Alien
 
 - Kill Bill
 🐍 👰🏼 🔪
 Indice : Black Mamba
-Réponse : Kill Bill
+R?ponse : Kill Bill
 
 - Le silence des agneaux
 🫁 🤫 🐑
 Indice : Hannibal
-Réponse : Le silence des agneaux
+R?ponse : Le silence des agneaux
 
 - Matrix
 🕶️ 💊 🟩
 Indice : Neo
-Réponse : Matrix
+R?ponse : Matrix
 
 - Mars Attacks!
 👽 🔊 🤯
 Indice : Fak Fak Fak !
-Réponse : Mars Attacks!
+R?ponse : Mars Attacks!
 
 - God of War
 ⛓️ 🏛️ 🩸
 Indice : Sparte
-Réponse : God of War
-Autres réponses acceptées : kratos
+R?ponse : God of War
 
 - Sonic
 🌀 🦔 💨
 Indice : C'est plus fort que toi !
-Réponse : Sonic
+R?ponse : Sonic
 
 - Tekken Ball
 🏖️ 🦖 🏐
 Indice : Mini-jeu de la licence Tekken
-Réponse : Tekken Ball
-Autres réponses acceptées : tekken 3 ball, tekken 3
+R?ponse : Tekken Ball
 
 - Yoshi
 🍉 🦖 🥚
 Indice : La monture de Mario
-Réponse : Yoshi
+R?ponse : Yoshi
 
 - Tombi!
 🕹️ 👦🏻 🐖
 Indice : La malédiction du vilain cochon
-Réponse : Tombi!
+R?ponse : Tombi!
 
 - Mario Galaxy
 🌌 👨🏻 🪐
 Indice : Quand Isaac Newton rencontre Mario
-Réponse : Mario Galaxy
+R?ponse : Mario Galaxy
 
 - Blitzball
 🥅 ⚽ 🌊
 Indice : Sport majeur sur Spira
-Réponse : Blitzball
+R?ponse : Blitzball
 
 - Metal Gear Solid
 🐍 📦 ❗️
 Indice : Solid Snake
-Réponse : Metal Gear Solid
-Autres réponses acceptées : mgs
+R?ponse : Metal Gear Solid
 
 - Spyro the Dragon
 🕹️ 🐲 💎
 Indice : Petit dragon violet
-Réponse : Spyro the Dragon
-Autres réponses acceptées : spyro, spyro le dragon
+R?ponse : Spyro the Dragon
 
 - Ape Escape
 🕹️ 🐒 🥅
 Indice : Chasse aux singes
-Réponse : Ape Escape
+R?ponse : Ape Escape
 
 - Les Sims
 🌳 🧍🏻‍♂️ 🏠
 Indice : Simulation de vie
-Réponse : Les Sims
+R?ponse : Les Sims
 
 - Project Zero
 🪦 👻 📷
 Indice : Tes munitions sont des pellicules
-Réponse : Project Zero
+R?ponse : Project Zero
 
 - Kingdom Hearts
 🐭 🔑 ❤️
 Indice : Disney rencontre Square Enix
-Réponse : Kingdom Hearts
+R?ponse : Kingdom Hearts
 
 - Bubble Bobble
 🕹️ 🐲 🫧
 Indice : Des bulles comme seule arme
-Réponse : Bubble Bobble
-Autres réponses acceptées : buble buble, bubble bubble, buble boble, beubeul beubeul, beubeul bobeul
+R?ponse : Bubble Bobble
 
 - Aerith - Final Fantasy VII
 ⛪ 💐 👧🏻
 Indice : Mort tragique du jeu vidéo
-Réponse : Aerith - Final Fantasy VII
+R?ponse : Aerith - Final Fantasy VII
 
 - Rocket League
 🥅 🚗 ⚽
 Indice : Flip Reset
-Réponse : Rocket League
+R?ponse : Rocket League
 
 - Street Fighter
 🥋 🫸🏻 🔵
 Indice : Hadouken
-Réponse : Street Fighter
-Autres réponses acceptées : street fighter 2, sf2
+R?ponse : Street Fighter
 
 - Prince of Persia
 🗡️ ⏳ ↩️
 Indice : Prince qui refuse le présent
-Réponse : Prince of Persia
+R?ponse : Prince of Persia
 
 - Kakashi - Naruto
 📖 🍑 🙏🏼
 Indice : 1000 Ans de Souffrances
-Réponse : Kakashi - Naruto
+R?ponse : Kakashi - Naruto
 
 - La Tour Karin
 🐱 🫘 🗼
 Indice : Dragon Ball Z
-Réponse : La Tour Karin
-Autres réponses acceptées : tour karin
+R?ponse : La Tour Karin
 
 - Ozaru
 🦍 🌕 🐒
 Indice : Une nuit pas comme les autres
-Réponse : Ozaru
-Autres réponses acceptées : saiyan gorille, sangoku gorille
+R?ponse : Ozaru
 
 - Monsieur Hankey
 ❄️ 💩 🎄
 Indice : Un 25 décembre à South Park
-Réponse : Monsieur Hankey
-Autres réponses acceptées : hankey, monsieur ankey
+R?ponse : Monsieur Hankey
 
 - Madara
 🩸 🌕 👁️
 Indice : Tsukuyomi
-Réponse : Madara
+R?ponse : Madara
 
 - Naruto
 🍥 👦🏼 🌀
 Indice : Konoha
-Réponse : Naruto
+R?ponse : Naruto
 
 - Kyubi - Naruto
 🌀 🦊 9️⃣
 Indice : Ce que Naruto renferme
-Réponse : Kyubi - Naruto
+R?ponse : Kyubi - Naruto
 
 - Kangoo Juniors
 📺 🦘 🏀
 Indice : Le matin sur TF1
-Réponse : Kangoo Juniors
+R?ponse : Kangoo Juniors
 
 - Chicken Run
 🥚 🐔 🏃‍♂️
 Indice : Aardman Animations
-Réponse : Chicken Run
+R?ponse : Chicken Run
 
 - Ruban Rouge
 🪖 🎀 ®️
 Indice : L'armée du...
-Réponse : Ruban Rouge
-Réponse affichée : L'armée du Ruban Rouge
+R?ponse : Ruban Rouge
+R?ponse affich?e : L'armée du Ruban Rouge
 
 - Cowboy Bebop
 🎷 🚬 🤠
 Indice : Spike Spiegel
-Réponse : Cowboy Bebop
+R?ponse : Cowboy Bebop
 
 - GTO
 🚬 👨🏼‍🏫 🏍️
 Indice : 22 ans, célibataire
-Réponse : GTO
-Autres réponses acceptées : onizuka, eikichi onizuka
+R?ponse : GTO
 
 - Famine
 🐀 🍞 ⚫
 Indice : Une période de guerre entraîne une période de...
-Réponse : Famine
+R?ponse : Famine
 
 - Vie
 🌱 🌧️ ☀️
 Indice : Donner la...
-Réponse : Vie
-Réponse affichée : Donner la vie
+R?ponse : Vie
+R?ponse affich?e : Donner la vie
 
 - Réveil
 ⏰ 🐓 🌅
 Indice : Matin
-Réponse : Réveil
+R?ponse : Réveil
 
 - Fish & Chips
 💂‍♀️ 🐟 🍟
 Indice : Plat anglais
-Réponse : Fish & Chips
+R?ponse : Fish & Chips
 
 - Magnéto
 🧲 ⚙️ 🔩
 Indice : Super-vilain
-Réponse : Magnéto
-Autres réponses acceptées : magneto
+R?ponse : Magnéto
 
 - Crash Team Racing
 🏆 🏎️ 🏁
 Indice : Pyramide Papu
-Réponse : Crash Team Racing
-Autres réponses acceptées : ctr
+R?ponse : Crash Team Racing
 
 - Phoenix Wright
 🫵🏻 ⚖️ 👨🏻‍⚖️
 Indice : Objection !
-Réponse : Phoenix Wright
+R?ponse : Phoenix Wright
 
 - Kirby
 ⭐ 😮 💨
 Indice : Il devient ce qu’il mange
-Réponse : Kirby
+R?ponse : Kirby
 
 - Celeste
 ⛰️ 👩‍🦰 🍓
 Indice : Aide Madeleine à survivre à ses démons intérieurs
-Réponse : Celeste
+R?ponse : Celeste
 
 - Là-haut
 🎈 👴🏻 🏠
 Indice : Tenir une promesse à sa défunte épouse
-Réponse : Là-haut
+R?ponse : Là-haut
 
 - Kung Fu Panda
 🎋 🐼 🥋
 Indice : Un guerrier improbable venu de Chine
-Réponse : Kung Fu Panda
+R?ponse : Kung Fu Panda
 
 - Caries
 🍬 🦷 😖
 Indice : Trop de sucre...
-Réponse : Caries
-Autres réponses acceptées : carie, carries, carrie
+R?ponse : Caries
 
 - Ratatouille
 🐀 👨🏼‍🍳 🍝
 Indice : Le seul chef qui tient dans une toque
-Réponse : Ratatouille
+R?ponse : Ratatouille
 
 - Taco Bell
 🌶️ 🌮 🔔
 Indice : Fast-food spécialisé dans le Tex-Mex
-Réponse : Taco Bell
+R?ponse : Taco Bell
 
 - Shrek
 📖 🧌 🐴
 Indice : Il était une fois dans un royaume fort fort lointain...
-Réponse : Shrek
+R?ponse : Shrek
 
 - Seul au monde
 🏝️ 🧔🏻‍♂️ 🏐
 Indice : Un homme survit seul sur une île après un crash
-Réponse : Seul au monde
+R?ponse : Seul au monde
 
 - La petite sirène
 🐚 🤏 🧜🏻‍♀️
 Indice : Rêve de devenir humaine par amour
-Réponse : La petite sirène
+R?ponse : La petite sirène
 
 - Dewey
 👦🏼 💀 🪖
 Indice : Toi tu vies, toi tu vies, toi tu crèves...
-Réponse : Dewey
-Autres réponses acceptées : malcolm
+R?ponse : Dewey
 
 - Ken le Survivant
 🔪 👊 💥
 Indice : L'école du Hokuto de cuisine
-Réponse : Ken le Survivant
-Autres réponses acceptées : hokuto no ken
+R?ponse : Ken le Survivant
 
 - Yannick
 🎭 🔫 👨🏻
 Indice : Un spectateur interrompt la pièce
-Réponse : Yannick
+R?ponse : Yannick
 
 - Le Joker
 🐧 🪙 🃏
 Indice : Ils sèment le chaos à Gotham
-Réponse : Le Joker
-Autres réponses acceptées : joker, le pingouin, pingouin, double face
+R?ponse : Le Joker
 
 - Tarte aux paramites
 👽 🥧 🫳
 Indice : RuptureFarms
-Réponse : Tarte aux paramites
+R?ponse : Tarte aux paramites
 
 - L'Homme
 👶 🧍‍♂️ 🦯
 Indice : L'Énigme du Sphinx
-Réponse : L'Homme
-Autres réponses acceptées : homme, l'être humain, la vie
+R?ponse : L'Homme
 
 - Le Parrain
 🌹 🤵🏻‍♂️ 🐈‍⬛
 Indice : Vito
-Réponse : Le Parrain
+R?ponse : Le Parrain
+Autres r?ponses accept?es : Vito Corleone
 
 - Oxmo Puccino
 👦🏻 👨🏾‍🦲 🎤
 Indice : L’enfant seul
-Réponse : Oxmo Puccino
+R?ponse : Oxmo Puccino
 
 - Carlos Santana
 🎶 🎸 🇲🇽
 Indice : Europa
-Réponse : Carlos Santana
+R?ponse : Carlos Santana
+Autres r?ponses accept?es : Santana
 
 - L'Amazone
 💧 🌊 🦦
 Indice : Je traverse la plus grande forêt tropicale du monde
-Réponse : L'Amazone
+R?ponse : L'Amazone
 
 - Kemar
 🕶️ 🥡 🍤
-Indice : Un marginal au bord du gouffre se surine un cheat meal asiatique (dans le respect)
-Réponse : Kemar
+Indice : Un marginal au bord du gouffre se surine un menu asiatique
+R?ponse : Kemar
 
 - Shapez
 🏭 ⚙️ 🔁
 Indice : Le capitalisme mais satisfaisant
-Réponse : Shapez
+R?ponse : Shapez
 
 - Moshi Moshi
 ☎️ 🇯🇵 🗣️
 Indice : L’équivalent japonais de « Allô ? »
-Réponse : Moshi Moshi
+R?ponse : Moshi Moshi
 
 - Doc Gyneco
 🩻 🩺 🎤
 Indice : Dire des choses que l’on ne va pas assumer
-Réponse : Doc Gyneco
+R?ponse : Doc Gyneco
 
-- 1er Impact
+- 1er Impact - Auriol 120
 🎤 🏢 🗣️
 Indice : Marre de ton rap avarié
-Réponse : 1er Impact
+R?ponse : 1er Impact - Auriol 120
+Autres r?ponses accept?es : Premier Impact, Auriol 120
 
 - Rooster Fighter
 🐓 🐥 👹
 Indice : Kokekokko
-Réponse : Rooster Fighter
-Réponse affichée : Rooster Fighter / Coq de Combat
-Autres réponses acceptées : coq de combat
+R?ponse : Rooster Fighter
+Autres r?ponses accept?es : Coq de Combat
 
 - Tony Hawk
 👟 🛹 🎮
 Indice : Neversoft
-Réponse : Tony Hawk
+R?ponse : Tony Hawk
 
 - Akagi
 🦍 🏀 💢
 Indice : Le capitaine de Shohoku
-Réponse : Akagi
+R?ponse : Akagi
 
 - Coach Anzai
 👓 📋 🏀
 Indice : HO HO HO…
-Réponse : Coach Anzai
-Réponse affichée : Coach Anzai / Anzai
-Autres réponses acceptées : anzai
+R?ponse : Coach Anzai
+Autres r?ponses accept?es : Anzai
 
 - Jean-Louis San
 🐻‍❄️ 🍺 🏮
 Indice : PERFECT BEER KITCHEN 中野
-Réponse : Jean-Louis San
+R?ponse : Jean-Louis San
 
-- Furax
+- Furax Barbarossa
 🫁 🤿 ☣️
 Indice : Un fumigène, deux poumons noirs
-Réponse : Furax
-Autres réponses acceptées : furax barbarossa
+R?ponse : Furax Barbarossa
+Autres r?ponses accept?es : Fu, Barbarossa, Furax
 
 - Elle est là la joue !
 ☝🏼 😠 🆘
 Indice : Cogne vas-y !
-Réponse : Elle est là la joue !
+R?ponse : Elle est là la joue !
 
 - Trancetto
 🍰 🛒 🍫
 Indice : Gâteau de la hess
-Réponse : Trancetto
+R?ponse : Trancetto
+Autres r?ponses accept?es : Trantchetto
 
 - China
 🐢 🇨🇳 🪸
 Indice : La première n’a pas survécu…
-Réponse : China
+R?ponse : China
 
 - Crapaud
 🌧️ 😱 🪷
 Indice : Une peur ancestrale…
-Réponse : Crapaud
+R?ponse : Crapaud
 
 - Rotten
 🔞 ☠️ 💻
 Indice : Dark web de la Gen Z
-Réponse : Rotten
+R?ponse : Rotten
 
 - Auriol
 🌲 ⚽ 🌃
 Indice : Buuut…BORDURE !!!
-Réponse : Auriol
+R?ponse : Auriol
 
 - Flûte irlandaise
 🎶 ☘️ 🇮🇪
 Indice : Instrument digne d’un Zadiste
-Réponse : Flûte irlandaise
+R?ponse : Flûte irlandaise
 
 - Entre ciment et belle étoile
 🙍🏼 🙍🏻 🙍🏿
-Indice : Viens te perdre dans mon chahut
-Réponse : Entre ciment et belle étoile
+Indice : Viens te perdre dans mon chahut !
+R?ponse : Entre ciment et belle étoile
 
 - Real
 🇯🇵 🏀 🧑🏻‍🦽
 Indice : NOMIYA Tomomi
-Réponse : Real
+R?ponse : Real
 
 - Coco Curry
 🥥 🍛 🇯🇵
 Indice : J’ai peut-être été un peu insistante…
-Réponse : Coco Curry
+R?ponse : Coco Curry
 
 - Okinawa
 🌺 🚲 🐢
 Indice : On était heureux…
-Réponse : Okinawa
+R?ponse : Okinawa
 
 - Arigatô gozaimasu
 🎤 💁🏾‍♀️ 🍙
 Indice : Onigiri, feuille de Nori !
-Réponse : Arigatô gozaimasu
+R?ponse : Arigatô gozaimasu
 
-- J’aime trooooop
+- J’aime trooooop !
 🥰 🤗 🫰🏻
 Indice : Kawaii
-Réponse : J’aime trooooop
+R?ponse : J’aime trooooop !
 
 - Julien
 🤒 🤧 🧔🏻‍♂️
 Indice : Tout le temps malade
-Réponse : Julien
+R?ponse : Julien
+Autres r?ponses accept?es : Juju
 
 - Khaleesi
 🐉 👑 👩🏻‍🦳
 Indice : Consanguin
-Réponse : Khaleesi
+R?ponse : Khaleesi
 
 - Booba
 🎤 👨🏽‍🦲 🗣️
 Indice : Clash
-Réponse : Booba
+R?ponse : Booba
 
 - Bref.
 🧑🏼‍🦲 🍕 🛋️
 Indice : Il avait besoin de s’asseoir 30 secondes, il s’est assis 20 ans
-Réponse : Bref.
+R?ponse : Bref.
+Autres r?ponses accept?es : Bref
 
 - JUL
 🎤 🧢 👽
 Indice : Marseille
-Réponse : JUL
+R?ponse : JUL
 
 - Sangoku
 🐉 🔥 👦🏻
 Indice : Vient d’une autre planète
-Réponse : Sangoku
+R?ponse : Sangoku
+Autres r?ponses accept?es : Goku
 
 - Mario
 🇮🇹 🍝 🍄
 Indice : It’s-a me…
-Réponse : Mario
+R?ponse : Mario
+
 
 4 emojis
 
 - Kill Bill
 👰🏼 👧🏾 🥣 🔪
 Indice : Vernita Green
-Réponse : Kill Bill
+R?ponse : Kill Bill
 
 - La Famille Bélier
 🔇 👂 👨‍👩‍👧 ♈
 Indice : Signe de Feu
-Réponse : La Famille Bélier
+R?ponse : La Famille Bélier
 
 - Alice au pays des Merveilles
 🐇 🐛 🚬 🔠
 Indice : En retard
-Réponse : Alice au pays des Merveilles
+R?ponse : Alice au pays des Merveilles
 
 - Hook
 🧚 🪝 🐊 ⏰
 Indice : Les Enfants Perdus
-Réponse : Hook
-Autres réponses acceptées : peter pan
+R?ponse : Hook
 
 - The Ring
 📺 📼 👧🏻 🕳️
 Indice : Sadako
-Réponse : The Ring
-Autres réponses acceptées : ring, ringu
+R?ponse : The Ring
 
 - Harry Potter
 🧙‍♂️ ⚡ 👦🏻 🦉
 Indice : 10 points pour Gryffondor !
-Réponse : Harry Potter
+R?ponse : Harry Potter
 
 - Crash Bandicoot
 🎭 🦊 🍎 💎
 Indice : Uka Uka
-Réponse : Crash Bandicoot
+R?ponse : Crash Bandicoot
 
 - God of War
 🩸 🌊 🔱 ⛓️
 Indice : Fantôme de Sparte
-Réponse : God of War
-Autres réponses acceptées : kratos
+R?ponse : God of War
 
 - Mario Galaxy
 ☄️ 👨🏻 🪐 🌌
 Indice : Quand Isaac Newton rencontre Mario
-Réponse : Mario Galaxy
+R?ponse : Mario Galaxy
 
 - Street Fighter
 💥 🥋 🫸 🔵
 Indice : Hadouken
-Réponse : Street Fighter
-Autres réponses acceptées : street fighter 2, sf2
+R?ponse : Street Fighter
 
 - GTA
 🚔 🔫 🔞 💉
 Indice : Rockstar
-Réponse : GTA
+R?ponse : GTA
 
 - Rayman
 🟣 🦟 👟 🤜
 Indice : Un héros dont les membres flottent
-Réponse : Rayman
+R?ponse : Rayman
 
 - Resident Evil
 ☂️ 🧟‍♂️ 🧪 🩸
 Indice : Umbrella Corporation
-Réponse : Resident Evil
+R?ponse : Resident Evil
 
 - Tomb Raider
 🧭 👩🏻 🏛️ 💎
 Indice : Lara Croft
-Réponse : Tomb Raider
+R?ponse : Tomb Raider
 
 - Oddworld : L'Odyssée d'Abe
 🗣️ 👽 🧵 👄
 Indice : Suis-moi !
-Réponse : Oddworld : L'Odyssée d'Abe
+R?ponse : Oddworld : L'Odyssée d'Abe
 
 - Heart of Darkness
 🐶 👦🏻 🔫 ⚡
 Indice : Éric Chahi (1998)
-Réponse : Heart of Darkness
+R?ponse : Heart of Darkness
 
 - Worms
 🪖 🪱 💣 💥
 Indice : Vers de guerre
-Réponse : Worms
+R?ponse : Worms
 
 - Dino Crisis
 🦖 🔬 🔫 😱
 Indice : Quand Jurassic Park rencontre Capcom
-Réponse : Dino Crisis
+R?ponse : Dino Crisis
 
 - Shadow of the Colossus
 🐎 🗿 🧗‍♂️ ⚔️
 Indice : Suivre la lumière (Jeu vidéo)
-Réponse : Shadow of the Colossus
+R?ponse : Shadow of the Colossus
 
 - Maman
 🌙 😱 🌃 🚗
 Indice : A peur de rouler la nuit...
-Réponse : Maman
+R?ponse : Maman
 
 - Hitman
 🕴️ 🎯 🔫 🩸
 Indice : Agent 47
-Réponse : Hitman
+R?ponse : Hitman
 
 - Fusion
 👂 👉 👈 🧑‍🤝‍🧑
 Indice : Potara
-Réponse : Fusion
+R?ponse : Fusion
 
 - Cell games
 🥼 🦗 🧬 🏟️
 Indice : "Tuer" est autorisé dans ce tournoi
-Réponse : Cell games
-Autres réponses acceptées : cell
+R?ponse : Cell games
 
 - One Piece
 ☀️ 🏴‍☠️ 👒 🍖
 Indice : Nika
-Réponse : One Piece
+R?ponse : One Piece
 
 - Kakashi - Naruto
 🐶 👁️ 📖 😷
 Indice : Kakashi
-Réponse : Kakashi - Naruto
+R?ponse : Kakashi - Naruto
 
 - Dumbo
 🎪 🐘 🪽 👂
 Indice : Disney
-Réponse : Dumbo
+R?ponse : Dumbo
 
 - Le Roi Lion
 👑 🦁 🌅 🐗
 Indice : Longue vie au roi !
-Réponse : Le Roi Lion
+R?ponse : Le Roi Lion
 
 - Death Note
 📓 ☠️ 🍎 ✍️
 Indice : Kira
-Réponse : Death Note
+R?ponse : Death Note
 
 - L'Attaque des Titans
 🪽 🔰 ⚔️ 🧱
 Indice : Sasageyo!
-Réponse : L'Attaque des Titans
-Autres réponses acceptées : snk, attack on titan, shingeki no kyojin
+R?ponse : L'Attaque des Titans
 
 - Hunter x Hunter
 🕸️ 🕷️ 🩸 🃏
 Indice : Brigade Fantôme
-Réponse : Hunter x Hunter
+R?ponse : Hunter x Hunter
 
 - Samurai Champloo
 🌻 🗡️ ⛩️ 🎶
 Indice : Nujabes
-Réponse : Samurai Champloo
+R?ponse : Samurai Champloo
 
 - Akira
 🏍️ 🚗 🐇 🧸
 Indice : Tetsuo's Nightmare
-Réponse : Akira
+R?ponse : Akira
 
 - Naruto
 🍥 👦🏼 🌀 🍃
 Indice : Konoha
-Réponse : Naruto
+R?ponse : Naruto
 
 - Abidal
 😬 🙂‍↔️ ⛔ ✖️
 Indice : Le mec il a paaaaaas
-Réponse : Abidal
-Autres réponses acceptées : éric abidal, eric abidal, t'es trompé, tes trompé
+R?ponse : Abidal
 
 - Paper Mario
 🔨 📜 ⭐ 🪙
 Indice : Un plombier... mais en papier
-Réponse : Paper Mario
+R?ponse : Paper Mario
 
 - Alex Kidd
 🏍️ ✊ ✋ ✌️
 Indice : Sega Master System
-Réponse : Alex Kidd
+R?ponse : Alex Kidd
 
 - Sexy Jutsu
 💋 🪵 ☁️ 🔞
 Indice : Technique ninja olé olé
-Réponse : Sexy Jutsu
+R?ponse : Sexy Jutsu
 
 - Koh-Lanta
 🥥 🗿 ⛺ 🔥
 Indice : La sentence est irrévocable
-Réponse : Koh-Lanta
+R?ponse : Koh-Lanta
 
 - Pulp Fiction
 🥤 🤵🏻 🤵🏾 🔫
 Indice : Vincent Vega
-Réponse : Pulp Fiction
+R?ponse : Pulp Fiction
 
 - Inglourious Basterds
 🥛 🪖 🔯 🦅
 Indice : Monsieur LaPadite
-Réponse : Inglourious Basterds
-Autres réponses acceptées : inglorious, inglorious bastards, inglorious bastard, inglorious basterd
+R?ponse : Inglourious Basterds
 
 - Eyes Wide Shut
 🎭 🤫 👥 🔞
 Indice : Cérémonie secrète
-Réponse : Eyes Wide Shut
+R?ponse : Eyes Wide Shut
 
 - Wall-E
 🪐 🤖 🌱 👞
 Indice : Le petit robot de Pixar
-Réponse : Wall-E
-Autres réponses acceptées : wall e
+R?ponse : Wall-E
 
 - Happy Tree Friends
 🩷 🦌 🥄 🦵
 Indice : Mignon mais gore
-Réponse : Happy Tree Friends
+R?ponse : Happy Tree Friends
 
 - Osaka
 🏯 🏃‍♂️ 🐙 👣
 Indice : La rivale de Tokyo
-Réponse : Osaka
+R?ponse : Osaka
 
 - Fight Club
 🧼 👨🏻‍🤝‍👨🏼 👊 💥
 Indice : On n’en parle pas...
-Réponse : Fight Club
+R?ponse : Fight Club
 
 - Le monde de Nemo
 🤡 🪸 🦈 🐠
 Indice : Un père traverse l’océan pour retrouver son fils
-Réponse : Le monde de Nemo
-Autres réponses acceptées : nemo
+R?ponse : Le monde de Nemo
 
 - Orange Is the New Black
 ⛓️ ⚫ 🍊 👮
 Indice : La vie carcérale au féminin
-Réponse : Orange Is the New Black
-Autres réponses acceptées : oitnb, orange is new black
+R?ponse : Orange Is the New Black
 
 - Squid Game
 🦑 🎲 💰 ⚰️
 Indice : Tout commence par une invitation
-Réponse : Squid Game
+R?ponse : Squid Game
 
 - Monstres et Cie
 👹 🚪 😱 🔋
 Indice : Leur métier c’est de faire peur aux enfants
-Réponse : Monstres et Cie
-Autres réponses acceptées : monstres & cie, monster & cie, monster and compagnie, monstres and compagnie, monstres et compagnie
+R?ponse : Monstres et Cie
 
 - Retour vers le futur
 🍌 🥼 🧑🏻 🚗
 Indice : "Banane !"
-Réponse : Retour vers le futur
-Autres réponses acceptées : back to the future, biff tannen, biff
+R?ponse : Retour vers le futur
 
 - Le Père Noël est une ordure
 🗑️ 📞 🎅 🎁
 Indice : Un classique de la comédie française
-Réponse : Le Père Noël est une ordure
+R?ponse : Le Père Noël est une ordure
 
 - Million Dollar Baby
 🥊 💵 👧🏻 🏥
 Indice : Boxeuse prête à tout pour réussir
-Réponse : Million Dollar Baby
+R?ponse : Million Dollar Baby
 
 - Vice-versa
 😄 😡 🤢 😢
 Indice : Des émotions prennent le contrôle d’une petite fille
-Réponse : Vice-versa
+R?ponse : Vice-versa
 
 - Attrape-moi si tu peux
 💼 🏃‍♂️ ✈️ 👨🏻‍✈️
 Indice : Un escroc change d’identité et fuit les autorités
-Réponse : Attrape-moi si tu peux
-Autres réponses acceptées : catchmeifyoucan
+R?ponse : Attrape-moi si tu peux
 
 - L'âge de glace
 🌰 🧊 🦣 🐿️
 Indice : Des animaux préhistoriques dans le froid
-Réponse : L'âge de glace
+R?ponse : L'âge de glace
 
 - Maman j’ai raté l’avion
 🎁 👦🏼 🏠 🎄
 Indice : Oublié chez lui à Noël
-Réponse : Maman j’ai raté l’avion
+R?ponse : Maman j’ai raté l’avion
 
 - Cuphead
 ☕ 😈 🎲 👉
 Indice : Un contrat... avec le diable
-Réponse : Cuphead
+R?ponse : Cuphead
 
 - Rubber
 🏜️ 🛞 〰️ 🤯
 Indice : Pneu tueur et télépathe
-Réponse : Rubber
+R?ponse : Rubber
 
 - Les Simpson
 🍩 🏡 🛋️ 📺
 Indice : Springfield
-Réponse : Les Simpson
+R?ponse : Les Simpson
 
 - Rick and Morty
 🧪 🥼 🌀 🔫
 Indice : Ils voyagent entre les dimensions
-Réponse : Rick and Morty
+R?ponse : Rick and Morty
 
 - Severance
 🌐 👔 🛗 🖥️
 Indice : Lumon
-Réponse : Severance
+R?ponse : Severance
 
 - Buffy
 👱🏻‍♀️ 🧛‍♂️ 🗡️ ⚰️
 Indice : Elle chasse les vampires
-Réponse : Buffy
+R?ponse : Buffy
 
 - Les Mystérieuses Cités d'Or
 🌄 🪙 🏺 🦅
 Indice : À la recherche des cités perdues
-Réponse : Les Mystérieuses Cités d'Or
+R?ponse : Les Mystérieuses Cités d'Or
 
 - Olive et Tom
 ⚽ 🎌 🥅 🇳
 Indice : New Team
-Réponse : Olive et Tom
-Autres réponses acceptées : captain tsubasa
+R?ponse : Olive et Tom
 
 - Prison Break
 ⛓️ 🏃🏻 🔓 🪡
 Indice : Scofield
-Réponse : Prison Break
+R?ponse : Prison Break
 
 - Mutafukaz
 🪳 ⚫ 💀 🔥
 Indice : Angelino et Vinz
-Réponse : Mutafukaz
+R?ponse : Mutafukaz
 
-- Charles Aznavour
+- Charles
 🎙️ 🇦🇲 🎶 👴🏼
 Indice : Une tortue, deux canaris et une chatte
-Réponse : Charles Aznavour
+R?ponse : Charles
+Autres r?ponses accept?es : Aznavour
 
 - Le Livre de la Jungle
 🐻 🐍 🐅 🐈‍⬛
-Indice : Il en faut peu
-Réponse : Le Livre de la Jungle
+Indice : Il en faut peu...
+R?ponse : Le Livre de la Jungle
 
-- Bernard Werber
+- Les Fourmis - Bernard Werber
 📚 🐜 🕷️ 🪲
 Indice : Trilogie de romans sur un monde miniature
-Réponse : Bernard Werber
+R?ponse : Les Fourmis - Bernard Werber
+Autres r?ponses accept?es : Les Fourmis, Bernard Werber
 
 - Micmaths
 ☔ 🧮 📐 📈
 Indice : Mickaël Launay
-Réponse : Micmaths
+R?ponse : Micmaths
 
 - Ballz
 🫧 ⚽️ 🏐 🏀
 Indice : Jeu sur Megadrive
-Réponse : Ballz
+R?ponse : Ballz
 
 - Tamoil
 👕 ⚽️ 🇮🇹 🎂
 Indice : Sponsor
-Réponse : Tamoil
+R?ponse : Tamoil
 
 - Préau rose
 🏫 🩷 🧒🏻 ⚽️
 Indice : Notre premier gang
-Réponse : Préau rose
+R?ponse : Préau rose
+Autres r?ponses accept?es : Jean Mermoz
 
 - La Coccinelle
-🏊🏼‍♂️ 🌇 🤽🏻‍♂️ 🐞
+🌇 🏊🏼‍♂️ 🤽🏻‍♂️ 🐞
 Indice : Grand bassin / Petit bassin
-Réponse : La Coccinelle
+R?ponse : La Coccinelle
+Autres r?ponses accept?es : Coccinelle
 
 - Caroline Skala
 🇩🇪 🔁 🇫🇷 👱🏻‍♀️
 Indice : Elle avait fait naître des envies d'Allemand LV1 à tout le Skatepark
-Réponse : Caroline Skala
+R?ponse : Caroline Skala
+Autres r?ponses accept?es : Caroline
 
 - Get Backers
-🙍🏼‍♂️ 🙍🏻‍♂️ ⚡️ 🕶️
+👨🏻 👨🏼 ⚡️ 🕶️
 Indice : Shinjuku
-Réponse : Get Backers
+R?ponse : Get Backers
 
-- Bingo
+- Loto chez Domi
 🏠 🎄 🔢 📄
 Indice : Des numéros… des cartons…
-Réponse : Bingo
-Réponse affichée : Bingo / Loto
-Autres réponses acceptées : loto
+R?ponse : Loto chez Domi
+Autres r?ponses accept?es : Bingo, Loto
 
 - Camping Layole
 🌊 ⛺️ ⛱️ 🩳
 Indice : Souvenir de vacances
-Réponse : Camping Layole
+R?ponse : Camping Layole
+Autres r?ponses accept?es : Camping La Yole, Layole, La Yole
 
 - Jalousie
 😒 💔 👫🏻 👀
 Indice : N’aime pas partager
-Réponse : Jalousie
+R?ponse : Jalousie
+Autres r?ponses accept?es : Jalouse
 
 - Cousins
 👧🏻 🔗 👦🏻 🧑‍🧑‍🧒‍🧒
 Indice : Même sang mais pas la même maison
-Réponse : Cousins
+R?ponse : Cousins
 
 - Titanic
 🌊 💘 🧊 🚢
 Indice : Je vole, Jack !
-Réponse : Titanic
+R?ponse : Titanic
 
 - Kylian Mbappé
 ⚽️ 🐢 🇫🇷 🥇
 Indice : Bondy
-Réponse : Kylian Mbappé
-
+R?ponse : Kylian Mbappé
