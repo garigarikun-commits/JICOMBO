@@ -420,8 +420,6 @@
       text-align: center;
     }
     #playBtn {
-      width: 260px;
-      max-width: 100%;
       color: #3b1808;
       background: linear-gradient(135deg, #fff0a8 0%, #ffd85a 26%, #ffbf2e 100%);
       background-size: 145% 100%;
@@ -3950,7 +3948,7 @@
   }
 ];
     const MAX_LIVES = 3;
-    const CACHE_VERSION = "99";
+    const CACHE_VERSION = "98";
     const SKIP_SPLASH_ONCE_KEY = "jicombo-skip-splash-once";
 
     const state = {
@@ -5090,14 +5088,10 @@
       }, 20);
     });
     answerInput.addEventListener("keydown", (event) => {
-      if (event.key !== "Enter") return;
-      event.preventDefault();
-      const desktopBrowser = !window.matchMedia("(max-width: 640px)").matches && !isStandalonePwa;
-      if (desktopBrowser) {
-        if (!validateBtn.disabled) answerForm.requestSubmit();
-        return;
+      if (event.key === "Enter") {
+        event.preventDefault();
+        dismissAnswerKeyboard(true);
       }
-      dismissAnswerKeyboard(true);
     });
     validateBtn.addEventListener("pointerdown", () => {
       if (!validateBtn.disabled) pressFeedback(validateBtn);
